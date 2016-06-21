@@ -86,7 +86,7 @@ describe('Company CRUD tests', function () {
                 }
 
                 // Get Companies list
-                var companies = companiesGetRes.body;
+                var companies = companysGetRes.body;
 
                 // Set assertions
                 (companies[0].user._id).should.equal(userId);
