@@ -3,6 +3,39 @@
     <h1 data-ng-bind="vm.company.name"></h1>
     <p data-ng-bind="vm.company.description"></p>
   </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-3"><strong>Company name</strong></div>
+        <div class="col-md-6" ng-bind="vm.company.name"></div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-md-3"><strong>Description</strong></div>
+        <div class="col-md-6" ng-bind="vm.company.description"></div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-md-3"><strong>Language</strong></div>
+        <div class="col-md-6" ng-bind="vm.company.language"></div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-md-3"><strong>Logo</strong></div>
+        <div class="col-md-6">
+          <img ng-src="{{vm.company.logo}}"></img>
+        </div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-md-3"><strong>Logo location</strong></div>
+        <div class="col-md-6" ng-bind="vm.company.logo"></div>
+      </div>
+      <hr/>
+    </div>
+  </div>
+
   <div class="pull-right"
        data-ng-show="vm.company.isCurrentUserOwner">
     <a class="btn btn-primary"
