@@ -16,6 +16,17 @@
           <label class="control-label" for="description">Beskrivning</label>
           <input name="description" type="text" ng-model="vm.company.description" id="description" class="form-control" placeholder="Beskrivning" >
         </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="language">Språk</label>
+          <select ng-model="vm.company.language">
+            <option value='Svenska'>Svenska</option>
+            <option value='English'>English</option>
+          </select>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="logo">Logo</label>
+          
+        </div>
         <div class="form-group">
           <button type="submit" class="btn btn-default">{{vm.company._id ? 'Update' : 'Create'}}</button>
         </div>
