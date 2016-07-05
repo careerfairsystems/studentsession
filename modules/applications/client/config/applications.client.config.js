@@ -10,21 +10,22 @@
   function menuConfig(Menus) {
     // Set top bar menu items
     Menus.addMenuItem('topbar', {
-      title: 'Applications',
+      title: 'Ansök',
       state: 'applications',
       type: 'dropdown',
       roles: ['*']
-    });
+    }); // vart kommer man med denna?
 
     // Add the dropdown list item
     Menus.addSubMenuItem('topbar', 'applications', {
-      title: 'List Applications',
-      state: 'applications.list'
+      title: 'Inkomna ansökningar',
+      state: 'applications.list',
+     roles: ['admin'] //ny!
     });
 
     // Add the dropdown create item
     Menus.addSubMenuItem('topbar', 'applications', {
-      title: 'Create Application',
+      title: 'Skapa en ansökan',
       state: 'applications.create',
       roles: ['user']
     });

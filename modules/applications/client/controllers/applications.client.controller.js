@@ -18,6 +18,20 @@
     vm.remove = remove;
     vm.save = save;
 
+
+    //trying to get data from database
+
+
+    //to be generating companies to select 
+    $scope.data = {
+    model: null,
+    availableOptions: [
+      {id: '1', name: 'Option A'},
+      {id: '2', name: 'Option B'},
+      {id: '3', name: 'Option C'}
+    ],
+   };
+
     // Remove existing Application
     function remove() {
       if (confirm('Are you sure you want to delete?')) {
@@ -49,5 +63,7 @@
         vm.error = res.data.message;
       }
     }
+
+    // Add data to a drop-down menu
   }
 })();

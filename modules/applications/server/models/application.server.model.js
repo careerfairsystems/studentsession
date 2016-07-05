@@ -10,6 +10,12 @@ var mongoose = require('mongoose'),
  * Application Schema
  */
 var ApplicationSchema = new Schema({
+  /*name: {
+    type: String,
+    default: '',
+    required: 'Please fill Application name',
+    trim: true
+  },*/
   created: {
     type: Date,
     default: Date.now
