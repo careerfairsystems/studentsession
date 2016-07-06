@@ -27,11 +27,12 @@
           </div>
         </div>
 
-    <label for="multipleSelect"> Multiple select: </label><br>
-      <select name="multipleSelect" id="multipleSelect" ng-model="data.multipleSelect" multiple>
-        <option ng-repeat="option in data.availableOptions" value="{{option.id}}">{{option.name}}</option>
-      </select><br>
-    <tt>multipleSelect = {{data.multipleSelect}}</tt><br/>
+        <label for="multipleSelect"> Multiple select: </label><br>
+          <select name="multipleSelect" id="multipleSelect" ng-model="data.multipleSelect" multiple>
+            <option ng-repeat="option in data.availableOptions" value="{{option.id}}">{{option.name}}</option>
+          </select><br>
+        <tt>multipleSelect = {{data.multipleSelect}}</tt><br/>
+        <tt>companies = {{companies}}</tt></fieldset><br/>
 
         <div class="form-group">
           <button type="submit" class="btn btn-default">{{vm.application._id ? 'Update' : 'Create'}}</button>

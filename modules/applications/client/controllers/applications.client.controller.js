@@ -6,10 +6,17 @@
     .module('applications')
     .controller('ApplicationsController', ApplicationsController);
 
-  ApplicationsController.$inject = ['$scope', '$state', 'Authentication', 'applicationResolve'];
+  ApplicationsController.$inject = ['$scope', '$state', 'Authentication', 'applicationResolve', 'CompaniesService'];
 
-  function ApplicationsController ($scope, $state, Authentication, application) {
+  function ApplicationsController ($scope, $state, Authentication, application, CompaniesService) {
     var vm = this;
+    
+    //fetches the companies from the database (promise??)
+    $scope.companies = CompaniesService.query();
+
+    //makes a list with the company names
+    //$scope.companies.name;
+
 
     vm.authentication = Authentication;
     vm.application = application;
@@ -18,19 +25,21 @@
     vm.remove = remove;
     vm.save = save;
 
-
-    //trying to get data from database
-
-
-    //to be generating companies to select 
+    //generates the data to select
     $scope.data = {
-    model: null,
-    availableOptions: [
-      {id: '1', name: 'Option A'},
-      {id: '2', name: 'Option B'},
-      {id: '3', name: 'Option C'}
-    ],
-   };
+      model: null,
+      availableOptions: [
+        {
+          id: '1', name: 'Option A'
+        },
+        {
+          id: '2', name: 'Option B'
+        },
+        {
+          id: '3', name: 'Option C'
+        }
+      ],
+    };
 
     // Remove existing Application
     function remove() {
