@@ -10,13 +10,6 @@
 
   function ApplicationsController ($scope, $state, Authentication, application, CompaniesService) {
     var vm = this;
-    
-    //fetches the companies from the database (promise??)
-    $scope.companies = CompaniesService.query();
-
-    //makes a list with the company names
-    //$scope.companies.name;
-
 
     vm.authentication = Authentication;
     vm.application = application;
@@ -25,21 +18,13 @@
     vm.remove = remove;
     vm.save = save;
 
-    //generates the data to select
-    $scope.data = {
-      model: null,
-      availableOptions: [
-        {
-          id: '1', name: 'Option A'
-        },
-        {
-          id: '2', name: 'Option B'
-        },
-        {
-          id: '3', name: 'Option C'
-        }
-      ],
-    };
+    //fetches the company names from the database 
+    $scope.companyNames = [];
+    CompaniesService.query().$promise.then(function(result) {
+      angular.forEach(result, function(company) {
+        $scope.companyNames.push(company.name);      
+      });
+    });
 
     // Remove existing Application
     function remove() {
