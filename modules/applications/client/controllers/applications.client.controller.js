@@ -25,13 +25,13 @@
 
     //to be generating companies to select
     $scope.data = {
-    model: null,
-    availableOptions: [
-      {id: '1', name: 'Option A'},
-      {id: '2', name: 'Option B'},
-      {id: '3', name: 'Option C'}
-    ],
-   };
+      model: null,
+      availableOptions: [
+        { id: '1', name: 'Option A' },
+        { id: '2', name: 'Option B' },
+        { id: '3', name: 'Option C' }
+      ],
+    };
 
     // Remove existing Application
     function remove() {

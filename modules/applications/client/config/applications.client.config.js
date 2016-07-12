@@ -20,7 +20,7 @@
     Menus.addSubMenuItem('topbar', 'applications', {
       title: 'Inkomna ansökningar',
       state: 'applications.list',
-     roles: ['admin'] //ny!
+      roles: ['admin'] //ny!
     });
 
     // Add the dropdown create item
