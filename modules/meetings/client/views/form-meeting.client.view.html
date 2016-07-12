@@ -10,19 +10,19 @@
         <div class="form-group" show-errors>
           <label for="ngvalueselect">Lokal:</label><br>
           <select size="6" name="ngvalueselect" ng-model="vm.meeting.facility" multiple>
-            <option ng-repeat="facility.name in vm.facilities" ng-value="facility.name">{{facility.name}}</option>
+            <option ng-repeat="facility in vm.facilities" ng-value="facility.name">{{facility.name}}</option>
           </select>
         </div>
         <div class="form-group" show-errors>
           <label for="ngvalueselect">Företag:</label><br>
           <select size="6" name="ngvalueselect" ng-model="vm.meeting.company" multiple>
-            <option ng-repeat="company.name in vm.companies" ng-value="company.name">{{company.name}}</option>
+            <option ng-repeat="company in vm.companies" ng-value="company.name">{{company.name}}</option>
           </select>
         </div>
         <div class="form-group" show-errors>
           <label for="ngvalueselect">Student:</label><br>
           <select size="6" name="ngvalueselect" ng-model="vm.meeting.student" multiple>
-            <option ng-repeat="application.email in vm.applications" ng-value="application.email">{{application.email}} {{application.phone}}</option>
+            <option ng-repeat="application in vm.applications" ng-value="application.email">{{application.email}} {{application.phone}}</option>
           </select>
         </div>
         <div class="form-group" show-errors>

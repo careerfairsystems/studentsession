@@ -29,7 +29,10 @@
         controller: 'MeetingsController',
         controllerAs: 'vm',
         resolve: {
-          meetingResolve: newMeeting
+          meetingResolve: newMeeting,
+          listFacilitiesResolve: getFacilities,
+          listApplicationsResolve: getApplications,
+          listCompaniesResolve: getCompanies
         },
         data: {
           roles: ['user', 'admin'],
@@ -59,9 +62,6 @@
         controllerAs: 'vm',
         resolve: {
           meetingResolve: getMeeting,
-          listFacilitiesResolve: getFacilities,
-          listApplicationsResolve: getApplications,
-          listCompaniesResolve: getCompanies
         },
         data:{
           pageTitle: 'Meeting {{ articleResolve.name }}'
