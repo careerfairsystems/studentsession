@@ -37,7 +37,7 @@
   </div>
 
   <div class="pull-right"
-       data-ng-show="vm.company.isCurrentUserOwner">
+       data-ng-show="(vm.authentication.user.roles.indexOf('admin')+1)">
     <a class="btn btn-primary"
        data-ui-sref="companies.edit({ companyId: vm.company._id })">
       <i class="glyphicon glyphicon-edit"></i>
