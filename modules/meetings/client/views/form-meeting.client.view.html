@@ -22,6 +22,10 @@
         <div class="form-group" show-errors>
           <label for="ngvalueselect">Student:</label><br>
           <select size="6" name="ngvalueselect" ng-model="vm.meeting.student" multiple>
+            <!--Temporary code-->
+            <option value='placeholder1'>placeholder1</option>
+            <option value='placeholder2'>placeholder2</option>
+
             <option ng-repeat="application in vm.applications" ng-value="application.email">{{application.email}} {{application.phone}}</option>
           </select>
         </div>
