@@ -8,6 +8,7 @@
 
   ApplicationsController.$inject = ['$scope', '$state', 'Authentication', 'applicationResolve'];
 
+
   function ApplicationsController ($scope, $state, Authentication, application) {
     var vm = this;
 
@@ -22,7 +23,7 @@
     //trying to get data from database
 
 
-    //to be generating companies to select 
+    //to be generating companies to select
     $scope.data = {
     model: null,
     availableOptions: [
