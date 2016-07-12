@@ -42,6 +42,7 @@ exports.invokeRolesPolicies = function () {
   }]);
 };
 
+
 /**
  * Check If Companies Policy Allows
  */
