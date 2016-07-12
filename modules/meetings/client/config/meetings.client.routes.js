@@ -58,7 +58,7 @@
       .state('meetings.view', {
         url: '/:meetingId',
         templateUrl: 'modules/meetings/client/views/view-meeting.client.view.html',
-        controller: 'MeetingsController',
+        controller: 'ViewMeetingsController',
         controllerAs: 'vm',
         resolve: {
           meetingResolve: getMeeting,
