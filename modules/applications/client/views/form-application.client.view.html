@@ -7,6 +7,10 @@
     <h1>{{vm.application._id ? 'Edit Application' : 'Ny ansökan'}}</h1>
   </div>
 
+  <p>Kul att du är intresserad av att ansöka till kontaksamtalen! Fyll i detta formulär för att ansöka. 
+  Du kan läsa mer om de företag som erbjuder kontaktsamtal under Arkad 2016 under fliken "företag". Välj sedan de företag du är intresserad av i din ansökan. Var vänlig ange endast de tider du vet att du kan. </p> 
+  <p>Om du har några frågor är du varmt välkommen att kontakta xxxx.</p> <!-- lägg till ngn slags artikel här så att meddelandet/informationen kan ändras av admin. + denna blir alldeles för bred-->
+
   <div class="col-md-12">
     <form name="vm.form.applicationForm" class="form-horizontal" ng-submit="vm.save(vm.form.applicationForm.$valid)" novalidate>
       <fieldset>
@@ -27,10 +31,49 @@
           </div>
         </div>
 
-        <label for="multipleSelect"> Multiple select: </label><br>
-          <select name="multipleSelect" id="multipleSelect" ng-model="data.multipleSelect" multiple ng-options='string for string in companyNames'>
-          </select><br>
-        <tt>multipleSelect = {{data.multipleSelect}}</tt><br/>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="program">Program</label>
+          <input name="program" type="text" ng-model="vm.application.email" id="program" class="form-control" placeholder="Program" required>
+          <div ng-messages="vm.form.applicationForm.program.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Program måste anges.</p> 
+          </div>
+        </div>
+
+        <div class="form-group" show-errors>
+          <label for="selectCompanies"> Företag </label><br>
+          Välj de företag du skulle vilja träffa.<br>
+            <select name="selectCompanies" id="selectCompanies" ng-model="vm.application.companies" multiple ng-options='string for string in companyNames' required>
+            </select><br>
+          <tt>selectCompanies = {{vm.application.companies}}</tt><br>
+        </div>
+
+        <div class="form-group" show-errors>
+          <label for="selectTimes"> Tider </label><br>
+          Vänligen ange de tider du kan.<br>
+          <select name="selectTimes" id="selectTimes" ng-model="vm.application.times" multiple ng-options='string for string in times'>
+            </select><br>
+          <tt>selectTimes = {{vm.application.times}}</tt><br>
+        </div>
+
+        <!--Ladda upp CV på engelska resp. svenska. Minst en version är ett krav. 
+            Filen måste vara i pdf.
+            Filnamn?
+        
+        <h3>Uppladdning av CV</h3>
+        <p> Kontrollera i företagsbeskrivningen för de företag du sökt till vilket eller vilka språk de tar emot cv på. </p>
+
+        <label> Cv svenska </label>
+        <div ng-controller = "fileUpload">
+           <input type = "file" file-model = "cvSv"/><br>
+           <button ng-click = "uploadFile()">Ladda upp fil.</button>
+        </div><br>
+
+        <label> Cv engelska </label>
+        <div ng-controller = "fileUpload">
+           <input type = "file" file-model = "svEng"/><br>
+           <button ng-click = "uploadFile()">Ladda upp fil.</button>
+        </div><br>
+      -->
 
         <div class="form-group">
           <button type="submit" class="btn btn-default">{{vm.application._id ? 'Update' : 'Create'}}</button>

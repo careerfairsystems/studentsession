@@ -26,6 +26,16 @@
       });
     });
 
+    //meeting times
+    $scope.times = ["16/11 8-10", 
+                    "16/11 10-12",
+                    "16/11 13-15", 
+                    "16/11 15-17",
+                    "17/11 8-10", 
+                    "17/11 10-12", 
+                    "17/11 13-15", 
+                    "17/11 15-17"];
+
     // Remove existing Application
     function remove() {
       if (confirm('Are you sure you want to delete?')) {
