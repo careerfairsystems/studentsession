@@ -36,6 +36,13 @@
                     "17/11 13-15", 
                     "17/11 15-17"];
 
+    //limit length of "vm.application.description"
+    $scope.monitorLength = function (maxLength) {
+      if ($scope.vm.application.description.length > maxLength) {
+        $scope.vm.application.description = $scope.vm.application.description.substring(0, maxLength);
+      }
+    }
+
     // Remove existing Application
     function remove() {
       if (confirm('Are you sure you want to delete?')) {
