@@ -12,7 +12,8 @@ acl = new acl(new acl.memoryBackend());
  * Invoke Applications Permissions
  */
 exports.invokeRolesPolicies = function () {
-  acl.allow([{
+  acl.allow([
+  {
     roles: ['admin'],
     allows: [{
       resources: '/api/applications',
@@ -20,6 +21,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/applications/:applicationId',
       permissions: '*'
+    }, {
+      resources: '/api/applications/resume/:applicationId',
+      permissions: ['get', 'post']
     }]
   }, {
     roles: ['user'],
@@ -29,6 +33,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/applications/:applicationId',
       permissions: ['get']
+    }, {
+      resources: '/api/applications/resume/:applicationId',
+      permissions: ['post']
     }]
   }, {
     roles: ['guest'],
@@ -38,8 +45,13 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/applications/:applicationId',
       permissions: ['get']
+    },
+    {
+      resources: '/api/applications/resume/:applicationId',
+      permissions: []
     }]
-  }]);
+  }
+  ]);
 };
 
 /**

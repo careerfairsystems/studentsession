@@ -7,7 +7,9 @@ var path = require('path'),
   mongoose = require('mongoose'),
   Application = mongoose.model('Application'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
-  _ = require('lodash');
+  _ = require('lodash'),
+  config = require(path.resolve('./config/config.js')), //??
+  multer = require('multer');
 
 /**
  * Create a Application
@@ -114,4 +116,55 @@ exports.applicationByID = function(req, res, next, id) {
     req.application = application;
     next();
   });
+};
+
+/**
+ * Update attachment-pdf
+ */
+exports.addResumeAttachment = function (req, res) { //när körs denna?
+  var application = req.application;
+  var message = null;
+ 
+  var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './public/uploads/resume/'); //rätt plats?
+    },
+    filename: function (req, file, cb) {
+      cb(null, application._id + '.pdf');
+    }
+  });
+
+  config.uploads.resumeUpload.storage = storage;
+
+  var upload = multer(config.uploads.resumeUpload).single('newResumeFile');
+  var resumeFileFilter = require(path.resolve('./config/lib/multer')).resumeFileFilter;
+  
+  // Filtering to upload only pdf's
+  upload.fileFilter = resumeFileFilter;
+
+  if (application) {
+    upload(req, res, function (uploadError) {
+      if(uploadError) {
+        return res.status(400).send({
+          message: 'Error occurred while uploading resume'
+        });
+      } else {
+        application.complete = true;
+
+        application.save(function (saveError) {
+          if (saveError) {
+            return res.status(400).send({
+              message: errorHandler.getErrorMessage(saveError)
+            });
+          } else {
+            res.json(application);
+          }
+        });
+      }
+    });
+  } else {
+    res.status(400).send({
+      message: 'Application not sent.'
+    });
+  }
 };

@@ -60,6 +60,19 @@
         data:{
           pageTitle: 'Application {{ articleResolve.name }}'
         }
+      })
+      .state('applications.attachments', { //behövs ens denna?
+        url: '/attachments/:applicationId/',
+        templateUrl: 'modules/applications/client/views/form-attachments.client.view.html', //kolla närmare på denna
+        controller: 'ApplicationsController', //gemensam controller pga i samma view
+        controllerAs: 'vm',
+        resolve: {
+          applicationResolve: getApplication,
+        },
+        data: {
+          roles: ['user', 'admin'],
+          pageTitle : 'Bilagor' //??
+        }
       });
   }
 

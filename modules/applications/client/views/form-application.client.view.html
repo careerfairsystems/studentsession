@@ -64,30 +64,49 @@
 
         <!--Ladda upp CV på engelska resp. svenska. Minst en version är ett krav. 
             Filen måste vara i pdf.
-            Filnamn?
+            Filnamn? 
         
-        <h3>Uppladdning av CV</h3>
-        <p> Kontrollera i företagsbeskrivningen för de företag du sökt till vilket eller vilka språk de tar emot cv på. </p>
+        <div class="form-group" show-errors>
+          <h3>Uppladdning av CV</h3>
+          <p> Kontrollera i företagsbeskrivningen för de företag du sökt till vilket eller vilka språk de tar emot cv på. </p>
 
-        <label> Cv svenska </label>
-        <div ng-controller = "fileUpload">
-           <input type = "file" file-model = "cvSv"/><br>
-           <button ng-click = "uploadFile()">Ladda upp fil.</button>
-        </div><br>
-
-        <label> Cv engelska </label>
-        <div ng-controller = "fileUpload">
-           <input type = "file" file-model = "svEng"/><br>
-           <button ng-click = "uploadFile()">Ladda upp fil.</button>
-        </div><br>
-      -->
+          <label> Cv </label>
+          <div ng-controller = "fileUpload">
+            <span class="btn btn-default btn-file">
+              Välj cv.<input type = "file" file-model = "resume"> 
+            </span><br><br> {{resume}}
+            <div ng-show="resume.queue.length"> 
+             <button class="btn btn-primary" ng-click = "uploadFile()">Ladda upp fil.</button><br>
+             <button class="btn btn-default" ng-click="cancelUpload()">Ångra</button>
+            </div>
+          </div><br>
+        </div>-->
+      
+      <!-- 
+        <div ng-hide="uploader.queue.length">
+           <span class="btn btn-default btn-file">
+               Välj PDF <input type="file" nv-file-select uploader="uploader">
+           </span>
+         </div>
+         <div ng-show="uploader.queue.length">  
+           <button class="btn btn-primary" ng-click="uploadFile();">Skicka in cv.</button>
+           <button class="btn btn-default" ng-click="cancelUpload();">Ångra</button>
+         </div>
+         <div ng-show="success" class="text-center text-success">
+           <strong>Ditt cv har har laddats upp!</strong>
+         </div>
+         <div ng-show="error" class="text-center text-danger">
+           <strong ng-bind="error"></strong>
+       </div> 
+       -->
 
         <div class="form-group">
           <button type="submit" class="btn btn-default">{{vm.application._id ? 'Update' : 'Skicka'}}</button>
         </div>
         <div ng-show="vm.error" class="text-danger">
           <strong ng-bind="vm.error"></strong>
-        </div>
+        </div> <br>
+
       </fieldset>
     </form>
   </div>

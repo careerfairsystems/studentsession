@@ -4,7 +4,7 @@
  * Module dependencies
  */
 var applicationsPolicy = require('../policies/applications.server.policy'),
-  applications = require('../controllers/applications.server.controller');
+  applications = require('../controllers/applications.server.controller'); 
 
 module.exports = function(app) {
   // Applications Routes
@@ -16,6 +16,9 @@ module.exports = function(app) {
     .get(applications.read)
     .put(applications.update)
     .delete(applications.delete);
+
+  app.route('/api/applications/resume/:applicationId').all(applicationsPolicy.isAllowed)
+     .post(applications.addResumeAttachment);
 
   // Finish by binding the Application middleware
   app.param('applicationId', applications.applicationByID);
