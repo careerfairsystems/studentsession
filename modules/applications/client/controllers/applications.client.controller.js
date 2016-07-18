@@ -3,14 +3,14 @@
 
   // Applications controller
   angular
-    .module('applications')
-    .controller('ApplicationsController', ApplicationsController);
+  .module('applications')
+  .controller('ApplicationsController', ApplicationsController);
 
   ApplicationsController.$inject = ['$scope', '$state', '$timeout', '$window', 'Authentication', 'FileUploader',
   'applicationResolve', 'CompaniesService'];
 
-  function ApplicationsController ($scope, $state, $timeout, $window, FileUploader, application, 
-    Authentication, CompaniesService) {
+  function ApplicationsController ($scope, $state, $timeout, $window, Authentication, FileUploader, 
+    application, CompaniesService) {
     var vm = this;
 
     vm.authentication = Authentication;
@@ -36,13 +36,13 @@
 
     //meeting times
     $scope.times = ['16/11 8-10', 
-                    '16/11 10-12',
-                    '16/11 13-15', 
-                    '16/11 15-17',
-                    '17/11 8-10', 
-                    '17/11 10-12', 
-                    '17/11 13-15', 
-                    '17/11 15-17'];
+    '16/11 10-12',
+    '16/11 13-15', 
+    '16/11 15-17',
+    '17/11 8-10', 
+    '17/11 10-12', 
+    '17/11 13-15', 
+    '17/11 15-17'];
 
     //limit length of "vm.application.description"
     $scope.monitorLength = function (maxLength) {
@@ -65,6 +65,8 @@
         return false;
       }
 
+      vm.application.resume = $scope.uploader.url;
+
       // TODO: move create/update logic to service
       if (vm.application._id) {
         vm.application.$update(successCallback, errorCallback);
@@ -83,13 +85,22 @@
       }
     }
 
-    // filuppladdning: detta får viewen att gå sönder :((
     // Create file uploader instance
     $scope.uploader = new FileUploader({
-        url: 'api/applications/resume/' + vm.application._id, //nej
+        url: 'api/applications/resume/' + prettify($scope.user.displayName) + $scope.user._id + '_cv' + '.pdf', //osäker på om .pdf behövs
         alias: 'newResume'
     });
-/**
+
+    function prettify(str) {
+      return str.replace(/\s/g, '')
+        .replace(/å/g, 'a')
+        .replace(/Å/g, 'A')
+        .replace(/ä/g, 'a')
+        .replace(/Ä/g, 'A')
+        .replace(/ö/g, 'o')
+        .replace(/Ö/g, 'O');
+    }
+
      // Set file uploader pdf filter
      $scope.uploader.filters.push({
       name: 'pdfFilter',
@@ -97,8 +108,8 @@
         var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
         return '|pdf|'.indexOf(type) !== -1;
       }
-     });
- 
+    });
+
      // Called after the user selected a file
      $scope.uploader.onAfterAddingFile = function (fileItem) {
       if ($window.FileReader) {
@@ -111,19 +122,19 @@
           }, 0);
         };
       }
-     };
+    };
 
      // Called after the user has successfully uploaded a new resume
      $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
        // Show success message
        $scope.success = true;
        // Clear upload buttons
-       $scope.cancelUpload();
- 
+       $scope.cancelUpload(); //????
+
        $state.go('applications.submitted');
        event.preventDefault();
        return;
-      }; 
-      //slut*/
-  }
-})();
+     }; 
+      //slut
+    }
+  })();

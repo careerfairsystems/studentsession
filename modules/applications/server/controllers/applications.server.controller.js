@@ -122,15 +122,15 @@ exports.applicationByID = function(req, res, next, id) {
  * Update attachment-pdf
  */
 exports.addResumeAttachment = function (req, res) { //när körs denna?
-  var application = req.application;
+  var pdfName = req.params.pdfName;
   var message = null;
  
   var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, './public/uploads/resume/'); //rätt plats?
+      cb(null, './public/uploads/resume/'); //här sparas cv
     },
     filename: function (req, file, cb) {
-      cb(null, application._id + '.pdf');
+      cb(null, pdfName);
     }
   });
 
@@ -142,29 +142,15 @@ exports.addResumeAttachment = function (req, res) { //när körs denna?
   // Filtering to upload only pdf's
   upload.fileFilter = resumeFileFilter;
 
-  if (application) {
-    upload(req, res, function (uploadError) {
-      if(uploadError) {
-        return res.status(400).send({
-          message: 'Error occurred while uploading resume'
-        });
-      } else {
-        application.complete = true;
-
-        application.save(function (saveError) {
-          if (saveError) {
-            return res.status(400).send({
-              message: errorHandler.getErrorMessage(saveError)
-            });
-          } else {
-            res.json(application);
-          }
-        });
-      }
-    });
-  } else {
-    res.status(400).send({
-      message: 'Application not sent.'
-    });
-  }
+  upload(req, res, function (uploadError) {
+    if(uploadError) {
+      return res.status(400).send({
+        message: uploadError
+      });
+    } else {
+      return res.status(200).send({
+        message: 'Upload succeeded.'
+      });
+    }
+  });
 };
