@@ -129,10 +129,7 @@
        // Show success message
        $scope.success = true;
        // Clear upload buttons
-       $scope.cancelUpload(); //????
-
-       $state.go('applications.submitted');
-       event.preventDefault();
+       //$scope.cancelUpload(); //????
        return;
      }; 
       //slut

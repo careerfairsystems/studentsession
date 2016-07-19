@@ -136,7 +136,7 @@ exports.addResumeAttachment = function (req, res) { //när körs denna?
 
   config.uploads.resumeUpload.storage = storage;
 
-  var upload = multer(config.uploads.resumeUpload).single('newResumeFile');
+  var upload = multer(config.uploads.resumeUpload).single('newResume');
   var resumeFileFilter = require(path.resolve('./config/lib/multer')).resumeFileFilter;
   
   // Filtering to upload only pdf's
