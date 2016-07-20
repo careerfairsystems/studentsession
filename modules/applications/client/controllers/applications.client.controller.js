@@ -58,6 +58,11 @@
       }
     }
 
+    // Resets the upload as unsuccessful 
+    $scope.unsuccess = function () {
+      $scope.success = false;
+    }
+
     // Save Application
     function save(isValid) {
       if (!isValid) {

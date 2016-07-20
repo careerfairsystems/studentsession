@@ -80,10 +80,17 @@
                  Välj PDF <input name="resume-pdf" type="file" nv-file-select uploader="uploader">
              </span>
            </div>
-           <div ng-show="uploader.queue.length">  
+
+           <div ng-show="uploader.queue.length && !success">
              <button type="button" class="btn btn-primary" ng-click="uploader.uploadAll();">Skicka in cv</button>
-             <button type="button" class="btn btn-default" ng-click="uploader.clearQueue();">Ångra</button>
+            </div>
+
+           <div ng-show="uploader.queue.length">  
+             <button type="button" class="btn btn-default" ng-click="uploader.clearQueue(); unsuccess();">Ångra</button> 
+             <!--sätt success till false när ångra klickas genom ; --- verkar vara fel attribut som ändras? skicka in cv visas fortfarande... 
+             det är inte ett attribut, bara en regel?-->
            </div>
+           success: {{success}}
            <div ng-show="success" class="text-center text-success">
              <strong>Ditt cv har har laddats upp!</strong>
            </div>
