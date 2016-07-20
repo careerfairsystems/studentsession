@@ -81,17 +81,20 @@
              </span>
            </div>
 
-           <div ng-show="uploader.queue.length && !success">
+           <div ng-show="uploader.queue.length">
              <button type="button" class="btn btn-primary" ng-click="uploader.uploadAll();">Skicka in cv</button>
             </div>
 
            <div ng-show="uploader.queue.length">  
              <button type="button" class="btn btn-default" ng-click="uploader.clearQueue(); unsuccess();">Ångra</button> 
-             <!--sätt success till false när ångra klickas genom ; --- verkar vara fel attribut som ändras? skicka in cv visas fortfarande... 
-             det är inte ett attribut, bara en regel?-->
            </div>
-           success: {{success}}
-           <div ng-show="success" class="text-center text-success">
+
+           <div ng-show="vm.application.resume.length">
+            Du har skickat in ett cv. Skicka in ett nytt cv för att byta.
+           </div>
+
+
+           <div ng-show="success && !uploader.queue.length" class="text-center text-success">
              <strong>Ditt cv har har laddats upp!</strong>
            </div>
            <div ng-show="error" class="text-center text-danger">

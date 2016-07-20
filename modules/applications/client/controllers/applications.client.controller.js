@@ -131,10 +131,12 @@
 
      // Called after the user has successfully uploaded a new resume
      $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
+       // URL to resume put into database
+       vm.application.resume = $scope.uploader.url;
        // Show success message
        $scope.success = true;
-       // Clear upload buttons
-       //$scope.cancelUpload(); //????
+       // Clear uploader queue
+       $scope.uploader.clearQueue(); //?
        return;
      }; 
       //slut

@@ -8,7 +8,7 @@ var path = require('path'),
   Application = mongoose.model('Application'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   _ = require('lodash'),
-  config = require(path.resolve('./config/config.js')), //??
+  config = require(path.resolve('./config/config.js')),
   multer = require('multer');
 
 /**
