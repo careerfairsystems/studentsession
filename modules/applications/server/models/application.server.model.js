@@ -10,12 +10,6 @@ var mongoose = require('mongoose'),
  * Application Schema
  */
 var ApplicationSchema = new Schema({
-  /*name: {
-    type: String,
-    default: '',
-    required: 'Please fill Application name',
-    trim: true
-  },*/
   created: {
     type: Date,
     default: Date.now
@@ -26,24 +20,32 @@ var ApplicationSchema = new Schema({
   },
   companies: {
     type: [String],
-    required: 'Välj minst ett företag som du vill söka kontaktsamtal med.'
+    required: true
   },
   resume: {
     type: String,
-    required: 'Bifoga ditt CV.'
+    required: true //lägg till två platser här, en för eng en för svenska. hur ändå bara en required?
   },
   phone: {
     type: String,
-    required: 'Ange ditt telefonnummer.'
+    required: true
   },
   email: {
     type: String,
-    required: 'Ange din emailadress.'
-    //Hämta denna information från användaren??
+    required: true
+    //hämta denna information från användaren?
   },
   times: {
     type: [String],
-    required: 'Ange de tider du kan.'
+    required: true
+  },
+  program: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
   }
 });
 

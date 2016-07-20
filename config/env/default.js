@@ -35,6 +35,11 @@ module.exports = {
       limits: {
         fileSize: 1*1024*1024 // Max file size in bytes (1 MB)
       }
+    },
+    resumeUpload: {
+      limits: {
+        fileSize: 2*1024*1024 // Max file size in bytes (2 MB)
+      }
     }
   }
 };

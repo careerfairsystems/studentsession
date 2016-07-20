@@ -7,6 +7,10 @@
     <h1>{{vm.application._id ? 'Edit Application' : 'Ny ansökan'}}</h1>
   </div>
 
+  <p>Kul att du är intresserad av att ansöka till kontaksamtalen! Fyll i detta formulär för att ansöka. 
+  Du kan läsa mer om de företag som erbjuder kontaktsamtal under Arkad 2016 under fliken "företag". Välj sedan de företag du är intresserad av i din ansökan. Var vänlig ange endast de tider du vet att du kan. </p> 
+  <p>Om du har några frågor är du varmt välkommen att kontakta xxxx.</p> <!-- lägg till ngn slags artikel här så att meddelandet/informationen kan ändras av admin. + denna blir alldeles för bred-->
+
   <div class="col-md-12">
     <form name="vm.form.applicationForm" class="form-horizontal" ng-submit="vm.save(vm.form.applicationForm.$valid)" novalidate>
       <fieldset>
@@ -27,18 +31,85 @@
           </div>
         </div>
 
-    <label for="multipleSelect"> Multiple select: </label><br>
-      <select name="multipleSelect" id="multipleSelect" ng-model="data.multipleSelect" multiple>
-        <option ng-repeat="option in data.availableOptions" value="{{option.id}}">{{option.name}}</option>
-      </select><br>
-    <tt>multipleSelect = {{data.multipleSelect}}</tt><br/>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="program">Program</label>
+          <input name="program" type="text" ng-model="vm.application.program" id="program" class="form-control" placeholder="Program" required>
+          <div ng-messages="vm.form.applicationForm.program.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Program måste anges.</p> 
+          </div>
+        </div>
 
         <div class="form-group">
-          <button type="submit" class="btn btn-default">{{vm.application._id ? 'Update' : 'Create'}}</button>
+          <label for="selectCompanies"> Företag </label><br>
+          Välj de företag du skulle vilja träffa.<br>
+
+          <ng-form name="innerForm">
+            <select name="selectCompanies" id="selectCompanies" ng-model="vm.application.companies" multiple ng-options='string for string in companyNames' required>
+            </select><br>
+            <span ng-show="innerForm.foo.$error.required">Comp required</span>
+            </ng-form>
+          <tt>selectCompanies = {{vm.application.companies}}</tt><br>
+        </div>
+
+        <div class="form-group">
+          <label for="selectTimes"> Tider </label><br>
+          Vänligen ange de tider du kan.<br>
+          <select name="selectTimes" id="selectTimes" ng-model="vm.application.times" multiple ng-options='string for string in times'>
+            </select><br>
+          <tt>selectTimes = {{vm.application.times}}</tt><br>
+        </div>
+
+       <div class="form-group" show-errors>
+            <label for="description"> Kort om dig </label><br>
+            Max 500 tecken. <br>
+             <textarea name="description" ng-model="vm.application.description" 
+             rows="4" cols="70" ng-change="monitorLength(500)"></textarea><br>
+        </div>
+
+        <!--Ladda upp CV på engelska resp. svenska. Minst en version är ett krav. 
+            Filen måste vara i pdf.
+            Filnamn? -->
+        
+
+        <div class="form-group">
+          <h3>Uppladdning av CV</h3>
+          <p> Kontrollera i företagsbeskrivningen för de företag du sökt till vilket eller vilka språk de tar emot cv på. </p>
+
+            <div ng-hide="uploader.queue.length">
+             <span class="btn btn-default btn-file">
+                 Välj PDF <input name="resume-pdf" type="file" nv-file-select uploader="uploader">
+             </span>
+           </div>
+
+           <div ng-show="uploader.queue.length">
+             <button type="button" class="btn btn-primary" ng-click="uploader.uploadAll();">Skicka in cv</button>
+            </div>
+
+           <div ng-show="uploader.queue.length">  
+             <button type="button" class="btn btn-default" ng-click="uploader.clearQueue(); unsuccess();">Ångra</button> 
+           </div>
+
+           <div ng-show="vm.application.resume.length">
+            Du har skickat in ett cv. Skicka in ett nytt cv för att byta.
+           </div>
+
+
+           <div ng-show="success && !uploader.queue.length" class="text-center text-success">
+             <strong>Ditt cv har har laddats upp!</strong>
+           </div>
+           <div ng-show="error" class="text-center text-danger">
+             <strong ng-bind="error"></strong>
+            </div> 
+        </div>
+       
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.application._id ? 'Update' : 'Skicka'}}</button>
         </div>
         <div ng-show="vm.error" class="text-danger">
           <strong ng-bind="vm.error"></strong>
-        </div>
+        </div> <br>
+
       </fieldset>
     </form>
   </div>

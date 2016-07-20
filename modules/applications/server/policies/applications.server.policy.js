@@ -1,9 +1,9 @@
-'use strict';
+  'use strict';
 
 /**
  * Module dependencies
  */
-var acl = require('acl');
+ var acl = require('acl');
 
 // Using the memory backend
 acl = new acl(new acl.memoryBackend());
@@ -11,8 +11,9 @@ acl = new acl(new acl.memoryBackend());
 /**
  * Invoke Applications Permissions
  */
-exports.invokeRolesPolicies = function () {
-  acl.allow([{
+ exports.invokeRolesPolicies = function () {
+  acl.allow([
+  {
     roles: ['admin'],
     allows: [{
       resources: '/api/applications',
@@ -20,6 +21,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/applications/:applicationId',
       permissions: '*'
+    }, {
+      resources: '/api/applications/resume/:pdfName',
+      permissions: ['get', 'post']
     }]
   }, {
     roles: ['user'],
@@ -29,6 +33,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/applications/:applicationId',
       permissions: ['get']
+    }, {
+      resources: '/api/applications/resume/:pdfName',
+      permissions: ['post']
     }]
   }, {
     roles: ['guest'],
@@ -38,14 +45,19 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/applications/:applicationId',
       permissions: ['get']
+    },
+    {
+      resources: '/api/applications/resume/:pdfName',
+      permissions: []
     }]
-  }]);
+  }
+  ]);
 };
 
 /**
  * Check If Applications Policy Allows
  */
-exports.isAllowed = function (req, res, next) {
+ exports.isAllowed = function (req, res, next) {
   var roles = (req.user) ? req.user.roles : ['guest'];
 
   // If an Application is being processed and the current user created it then allow any manipulation

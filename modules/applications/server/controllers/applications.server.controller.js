@@ -7,7 +7,9 @@ var path = require('path'),
   mongoose = require('mongoose'),
   Application = mongoose.model('Application'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
-  _ = require('lodash');
+  _ = require('lodash'),
+  config = require(path.resolve('./config/config.js')),
+  multer = require('multer');
 
 /**
  * Create a Application
@@ -113,5 +115,42 @@ exports.applicationByID = function(req, res, next, id) {
     }
     req.application = application;
     next();
+  });
+};
+
+/**
+ * Update attachment-pdf
+ */
+exports.addResumeAttachment = function (req, res) { //när körs denna?
+  var pdfName = req.params.pdfName;
+  var message = null;
+ 
+  var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './public/uploads/resume/'); //här sparas cv
+    },
+    filename: function (req, file, cb) {
+      cb(null, pdfName);
+    }
+  });
+
+  config.uploads.resumeUpload.storage = storage;
+
+  var upload = multer(config.uploads.resumeUpload).single('newResume');
+  var resumeFileFilter = require(path.resolve('./config/lib/multer')).resumeFileFilter;
+  
+  // Filtering to upload only pdf's
+  upload.fileFilter = resumeFileFilter;
+
+  upload(req, res, function (uploadError) {
+    if(uploadError) {
+      return res.status(400).send({
+        message: uploadError
+      });
+    } else {
+      return res.status(200).send({
+        message: 'Upload succeeded.'
+      });
+    }
   });
 };
