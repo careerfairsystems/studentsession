@@ -13,7 +13,7 @@
       title: 'Meetings',
       state: 'meetings',
       type: 'dropdown',
-      roles: ['*']
+      roles: ['admin'] 
     });
 
     // Add the dropdown list item
@@ -26,7 +26,14 @@
     Menus.addSubMenuItem('topbar', 'meetings', {
       title: 'Create Meeting',
       state: 'meetings.create',
-      roles: ['user']
+      roles: ['admin']
+    });
+
+    // Add the dropdown create multiple meetings
+    Menus.addSubMenuItem('topbar', 'meetings', {
+      title: 'Create Multiple Meetings',
+      state: 'meetings.multiplecreate', 
+      roles: ['admin']
     });
   }
 })();

@@ -25,7 +25,7 @@
       })
       .state('meetings.multiplecreate', {
         url: '/multiplecreate',
-        templateUrl: 'modules/meetings/client/views/form-multiple-meeting.client.view.html',
+        templateUrl: 'modules/meetings/client/views/form-multiple-meetings.client.view.html',
         controller: 'MeetingsListController',
         controllerAs: 'vm',
         resolve: {

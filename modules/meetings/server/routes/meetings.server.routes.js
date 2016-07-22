@@ -12,6 +12,10 @@ module.exports = function(app) {
     .get(meetings.list)
     .post(meetings.create);
 
+  app.route('/api/meetings').all(meetingsPolicy.isAllowed)
+    .get(meetings.list)
+    .post(meetings.create);
+
   app.route('/api/meetings/:meetingId').all(meetingsPolicy.isAllowed)
     .get(meetings.read)
     .put(meetings.update)
