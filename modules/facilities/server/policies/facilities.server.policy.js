@@ -9,48 +9,47 @@ var acl = require('acl');
 acl = new acl(new acl.memoryBackend());
 
 /**
- * Invoke Companies Permissions
+ * Invoke Facilities Permissions
  */
 exports.invokeRolesPolicies = function () {
   acl.allow([{
     roles: ['admin'],
     allows: [{
-      resources: '/api/companies',
+      resources: '/api/facilities',
       permissions: '*'
     }, {
-      resources: '/api/companies/:companyId',
+      resources: '/api/facilities/:facilityId',
       permissions: '*'
     }]
   }, {
     roles: ['user'],
     allows: [{
-      resources: '/api/companies',
-      permissions: ['get']
+      resources: '/api/facilities',
+      permissions: ['get', 'post']
     }, {
-      resources: '/api/companies/:companyId',
+      resources: '/api/facilities/:facilityId',
       permissions: ['get']
     }]
   }, {
     roles: ['guest'],
     allows: [{
-      resources: '/api/companies',
+      resources: '/api/facilities',
       permissions: ['get']
     }, {
-      resources: '/api/companies/:companyId',
+      resources: '/api/facilities/:facilityId',
       permissions: ['get']
     }]
   }]);
 };
 
-
 /**
- * Check If Companies Policy Allows
+ * Check If Facilities Policy Allows
  */
 exports.isAllowed = function (req, res, next) {
   var roles = (req.user) ? req.user.roles : ['guest'];
 
-  // If an Company is being processed and the current user created it then allow any manipulation
-  if (req.company && req.user && req.company.user && req.company.user.id === req.user.id) {
+  // If an Facility is being processed and the current user created it then allow any manipulation
+  if (req.facility && req.user && req.facility.user && req.facility.user.id === req.user.id) {
     return next();
   }
 

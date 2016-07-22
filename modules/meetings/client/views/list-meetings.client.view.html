@@ -1,0 +1,33 @@
+<section>
+  <div class="page-header">
+    <h1>Meetings</h1>
+  </div>
+  <div class="list-group">
+    <a data-ng-repeat="meeting in vm.meetings"
+       data-ui-sref="meetings.view({ meetingId: meeting._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="meeting.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="meeting.user" data-ng-bind="meeting.user.displayName"></span>
+        <span data-ng-if="!meeting.user">Deleted User</span>
+      </small>
+
+      <h5 class><strong>Student:</strong></h5>
+      <span data-ng-bind="meeting.student"></span>
+      <br>
+      <h5 class><strong>Företag:</strong></h5>
+      <span data-ng-bind="meeting.company"></span>
+      <br>
+      <h5 class><strong>Lokal:</strong></h5>
+      <span data-ng-bind="meeting.facility"></span>
+      <br>
+      <h5 class><strong>Datum:</strong></h5>
+      <span data-ng-bind="meeting.date"></span>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" data-ng-if="vm.meetings.$resolved && !vm.meetings.length">
+    No Meetings yet, why don't you <a data-ui-sref="meetings.create">create one</a>?
+  </div>
+</section>

@@ -19,14 +19,15 @@
     // Add the dropdown list item
     Menus.addSubMenuItem('topbar', 'companies', {
       title: 'Företagslista',
-      state: 'companies.list'
+      state: 'companies.list',
+      roles: ['*']
     });
 
     // Add the dropdown create item
     Menus.addSubMenuItem('topbar', 'companies', {
       title: 'Skapa ett företag',
       state: 'companies.create',
-      roles: ['user']
+      roles: ['admin']
     });
   }
 })();

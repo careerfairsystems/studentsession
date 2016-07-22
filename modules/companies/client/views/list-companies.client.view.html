@@ -14,15 +14,11 @@
         <span data-ng-if="!company.user">Deleted User</span>
       </small>
       <h4 class="list-group-item-heading" data-ng-bind="company.name"></h4>
-      <br></br>
-      <b>
-      <h5 class>Description:</h5>
-      </b>
+      <br>
+      <h5 class><strong>Description:</strong></h5>
       <span data-ng-bind="company.description"></span>
       <br></br>
-      <b>
-      <h6 class>Requested CV Language:</h5>
-      </b>
+      <h5 class><strong>Requested CV Language:</strong></h5>
       <span data-ng-if="company.language.length == 0">No language specified</span>
       <span data-ng-if="company.language.length > 0" data ng-bind="company.language"></span>
     </a>

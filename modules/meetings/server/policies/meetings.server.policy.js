@@ -9,48 +9,47 @@ var acl = require('acl');
 acl = new acl(new acl.memoryBackend());
 
 /**
- * Invoke Companies Permissions
+ * Invoke Meetings Permissions
  */
 exports.invokeRolesPolicies = function () {
   acl.allow([{
     roles: ['admin'],
     allows: [{
-      resources: '/api/companies',
+      resources: '/api/meetings',
       permissions: '*'
     }, {
-      resources: '/api/companies/:companyId',
+      resources: '/api/meetings/:meetingId',
       permissions: '*'
     }]
   }, {
     roles: ['user'],
     allows: [{
-      resources: '/api/companies',
-      permissions: ['get']
+      resources: '/api/meetings',
+      permissions: ['get', 'post']
     }, {
-      resources: '/api/companies/:companyId',
+      resources: '/api/meetings/:meetingId',
       permissions: ['get']
     }]
   }, {
     roles: ['guest'],
     allows: [{
-      resources: '/api/companies',
+      resources: '/api/meetings',
       permissions: ['get']
     }, {
-      resources: '/api/companies/:companyId',
+      resources: '/api/meetings/:meetingId',
       permissions: ['get']
     }]
   }]);
 };
 
-
 /**
- * Check If Companies Policy Allows
+ * Check If Meetings Policy Allows
  */
 exports.isAllowed = function (req, res, next) {
   var roles = (req.user) ? req.user.roles : ['guest'];
 
-  // If an Company is being processed and the current user created it then allow any manipulation
-  if (req.company && req.user && req.company.user && req.company.user.id === req.user.id) {
+  // If an Meeting is being processed and the current user created it then allow any manipulation
+  if (req.meeting && req.user && req.meeting.user && req.meeting.user.id === req.user.id) {
     return next();
   }
 

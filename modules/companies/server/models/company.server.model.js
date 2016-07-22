@@ -16,11 +16,15 @@ var CompanySchema = new Schema({
     required: 'Please fill Company name',
     trim: true
   },
-  logo: String,
-  language: [{
+  logo: {
+    type: String,
+    default: 'modules/companies/client/img/profile/default.png'
+  },
+
+  language: {
     type: String,
     enum: ['Svenska', 'English']
-  }], 
+  },
   description: String,
   created: {
     type: Date,

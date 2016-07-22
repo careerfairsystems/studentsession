@@ -1,0 +1,42 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.meeting._id ? 'Edit Meeting' : 'New Meeting'}}</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.meetingForm" class="form-horizontal" ng-submit="vm.save(vm.form.meetingForm.$valid)" novalidate>
+      <fieldset>
+
+
+        <div class="form-group" show-errors>
+          <label for="ngvalueselect">Lokal:</label><br>
+          <select size="6" name="ngvalueselect" ng-model="vm.meeting.facility" multiple>
+            <option ng-repeat="facility in vm.facilities" ng-value="facility.name">{{facility.name}}</option>
+          </select>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="ngvalueselect">Företag:</label><br>
+          <select size="6" name="ngvalueselect" ng-model="vm.meeting.company" multiple>
+            <option ng-repeat="company in vm.companies" ng-value="company.name">{{company.name}}</option>
+          </select>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="ngvalueselect">Student:</label><br>
+          <select size="6" name="ngvalueselect" ng-model="vm.meeting.student" multiple>
+            <option ng-repeat="application in vm.applications" ng-value="application.email">{{application.email}} {{application.phone}}</option>
+          </select>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="description">Datum(Ska fixas):</label>
+          <input name="date" type="text" ng-model="vm.meeting.date" id="date" class="form-control" placeholder="Fyll i datum(Ska fixas)" required>
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.meeting._id ? 'Update' : 'Create'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>
