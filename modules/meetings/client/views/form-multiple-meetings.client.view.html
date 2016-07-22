@@ -5,7 +5,46 @@
     <div class="col-md-12">
     <form name="vm.form.meetingForm" class="form-horizontal" ng-submit="vm.save(vm.form.meetingForm.$valid)" novalidate>
       <fieldset>
-      Blablabla
+
+      <!--
+      -Välj datum och tid, flera st. Typ 16/7 och 16/8 (ska man kunna välja olika tider de olika dagarna?)
+      	- Hitta något snyggt sätt att välja detta
+
+      	Tid:
+      	https://docs.angularjs.org/api/ng/input/input%5Btime%5D
+
+      	Datum:
+      	https://docs.angularjs.org/api/ng/input/input%5Bdate%5D Endast ett i taget. Inte jätteuppenbart var man ska klicka för att få upp kalender. Kanske kan man göra det tydligare på ngt sätt.
+
+      	http://bootstrap-datepicker.readthedocs.io/en/latest/options.html#multidate Kan välja flera datum i taget
+
+      	Datum och tid:
+      	https://docs.angularjs.org/api/ng/input/input%5Bdatetime-local%5D
+
+      	OBS: Vid valet, kontrollera i Firefox och Edge/Explorer då vissa ser helt annorlunda ut än i Chrome.
+
+      - Välj längd på möten.
+
+      -Välj tid för lunchrast, + fler raster? Ngn snygg lösning för det? Kan man välja valfritt antal raster/olika tidskombinationer på ngt sätt?
+	
+      -Välj lokaler - testa checkboxes :D
+      	- https://docs.angularjs.org/api/ng/input/input%5Bcheckbox%5D
+
+      -->
+
+      <div class="form-group">
+          <label for="selectResources">Lokaler:</label><br>
+          <div ng-repeat = "facility in vm.facilities"> 
+	          <input name="selectResources" type="checkbox" ng-model="chosenFacilities[facility.name]"> 
+	          {{facility.name}} 
+          </div>
+
+          <div>
+          Facilities selected: {{chosenFacilities}}
+          Facilities array: {{chosenFacilitiesArray(chosenFacilities)}}
+          </div>
+      </div>
+
       </fieldset>
     </form>
   </div>
