@@ -1,10 +1,10 @@
 <section>
-  <div class="page-header">
-    <h1>{{vm.meeting._id ? 'Edit Meeting' : 'New Meeting'}}</h1>
-  </div>
-    <div class="col-md-12">
-    <form name="vm.form.meetingForm" class="form-horizontal" ng-submit="vm.save(vm.form.meetingForm.$valid)" novalidate>
-      <fieldset>
+	<div class="page-header">
+		<h1>{{vm.meeting._id ? 'Edit Meeting' : 'New Meeting'}}</h1>
+	</div>
+	<div class="col-md-12">
+		<form name="vm.form.meetingForm" class="form-horizontal" ng-submit="vm.save(vm.form.meetingForm.$valid)" novalidate>
+			<fieldset>
 
       <!--
       -Välj datum och tid, flera st. Typ 16/7 och 16/8 (ska man kunna välja olika tider de olika dagarna?)
@@ -33,19 +33,124 @@
       -->
 
       <div class="form-group">
-          <label for="selectResources">Lokaler:</label><br>
-          <div ng-repeat = "facility in vm.facilities"> 
-	          <input name="selectResources" type="checkbox" ng-model="chosenFacilities[facility.name]"> 
-	          {{facility.name}} 
-          </div>
+      	<label for="selectStartDate">Startdatum:</label><br>
 
-          <div>
-          Facilities selected: {{chosenFacilities}}
-          Facilities array: {{chosenFacilitiesArray(chosenFacilities)}}
-          </div>
+      	<input type="date" name="selectStartDate" ng-model="vm.startDate" placeholder="yyyy-MM-dd" required />
+      	<div role="alert">
+      		<span class="error" ng-show="myForm.input.$error.required">
+      			Required!</span>
+      		<span class="error" ng-show="myForm.input.$error.date">
+      			Not a valid date!</span>
+      	</div>
       </div>
 
-      </fieldset>
-    </form>
-  </div>
+      	<div class="form-group">
+      		<label for="selectEndDate">Slutdatum:</label><br>
+
+      		<input type="date" name="selectEndDate" ng-model="vm.endDate" placeholder="yyyy-MM-dd" min="vm.startDate" required />
+      		<div role="alert">
+      			<span class="error" ng-show="myForm.input.$error.required">
+      				Required!</span>
+      			<span class="error" ng-show="myForm.input.$error.date">
+      				Not a valid date!</span>
+      		</div>
+      	</div>
+
+      	<div class="form-group">
+      		<label for="selectStartTime">Starttid:</label><br>
+      		<input type="time" id="exampleInput" name="input" ng-model="vm.startHours"
+      		placeholder="HH:mm:ss" min="08:00:00" max="17:00:00" required />
+      		<div role="alert">
+      			<span class="error" ng-show="myForm.input.$error.required">
+      				Required!</span>
+      			<span class="error" ng-show="myForm.input.$error.time">
+      				Not a valid date!</span>
+      		</div>
+      	</div>
+
+
+      	<div class="form-group">
+      		<label for="selectEndTime">Sluttid:</label><br>
+      		<input type="time" id="exampleInput" name="input" ng-model="vm.endHours"
+      		placeholder="HH:mm:ss" min="08:00:00" max="17:00:00" required />
+      		<div role="alert">
+      			<span class="error" ng-show="myForm.input.$error.required">
+      				Required!</span>
+      			<span class="error" ng-show="myForm.input.$error.time">
+      				Not a valid date!</span>
+      		</div>
+      	</div>
+
+
+      	<div class="form-group">
+      		<label for="selectLength">Möteslängd:</label><br>
+
+      		<input type="number" name="selectLength" ng-model="vm.meetingTimeLength" required>
+      		<div role="alert">
+      			<span class="error" ng-show="myForm.input.$error.required">
+      				Required!</span>
+      				<span class="error" ng-show="myForm.input.$error.number">
+      					Not valid number!</span>
+      					</div>
+      	</div>
+
+      	<div class="form-group">
+      		<label for="selectBreak">Lunchrast:</label><br>
+
+      		<input type="time" id="exampleInput" name="input" ng-model="vm.lunchStart"
+      		placeholder="HH:mm:ss" min="08:00:00" max="17:00:00" required />
+      		<div role="alert">
+      			<span class="error" ng-show="myForm.input.$error.required">
+      				Required!</span>
+      				<span class="error" ng-show="myForm.input.$error.time">
+      					Not a valid date!</span> -
+      	</div>
+
+      		<input type="time" id="exampleInput" name="input" ng-model="vm.lunchEnd" placeholder="HH:mm" min="08:00" max="17:00" required />
+      					<div role="alert">
+      						<span class="error" ng-show="myForm.input.$error.required">
+      							Required!</span>
+      						<span class="error" ng-show="myForm.input.$error.time">
+      							Not a valid date!</span>
+
+
+
+      					</div>
+      	</div>
+
+
+      	<div class="form-group">
+      		<label for="selectResources">Lokaler:</label><br>
+      		<div ng-repeat = "facility in vm.facilities"> 
+      			<input name="selectResources" type="checkbox" ng-model="vm.chosenFacilities[facility.name]"> 
+      			{{facility.name}} 
+      		</div>
+      	</div>
+
+
+      <!--TODO: lägg till kontroll att slutdatum är efter startdatum,
+      sluttid inte är innan starttid osv.-->
+
+      <div class="form-group">
+      	<button type="submit" class="btn btn-default" ng-click="createMeetings();">{{vm.meeting._id ? 'Update' : 'Skapa möten'}}</button>
+      </div>
+      <div ng-show="vm.error" class="text-danger">
+      	<strong ng-bind="vm.error"></strong>
+      </div>
+
+            	<div>
+      		<b>Test</b> <br>
+      		Startdatum: {{vm.startDate}} <br>
+      		Slutdatum: {{vm.endDate}} <br>
+      		Starttid: {{vm.startHours}} <br>
+      		Sluttid: {{vm.endHours}} <br>
+      		Möteslängd: {{vm.meetingTimeLength}} <br>
+      		Möteslokaler: {{chosenFacilitiesArray(vm.chosenFacilities)}} <br>
+      		Lunchstart: {{vm.lunchStart}} <br>
+      		Lunchslut: {{vm.lunchEnd}} <br>
+      	</div>
+
+  </fieldset>
+</form>
+</div>
 </section>
