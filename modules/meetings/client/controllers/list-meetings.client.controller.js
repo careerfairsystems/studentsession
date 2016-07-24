@@ -44,11 +44,11 @@
     }*/
 
 
-    // takes the output from checkboxes and puts the values of the checked elements from a checkbox into an array
-    $scope.chosenFacilitiesArray = function(checked){  
+    // puts the chosen facilities into an array
+    var chosenFacilitiesArray = function(){  
       var array=[];
 
-      angular.forEach(checked,function(key,value){
+      angular.forEach(vm.chosenFacilities,function(key,value){
         if(key)
           array.push(value);
       });
@@ -57,7 +57,11 @@
 
 
     $scope.createMeetings = function() {
-      console.log('Att göra: skapa möten');
-      //Att göra: skapa önskade möten
+        var facilitiesArray = chosenFacilitiesArray();
+        if(!!vm.startDate && !!vm.endDate && !!vm.startHours && !!vm.endHours && !!vm.lunchStart && !!vm.lunchEnd && facilitiesArray !== 'undefined' && vm.meetingTimeLength !== "" && facilitiesArray.length !== 0) {
+          console.log('Alla fält är ifyllda');
+        } else {
+          console.log('Alla fält är inte ifyllda!');
+        } 
     };
   }})();
