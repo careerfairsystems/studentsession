@@ -32,8 +32,8 @@
 
       -->
 
-      <div class="form-group">
-      	<label for="selectStartDate">Startdatum:</label><br>
+      <div class="form-group" show-errors>
+      	<label for="selectStartDate">Startdatum</label><br>
 
       	<input type="date" name="selectStartDate" ng-model="vm.startDate" placeholder="yyyy-MM-dd" required />
       	<div role="alert">
@@ -44,8 +44,8 @@
       	</div>
       </div>
 
-      	<div class="form-group">
-      		<label for="selectEndDate">Slutdatum:</label><br>
+      	<div class="form-group" show-errors>
+      		<label for="selectEndDate">Slutdatum</label><br>
 
       		<input type="date" name="selectEndDate" ng-model="vm.endDate" placeholder="yyyy-MM-dd" min="vm.startDate" required />
       		<div role="alert">
@@ -56,10 +56,10 @@
       		</div>
       	</div>
 
-      	<div class="form-group">
-      		<label for="selectStartTime">Starttid:</label><br>
+      	<div class="form-group" show-errors>
+      		<label for="selectStartTime">Starttid</label><br>
       		<input type="time" id="exampleInput" name="input" ng-model="vm.startHours"
-      		placeholder="HH:mm:ss" min="08:00:00" max="17:00:00" required />
+      		placeholder="HH:mm:ss" required />
       		<div role="alert">
       			<span class="error" ng-show="myForm.input.$error.required">
       				Required!</span>
@@ -69,10 +69,10 @@
       	</div>
 
 
-      	<div class="form-group">
-      		<label for="selectEndTime">Sluttid:</label><br>
+      	<div class="form-group" show-errors>
+      		<label for="selectEndTime">Sluttid</label><br>
       		<input type="time" id="exampleInput" name="input" ng-model="vm.endHours"
-      		placeholder="HH:mm:ss" min="08:00:00" max="17:00:00" required />
+      		placeholder="HH:mm:ss" required />
       		<div role="alert">
       			<span class="error" ng-show="myForm.input.$error.required">
       				Required!</span>
@@ -82,8 +82,8 @@
       	</div>
 
 
-      	<div class="form-group">
-      		<label for="selectLength">Möteslängd:</label><br>
+      	<div class="form-group" show-errors>
+      		<label for="selectLength">Möteslängd (minuter)</label><br>
 
       		<input type="number" name="selectLength" ng-model="vm.meetingTimeLength" required>
       		<div role="alert">
@@ -91,36 +91,26 @@
       				Required!</span>
       				<span class="error" ng-show="myForm.input.$error.number">
       					Not valid number!</span>
-      					</div>
+      		</div>
       	</div>
 
-      	<div class="form-group">
-      		<label for="selectBreak">Lunchrast:</label><br>
+      	<div class="form-group" show-errors>
+      		<label for="selectBreak">Lunchrast</label><br>
 
       		<input type="time" id="exampleInput" name="input" ng-model="vm.lunchStart"
-      		placeholder="HH:mm:ss" min="08:00:00" max="17:00:00" required />
-      		<div role="alert">
-      			<span class="error" ng-show="myForm.input.$error.required">
-      				Required!</span>
-      				<span class="error" ng-show="myForm.input.$error.time">
-      					Not a valid date!</span> -
-      	</div>
-
-      		<input type="time" id="exampleInput" name="input" ng-model="vm.lunchEnd" placeholder="HH:mm" min="08:00" max="17:00" required />
+      		placeholder="HH:mm:ss" required /> -
+      		<input type="time" id="exampleInput" name="input" ng-model="vm.lunchEnd" placeholder="HH:mm" required />
       					<div role="alert">
       						<span class="error" ng-show="myForm.input.$error.required">
       							Required!</span>
       						<span class="error" ng-show="myForm.input.$error.time">
       							Not a valid date!</span>
-
-
-
       					</div>
       	</div>
 
 
       	<div class="form-group">
-      		<label for="selectResources">Lokaler:</label><br>
+      		<label for="selectResources">Lokaler</label><br>
       		<div ng-repeat = "facility in vm.facilities"> 
       			<input name="selectResources" type="checkbox" ng-model="vm.chosenFacilities[facility.name]"> 
       			{{facility.name}} 

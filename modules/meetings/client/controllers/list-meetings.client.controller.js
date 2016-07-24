@@ -16,13 +16,13 @@
     vm.companies = companies;
 
     // Examples of variables that are useful;
-    vm.startDate = new Date();
-    vm.endDate = new Date();
-    vm.startHours = new Date();
-    vm.endHours = new Date();
+    vm.startDate = new Date('----', '--', '--', '--', '--', '--');
+    vm.endDate = new Date('----', '--', '--', '--', '--', '--');
+    vm.startHours = new Date('----', '--', '--', '--', '--', '--');
+    vm.endHours = new Date('----', '--', '--', '--', '--', '--');
     vm.meetingTimeLength = '';
-    vm.lunchStart = new Date();
-    vm.lunchEnd = new Date();
+    vm.lunchStart = new Date('----', '--', '--', '--', '--', '--');
+    vm.lunchEnd = new Date('----', '--', '--', '--', '--', '--');
     vm.chosenFacilities = {};
     //TODO: Implement method to add many meetings with some coinstraints.
 
@@ -50,7 +50,7 @@
 
       angular.forEach(checked,function(key,value){
         if(key)
-           array.push(value);
+          array.push(value);
       });
       return array;
     };
@@ -60,4 +60,4 @@
       console.log('Att göra: skapa möten');
       //Att göra: skapa önskade möten
     };
-}})();
+  }})();
