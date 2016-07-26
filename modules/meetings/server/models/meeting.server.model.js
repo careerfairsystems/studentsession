@@ -19,13 +19,11 @@ var MeetingSchema = new Schema({
   },
   company: {
     type: String,
-    default: '',
-    required: 'Vänligen välj företag'
+    default: ''
   },
   student: {
     type: String,
-    default: '',
-    required: 'Vänligen välj student'
+    default: ''
   },
   date: {
     type: Date,
