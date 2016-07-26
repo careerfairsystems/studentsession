@@ -1,3 +1,12 @@
+<head>
+  <link data-require="bootstrap-css@3.1.1" data-semver="3.1.1" rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+  <script data-require="angular.js@*" data-semver="1.2.13" src="http://code.angularjs.org/1.2.13/angular.js"></script>
+  <script data-require="jquery@*" data-semver="2.0.3" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+  <script data-require="bootstrap@*" data-semver="3.1.1" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script data-require="ui-bootstrap@*" data-semver="0.10.0" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js"></script>
+</head>
 <section>
 	<div class="page-header">
 		<h1>{{vm.meeting._id ? 'Edit Meeting' : 'New Meetings'}}</h1>
@@ -26,7 +35,7 @@
       - Välj längd på möten.
 
       -Välj tid för lunchrast, + fler raster? Ngn snygg lösning för det? Kan man välja valfritt antal raster/olika tidskombinationer på ngt sätt?
-	
+
       -Välj lokaler - testa checkboxes :D
       	- https://docs.angularjs.org/api/ng/input/input%5Bcheckbox%5D
 
@@ -111,9 +120,9 @@
 
       	<div class="form-group">
       		<label for="selectResources">Lokaler</label><br>
-      		<div ng-repeat = "facility in vm.facilities"> 
-      			<input name="selectResources" type="checkbox" ng-model="vm.chosenFacilities[facility.name]"> 
-      			{{facility.name}} 
+      		<div ng-repeat = "facility in vm.facilities">
+      			<input name="selectResources" type="checkbox" ng-model="vm.chosenFacilities[facility.name]">
+      			{{facility.name}}
       		</div>
       	</div>
 
