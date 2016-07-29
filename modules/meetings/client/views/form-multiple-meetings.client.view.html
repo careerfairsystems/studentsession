@@ -35,7 +35,7 @@
       <div class="form-group" show-errors>
       	<label for="selectStartDate">Startdatum</label><br>
 
-      	<input type="date" name="selectStartDate" ng-model="vm.startDate" placeholder="yyyy-MM-dd" required />
+      	<input type="date" name="selectStartDate" ng-model="vm.startDate" placeholder="yyyy-MM-dd" ng-model-options="{timezone:'UTC'}" required />
       	<div role="alert">
       		<span class="error" ng-show="myForm.input.$error.required">
       			Required!</span>
@@ -47,7 +47,7 @@
       	<div class="form-group" show-errors>
       		<label for="selectEndDate">Slutdatum</label><br>
 
-      		<input type="date" name="selectEndDate" ng-model="vm.endDate" placeholder="yyyy-MM-dd" required />
+      		<input type="date" name="selectEndDate" ng-model="vm.endDate" placeholder="yyyy-MM-dd" ng-model-options="{timezone:'UTC'}" required />
       		<div role="alert">
       			<span class="error" ng-show="myForm.input.$error.required">
       				Required!</span>
