@@ -58,7 +58,7 @@
 
       	<div class="form-group" show-errors>
       		<label for="selectStartTime">Starttid</label><br>
-      		<input type="time" id="exampleInput" name="input" ng-model="vm.startHours"
+      		<input type="time" id="exampleInput" name="input" ng-model="vm.startHours" ng-model-options="{timezone:'UTC'}"
       		placeholder="HH:mm:ss" required />
       		<div role="alert">
       			<span class="error" ng-show="myForm.input.$error.required">
@@ -71,7 +71,7 @@
 
       	<div class="form-group" show-errors>
       		<label for="selectEndTime">Sluttid</label><br>
-      		<input type="time" id="exampleInput" name="input" ng-model="vm.endHours"
+      		<input type="time" id="exampleInput" name="input" ng-model="vm.endHours" ng-model-options="{timezone:'UTC'}"
       		placeholder="HH:mm:ss" required />
       		<div role="alert">
       			<span class="error" ng-show="myForm.input.$error.required">
@@ -85,7 +85,7 @@
       	<div class="form-group" show-errors>
       		<label for="selectLength">Möteslängd (minuter)</label><br>
 
-      		<input type="number" name="selectLength" ng-model="vm.meetingTimeLength" required>
+      		<input type="number" name="selectLength" ng-model="vm.meetingTimeLength" ng-model-options="{timezone:'UTC'}" required>
       		<div role="alert">
       			<span class="error" ng-show="myForm.input.$error.required">
       				Required!</span>
@@ -99,7 +99,7 @@
 
       		<input type="time" id="exampleInput" name="input" ng-model="vm.lunchStart"
       		placeholder="HH:mm:ss" required /> -
-      		<input type="time" id="exampleInput" name="input" ng-model="vm.lunchEnd" placeholder="HH:mm" required />
+      		<input type="time" id="exampleInput" name="input" ng-model="vm.lunchEnd" placeholder="HH:mm" ng-model-options="{timezone:'UTC'}" required />
       					<div role="alert">
       						<span class="error" ng-show="myForm.input.$error.required">
       							Required!</span>

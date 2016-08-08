@@ -58,13 +58,54 @@
       return array;
     };
 
-
     $scope.createMeetings = function() {
         var facilitiesArray = chosenFacilitiesArray();
         if(!!vm.startDate && !!vm.endDate && !!vm.startHours && !!vm.endHours && !!vm.lunchStart && !!vm.lunchEnd && facilitiesArray !== 'undefined' && vm.meetingTimeLength !== '' && facilitiesArray.length !== 0) {
           console.log('Alla fält är ifyllda');
+
+          var meetingDate;
+          var date = vm.startDate;
+          var time = vm.startHours;
+         while(date <= vm.endDate){
+            while(startBeforeEndTime(time.getMinutes + vm.meetingTimeLength, vm.endHours)){
+              //skapande av ett Date med rätt datum och tid
+              meetingDate = new Date(date.getFullYear, date.getMonth+1, date.getDate+1, time.getHours, time.getMinutes);
+
+              if( true/*det är lunchtid*/){
+                time = vm.lunchEnd;
+              } else {
+                //creating the current meeting  
+                facilitiesArray.forEach(function(facility) {
+                createMeeting(facility, meetingDate);
+               });
+
+                //updating the time to the next meeting time
+                time = time.setMinutes(time.getMinutes() + vm.meetingTimeLength);
+              }
+            }
+            //updating the date to the next day 
+            date = new Date(date.setDate(date.getDate() + 1));
+          }
         } else {
           console.log('Alla fält är inte ifyllda!');
         } 
+    };
+
+    var startBeforeEndDate = function(start, end) {
+      return start < end;
+    };
+
+    var startBeforeEndTime = function(start, end) {
+      if(start.getHours < end.getHours){
+        return true;
+      } else if ((start.getMinutes < end.getMinutes) && (start.getHours = end.getHours)){
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    var createMeeting = function(facility, date) {
+      //todo
     };
   }})();

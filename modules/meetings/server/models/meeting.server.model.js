@@ -15,7 +15,6 @@ var MeetingSchema = new Schema({
     type: String,
     default: '',
     required: 'Vänligen fyll i lokal',
-
   },
   company: {
     type: String,
@@ -29,7 +28,6 @@ var MeetingSchema = new Schema({
     type: Date,
     required: 'Vänligen välj datum och tid'
   },
-
   created: {
     type: Date,
     default: Date.now
