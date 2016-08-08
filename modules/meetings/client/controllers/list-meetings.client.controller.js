@@ -58,6 +58,25 @@
       return array;
     };
 
+
+    var startBeforeEndDate = function(start, end) {
+      return start < end;
+    };
+
+    var startBeforeEndTime = function(start, end) {
+      if(start.getHours < end.getHours){
+        return true;
+      } else if ((start.getMinutes < end.getMinutes) && (start.getHours = end.getHours)){
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    var createMeeting = function(facility, date) {
+      //Meeting
+    };
+
     $scope.createMeetings = function() {
         var facilitiesArray = chosenFacilitiesArray();
         if(!!vm.startDate && !!vm.endDate && !!vm.startHours && !!vm.endHours && !!vm.lunchStart && !!vm.lunchEnd && facilitiesArray !== 'undefined' && vm.meetingTimeLength !== '' && facilitiesArray.length !== 0) {
@@ -89,23 +108,5 @@
         } else {
           console.log('Alla fält är inte ifyllda!');
         } 
-    };
-
-    var startBeforeEndDate = function(start, end) {
-      return start < end;
-    };
-
-    var startBeforeEndTime = function(start, end) {
-      if(start.getHours < end.getHours){
-        return true;
-      } else if ((start.getMinutes < end.getMinutes) && (start.getHours = end.getHours)){
-        return true;
-      } else {
-        return false;
-      }
-    };
-
-    var createMeeting = function(facility, date) {
-      //todo
     };
   }})();
