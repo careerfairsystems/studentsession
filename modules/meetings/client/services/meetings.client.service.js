@@ -14,7 +14,11 @@
     }, {
       update: {
         method: 'PUT'
-      }
+      },
+      post: {
+        method: 'POST'
+      }  
     });
   }
 })();
+//posta MeetingsService.post(vm.meeting)

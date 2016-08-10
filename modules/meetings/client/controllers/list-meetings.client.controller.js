@@ -26,9 +26,9 @@
      }
     }]);
 
-  MeetingsListController.$inject = ['$scope', 'MeetingsService', 'meetingResolve', 'listFacilitiesResolve', 'listApplicationsResolve', 'listCompaniesResolve'];
+  MeetingsListController.$inject = ['$scope', 'MeetingsService', 'meetingResolve', 'listFacilitiesResolve', 'listApplicationsResolve', 'listCompaniesResolve', 'Authentication'];
 
-  function MeetingsListController($scope, MeetingsService, meeting, facilities, applications, companies) {
+  function MeetingsListController($scope, MeetingsService, meeting, facilities, applications, companies, Authentication) {
     var vm = this;
 
     vm.meetings = MeetingsService.query();
@@ -51,7 +51,7 @@
     var chosenFacilitiesArray = function(){  
       var array=[];
 
-      angular.forEach(vm.chosenFacilities,function(key,value){
+      angular.forEach(vm.chosenFacilities, function(key,value){
         if(key)
           array.push(value);
       });
@@ -74,27 +74,45 @@
     };
 
     var createMeeting = function(facility, date) {
-      //Meeting
+      var meeting = {};
+      meeting.facility = facility;
+      meeting.date = date;
+      //meeting.user = 
+      console.log('meeting:', meeting);
+
+      MeetingsService.post(meeting);
+      console.log('Ett möte har skapats!');
     };
 
     $scope.createMeetings = function() {
         var facilitiesArray = chosenFacilitiesArray();
-        if(!!vm.startDate && !!vm.endDate && !!vm.startHours && !!vm.endHours && !!vm.lunchStart && !!vm.lunchEnd && facilitiesArray !== 'undefined' && vm.meetingTimeLength !== '' && facilitiesArray.length !== 0) {
-          console.log('Alla fält är ifyllda');
+       /* if(!!vm.startDate && !!vm.endDate && !!vm.startHours && !!vm.endHours && !!vm.lunchStart && !!vm.lunchEnd && facilitiesArray !== 'undefined' && vm.meetingTimeLength !== '' && facilitiesArray.length !== 0) {
+          console.log('Alla fält är ifyllda');*/
 
           var meetingDate;
           var date = vm.startDate;
           var time = vm.startHours;
-         while(date <= vm.endDate){
-            while(startBeforeEndTime(time.getMinutes + vm.meetingTimeLength, vm.endHours)){
+
+          var fullYear = date.getFullYear;
+          var month = date.getMonth+1;
+
+          meetingDate = new Date(date.getFullYear(), date.getMonth()+1, date.getDate()+1, time.getHours(), time.getMinutes());
+            //varför blir månad och dag en före?
+            
+          //skapa det första mltet
+          console.log('facilitiesArray:', facilitiesArray);
+          console.log('meetingDate:', meetingDate);
+          createMeeting(facilitiesArray[0], meetingDate);
+          /*while(date <= vm.endDate){
+           while(startBeforeEndTime(time.getMinutes + vm.meetingTimeLength, vm.endHours)){
               //skapande av ett Date med rätt datum och tid
               meetingDate = new Date(date.getFullYear, date.getMonth+1, date.getDate+1, time.getHours, time.getMinutes);
 
-              if( true/*det är lunchtid*/){
+              if( truedet är lunchtid){
                 time = vm.lunchEnd;
               } else {
                 //creating the current meeting  
-                facilitiesArray.forEach(function(facility) {
+                facilitiesArray.forEach(function(facility) {  //"Don't make functions within a loop." Hur lösa detta annorlunda, kolla upp.
                 createMeeting(facility, meetingDate);
                });
 
@@ -107,6 +125,8 @@
           }
         } else {
           console.log('Alla fält är inte ifyllda!');
-        } 
-    };
-  }})();
+        } */
+    /*}*/
+  };
+}
+}());
