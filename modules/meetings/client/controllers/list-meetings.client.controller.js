@@ -98,7 +98,10 @@
                 time = time.setMinutes(time.getMinutes() + vm.meetingTimeLength);
              /* } */
 
-             createMeeting(facilitiesArray[0], meetingDate);
+             for (var i=0; i < facilitiesArray.length; i++){
+              createMeeting(facilitiesArray[i], meetingDate);
+             }
+
              meetingDate.setMinutes(meetingDate.getMinutes() + vm.meetingTimeLength);
             }
             //updating the date to the next day
