@@ -3,28 +3,7 @@
 
   angular
     .module('meetings')
-    .controller('MeetingsListController', MeetingsListController)
-    .directive('datepickerLocaldate', ['$parse', function ($parse) {
-     var directive = {
-       restrict: 'A',
-       require: ['ngModel'],
-       link: link
-     };
-     return directive;
-
-     function link(scope, element, attr, ctrls) {
-       var ngModelController = ctrls[0];
-
-         // called with a JavaScript Date object when picked from the datepicker
-       ngModelController.$parsers.push(function (viewValue) {
-         console.log(viewValue);console.log(viewValue);console.log(viewValue);
-             // undo the timezone adjustment we did during the formatting
-         viewValue.setMinutes(viewValue.getMinutes() - viewValue.getTimezoneOffset());
-             // we just want a local date in ISO format
-         return viewValue.toISOString().substring(0, 10);
-       });
-     }
-    }]);
+    .controller('MeetingsListController', MeetingsListController);
 
   MeetingsListController.$inject = ['$scope', 'MeetingsService', 'meetingResolve', 'listFacilitiesResolve', 'listApplicationsResolve', 'listCompaniesResolve', 'Authentication'];
 
@@ -59,14 +38,14 @@
     };
 
 
-    var startBeforeEndDate = function(start, end) {
-      return start < end;
-    };
+  /*  var startBeforeOrEndDate = function(start, end) {
+      return start < end; //kolla timmar minuter osv.
+    };*/
 
-    var startBeforeEndTime = function(start, end) {
-      if(start.getHours < end.getHours){
+    var startNotAfterEndTime = function(start, end) {
+      if(start.getHours() < end.getHours()){
         return true;
-      } else if ((start.getMinutes < end.getMinutes) && (start.getHours = end.getHours)){
+      } else if (start.getMinutes() <= end.getMinutes() && start.getHours() === end.getHours()) {
         return true;
       } else {
         return false;
@@ -77,56 +56,61 @@
       var meeting = {};
       meeting.facility = facility;
       meeting.date = date;
-      //meeting.user = 
-      console.log('meeting:', meeting);
 
       MeetingsService.post(meeting);
-      console.log('Ett möte har skapats!');
+      console.log('Möte: ' + facility + ' ' + date);
     };
+
+    var startNotAfterEndDate = function(start, end) {
+        if(start.getFullYear() < end.getFullYear()){
+          return true;
+        } else if (start.getMonth() < end.getMonth() && start.getFullYear() === end.getFullYear()){
+          return true;
+        } else if (start.getDate() < end.getDate() && start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()) {
+          return true;
+        } else if (start.getDate() === end.getDate() && start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()) {
+          return true;
+        } else {
+          return false;
+        }
+      };
 
     $scope.createMeetings = function() {
         var facilitiesArray = chosenFacilitiesArray();
-       /* if(!!vm.startDate && !!vm.endDate && !!vm.startHours && !!vm.endHours && !!vm.lunchStart && !!vm.lunchEnd && facilitiesArray !== 'undefined' && vm.meetingTimeLength !== '' && facilitiesArray.length !== 0) {
-          console.log('Alla fält är ifyllda');*/
-
-          var meetingDate;
+       if(!!vm.startDate && !!vm.endDate && !!vm.startHours && !!vm.endHours && !!vm.lunchStart && !!vm.lunchEnd && facilitiesArray !== 'undefined' && vm.meetingTimeLength !== '' && facilitiesArray.length !== 0) {
+          console.log('Alla fält är ifyllda');
+         
           var date = vm.startDate;
-          var time = vm.startHours;
-
-          var fullYear = date.getFullYear;
-          var month = date.getMonth+1;
-
-          meetingDate = new Date(date.getFullYear(), date.getMonth()+1, date.getDate()+1, time.getHours(), time.getMinutes());
-            //varför blir månad och dag en före?
-            
-          //skapa det första mltet
-          console.log('facilitiesArray:', facilitiesArray);
-          console.log('meetingDate:', meetingDate);
-          createMeeting(facilitiesArray[0], meetingDate);
-          /*while(date <= vm.endDate){
-           while(startBeforeEndTime(time.getMinutes + vm.meetingTimeLength, vm.endHours)){
-              //skapande av ett Date med rätt datum och tid
-              meetingDate = new Date(date.getFullYear, date.getMonth+1, date.getDate+1, time.getHours, time.getMinutes);
-
-              if( truedet är lunchtid){
+          var time = vm.startHours; //ändras aldrig, kan lika gärna använda vm.startDate och vm.startHours
+          var meetingDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), time.getHours(), time.getMinutes());
+          
+          while(startNotAfterEndDate(meetingDate, vm.endDate)){ 
+           while(startNotAfterEndTime(new Date(meetingDate.getFullYear(), meetingDate.getMonth(), meetingDate.getDate(), meetingDate.getHours(), meetingDate.getMinutes() + vm.meetingTimeLength), vm.endHours)) {
+              /*if( true){ //om det är lunch
                 time = vm.lunchEnd;
-              } else {
+              } else {*/
                 //creating the current meeting  
-                facilitiesArray.forEach(function(facility) {  //"Don't make functions within a loop." Hur lösa detta annorlunda, kolla upp.
+                /*facilitiesArray.forEach(function(facility) {  //"Don't make functions within a loop." Hur lösa detta annorlunda, kolla upp.
                 createMeeting(facility, meetingDate);
                });
 
                 //updating the time to the next meeting time
                 time = time.setMinutes(time.getMinutes() + vm.meetingTimeLength);
-              }
+             /* } */
+
+             createMeeting(facilitiesArray[0], meetingDate);
+             meetingDate.setMinutes(meetingDate.getMinutes() + vm.meetingTimeLength);
             }
-            //updating the date to the next day 
-            date = new Date(date.setDate(date.getDate() + 1));
+            //updating the date to the next day
+            meetingDate.setDate(meetingDate.getDate() + 1);
+            //reseting the time of the next day
+            meetingDate.setHours(time.getHours());
+            meetingDate.setMinutes(time.getMinutes());
+            console.log('meetingDate: ', meetingDate);
           }
         } else {
           console.log('Alla fält är inte ifyllda!');
-        } */
-    /*}*/
-  };
-}
-}());
+        } 
+    };
+  }
+})();

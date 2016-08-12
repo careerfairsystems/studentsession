@@ -35,7 +35,7 @@
       <div class="form-group" show-errors>
       	<label for="selectStartDate">Startdatum</label><br>
 
-      	<input type="date" name="selectStartDate" ng-model="vm.startDate" placeholder="yyyy-MM-dd" ng-model-options="{timezone:'UTC'}" required />
+      	<input type="date" name="selectStartDate" ng-model="vm.startDate" placeholder="yyyy-MM-dd" required />
       	<div role="alert">
       		<span class="error" ng-show="myForm.input.$error.required">
       			Required!</span>
@@ -47,7 +47,7 @@
       	<div class="form-group" show-errors>
       		<label for="selectEndDate">Slutdatum</label><br>
 
-      		<input type="date" name="selectEndDate" ng-model="vm.endDate" placeholder="yyyy-MM-dd" ng-model-options="{timezone:'UTC'}" required />
+      		<input type="date" name="selectEndDate" ng-model="vm.endDate" placeholder="yyyy-MM-dd" required />
       		<div role="alert">
       			<span class="error" ng-show="myForm.input.$error.required">
       				Required!</span>
@@ -58,7 +58,7 @@
 
       	<div class="form-group" show-errors>
       		<label for="selectStartTime">Starttid</label><br>
-      		<input type="time" id="exampleInput" name="input" ng-model="vm.startHours" ng-model-options="{timezone:'UTC'}"
+      		<input type="time" id="exampleInput" name="input" ng-model="vm.startHours"
       		placeholder="HH:mm:ss" required />
       		<div role="alert">
       			<span class="error" ng-show="myForm.input.$error.required">
@@ -71,8 +71,7 @@
 
       	<div class="form-group" show-errors>
       		<label for="selectEndTime">Sluttid</label><br>
-      		<input type="time" id="exampleInput" name="input" ng-model="vm.endHours" ng-model-options="{timezone:'UTC'}"
-      		placeholder="HH:mm:ss" required />
+      		<input type="time" id="exampleInput" name="input" ng-model="vm.endHours" placeholder="HH:mm:ss" required />
       		<div role="alert">
       			<span class="error" ng-show="myForm.input.$error.required">
       				Required!</span>
@@ -85,7 +84,7 @@
       	<div class="form-group" show-errors>
       		<label for="selectLength">Möteslängd (minuter)</label><br>
 
-      		<input type="number" name="selectLength" ng-model="vm.meetingTimeLength" ng-model-options="{timezone:'UTC'}" required>
+      		<input type="number" name="selectLength" ng-model="vm.meetingTimeLength" required>
       		<div role="alert">
       			<span class="error" ng-show="myForm.input.$error.required">
       				Required!</span>
@@ -99,7 +98,7 @@
 
       		<input type="time" id="exampleInput" name="input" ng-model="vm.lunchStart"
       		placeholder="HH:mm:ss" required /> -
-      		<input type="time" id="exampleInput" name="input" ng-model="vm.lunchEnd" placeholder="HH:mm" ng-model-options="{timezone:'UTC'}" required />
+      		<input type="time" id="exampleInput" name="input" ng-model="vm.lunchEnd" placeholder="HH:mm" required />
       					<div role="alert">
       						<span class="error" ng-show="myForm.input.$error.required">
       							Required!</span>
@@ -131,10 +130,10 @@
 
         <div>
       		<b>Test</b> <br>
-      		Startdatum: {{vm.startDate}} <br>
-      		Slutdatum: {{vm.endDate}} <br>
-      		Starttid: {{vm.startHours}} <br>
-      		Sluttid: {{vm.endHours}} <br>
+      		Startdatum: {{vm.startDate | date:"yyyy-MM-dd"}} <br>
+      		Slutdatum: {{vm.endDate | date:"yyyy-MM-dd"}} <br>
+      		Starttid: {{vm.startHours | date:"HH:mm"}} <br>
+      		Sluttid: {{vm.endHours | date:"HH:mm"}} <br>
       		Möteslängd: {{vm.meetingTimeLength}} <br>
       		Valda lokaler: {{vm.chosenFacilities}} <br>
       		Lunchstart: {{vm.lunchStart}} <br>
