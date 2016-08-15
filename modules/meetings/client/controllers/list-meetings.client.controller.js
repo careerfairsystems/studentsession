@@ -24,7 +24,6 @@
     vm.lunchStart = new Date('----', '--', '--', '--', '--', '--');
     vm.lunchEnd = new Date('----', '--', '--', '--', '--', '--');
     vm.chosenFacilities = {};
-    //TODO: Implement method to add many meetings with some coinstraints.
 
     // puts the chosen facilities into an array
     var chosenFacilitiesArray = function(){  
@@ -37,21 +36,6 @@
       return array;
     };
 
-
-  /*  var startBeforeOrEndDate = function(start, end) {
-      return start < end; //kolla timmar minuter osv.
-    };*/
-
-    var startNotAfterEndTime = function(start, end) {
-      if(start.getHours() < end.getHours()){
-        return true;
-      } else if (start.getMinutes() <= end.getMinutes() && start.getHours() === end.getHours()) {
-        return true;
-      } else {
-        return false;
-      }
-    };
-
     var createMeeting = function(facility, date) {
       var meeting = {};
       meeting.facility = facility;
@@ -61,7 +45,7 @@
       console.log('Möte: ' + facility + ' ' + date);
     };
 
-    var startNotAfterEndDate = function(start, end) {
+    var startBeforeOrAtEndDate = function(start, end) {
         if(start.getFullYear() < end.getFullYear()){
           return true;
         } else if (start.getMonth() < end.getMonth() && start.getFullYear() === end.getFullYear()){
@@ -73,44 +57,72 @@
         } else {
           return false;
         }
-      };
+    };
+
+    var startBeforeOrAtEndTime = function(start, end) { //testa med denna ändring!!
+      if(start.getHours() < end.getHours()){
+        return true;
+      } else if (start.getMinutes() <= end.getMinutes() && start.getHours() === end.getHours()) {
+        return true;
+      } else if (start.getMinutes() === end.getMinutes() && start.getHours() === end.getHours()) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    var startAfterOrAtEndTime = function(start, end) {
+      if(start.getHours() > end.getHours()){
+        return true;
+      } else if (start.getMinutes() >= end.getMinutes() && start.getHours() === end.getHours()) {
+        return true;
+      } else if (start.getMinutes() === end.getMinutes() && start.getHours() === end.getHours()) {
+        return true;
+      } else {
+        return false;
+      }
+    };
 
     $scope.createMeetings = function() {
         var facilitiesArray = chosenFacilitiesArray();
        if(!!vm.startDate && !!vm.endDate && !!vm.startHours && !!vm.endHours && !!vm.lunchStart && !!vm.lunchEnd && facilitiesArray !== 'undefined' && vm.meetingTimeLength !== '' && facilitiesArray.length !== 0) {
           console.log('Alla fält är ifyllda');
          
-          var date = vm.startDate;
-          var time = vm.startHours; //ändras aldrig, kan lika gärna använda vm.startDate och vm.startHours
-          var meetingDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), time.getHours(), time.getMinutes());
+          var meetingDate = new Date(vm.startDate.getFullYear(), vm.startDate.getMonth(), vm.startDate.getDate(), vm.startHours.getHours(), vm.startHours.getMinutes());
+          var meetingEnd = new Date(meetingDate.getFullYear(), meetingDate.getMonth(), meetingDate.getDate(), meetingDate.getHours(), meetingDate.getMinutes() + vm.meetingTimeLength);
           
-          while(startNotAfterEndDate(meetingDate, vm.endDate)){ 
-           while(startNotAfterEndTime(new Date(meetingDate.getFullYear(), meetingDate.getMonth(), meetingDate.getDate(), meetingDate.getHours(), meetingDate.getMinutes() + vm.meetingTimeLength), vm.endHours)) {
-              /*if( true){ //om det är lunch
-                time = vm.lunchEnd;
-              } else {*/
-                //creating the current meeting  
-                /*facilitiesArray.forEach(function(facility) {  //"Don't make functions within a loop." Hur lösa detta annorlunda, kolla upp.
-                createMeeting(facility, meetingDate);
-               });
+          while(startBeforeOrAtEndDate(meetingDate, vm.endDate)){ 
 
-                //updating the time to the next meeting time
-                time = time.setMinutes(time.getMinutes() + vm.meetingTimeLength);
-             /* } */
+           while(startBeforeOrAtEndTime(meetingEnd, vm.endHours)){
 
-             for (var i=0; i < facilitiesArray.length; i++){
-              createMeeting(facilitiesArray[i], meetingDate);
-             }
+            if(!(startBeforeOrAtEndTime(meetingEnd, vm.lunchStart) ||
+              startAfterOrAtEndTime(meetingDate, vm.lunchEnd))) {  
+                meetingDate.setHours(vm.lunchEnd.getHours());
+                meetingDate.setMinutes(vm.lunchEnd.getMinutes());
 
-             meetingDate.setMinutes(meetingDate.getMinutes() + vm.meetingTimeLength);
+                meetingEnd.setHours(vm.lunchEnd.getHours());
+                meetingEnd.setMinutes(vm.lunchEnd.getMinutes() + vm.meetingTimeLength);
             }
+
+            for (var i=0; i < facilitiesArray.length; i++){
+              createMeeting(facilitiesArray[i], meetingDate);
+            }
+
+            //updating the time to the next meeting time
+            meetingDate.setMinutes(meetingDate.getMinutes() + vm.meetingTimeLength);
+            meetingEnd.setMinutes(meetingDate.getMinutes() + vm.meetingTimeLength);
+          } 
+
             //updating the date to the next day
             meetingDate.setDate(meetingDate.getDate() + 1);
             //reseting the time of the next day
-            meetingDate.setHours(time.getHours());
-            meetingDate.setMinutes(time.getMinutes());
-            console.log('meetingDate: ', meetingDate);
+            meetingDate.setHours(vm.startHours.getHours());
+            meetingDate.setMinutes(vm.startHours.getMinutes());
+
+            //meeting end
+            meetingEnd = new Date(meetingDate.getFullYear(), meetingDate.getMonth(), meetingDate.getDate(), meetingDate.getHours(), meetingDate.getMinutes() + vm.meetingTimeLength);
           }
+
         } else {
           console.log('Alla fält är inte ifyllda!');
         } 
