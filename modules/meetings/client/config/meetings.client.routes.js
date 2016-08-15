@@ -26,7 +26,7 @@
       .state('meetings.multiplecreate', {
         url: '/multiplecreate',
         templateUrl: 'modules/meetings/client/views/form-multiple-meetings.client.view.html',
-        controller: 'MeetingsListController',
+        controller: 'MultipleMeetingsController',
         controllerAs: 'vm',
         resolve: {
           meetingResolve: newMeeting,
