@@ -34,18 +34,18 @@
 
       if(dd<10) {
           dd='0'+dd
-      } 
+      }
 
       if(mm<10) {
           mm='0'+mm
-      } 
+      }
 
       return (today = yyyy+ '-' + mm + '-' + dd);
     }*/
 
 
     // puts the chosen facilities into an array
-    var chosenFacilitiesArray = function(){  
+    var chosenFacilitiesArray = function(){
       var array=[];
 
       angular.forEach(vm.chosenFacilities,function(key,value){
@@ -57,11 +57,11 @@
 
 
     $scope.createMeetings = function() {
-        var facilitiesArray = chosenFacilitiesArray();
-        if(!!vm.startDate && !!vm.endDate && !!vm.startHours && !!vm.endHours && !!vm.lunchStart && !!vm.lunchEnd && facilitiesArray !== 'undefined' && vm.meetingTimeLength !== "" && facilitiesArray.length !== 0) {
-          console.log('Alla fält är ifyllda');
-        } else {
-          console.log('Alla fält är inte ifyllda!');
-        } 
+      var facilitiesArray = chosenFacilitiesArray();
+      if(!!vm.startDate && !!vm.endDate && !!vm.startHours && !!vm.endHours && !!vm.lunchStart && !!vm.lunchEnd && facilitiesArray !== 'undefined' && vm.meetingTimeLength !== '' && facilitiesArray.length !== 0) {
+        console.log('Alla fält är ifyllda');
+      } else {
+        console.log('Alla fält är inte ifyllda!');
+      }
     };
   }})();

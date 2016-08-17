@@ -9,7 +9,7 @@
   ApplicationsController.$inject = ['$scope', '$state', '$timeout', '$window', 'Authentication', 'FileUploader',
   'applicationResolve', 'CompaniesService'];
 
-  function ApplicationsController ($scope, $state, $timeout, $window, Authentication, FileUploader, 
+  function ApplicationsController ($scope, $state, $timeout, $window, Authentication, FileUploader,
     application, CompaniesService) {
     var vm = this;
 
@@ -26,22 +26,22 @@
     $scope.pdfURL = $scope.imgUrlBase + vm.application._id + '.pdf';
     //slut
 
-    //fetches the company names from the database 
+    //fetches the company names from the database
     $scope.companyNames = [];
     CompaniesService.query().$promise.then(function(result) {
       angular.forEach(result, function(company) {
-        $scope.companyNames.push(company.name);      
+        $scope.companyNames.push(company.name);
       });
     });
 
     //meeting times
-    $scope.times = ['16/11 8-10', 
+    $scope.times = ['16/11 8-10',
     '16/11 10-12',
-    '16/11 13-15', 
+    '16/11 13-15',
     '16/11 15-17',
-    '17/11 8-10', 
-    '17/11 10-12', 
-    '17/11 13-15', 
+    '17/11 8-10',
+    '17/11 10-12',
+    '17/11 13-15',
     '17/11 15-17'];
 
     //limit length of "vm.application.description"
@@ -58,7 +58,7 @@
       }
     }
 
-    // Resets the upload as unsuccessful 
+    // Resets the upload as unsuccessful
     $scope.unsuccess = function () {
       $scope.success = false;
     };
@@ -108,37 +108,37 @@
 
      // Set file uploader pdf filter
     $scope.uploader.filters.push({
-     name: 'pdfFilter',
-     fn: function (item, options) {
-      var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-      return '|pdf|'.indexOf(type) !== -1;
-    }
-   });
+      name: 'pdfFilter',
+      fn: function (item, options) {
+        var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+        return '|pdf|'.indexOf(type) !== -1;
+      }
+    });
 
      // Called after the user selected a file
-   $scope.uploader.onAfterAddingFile = function (fileItem) {
-    if ($window.FileReader) {
-      var fileReader = new FileReader() ;
-      fileReader.readAsDataURL(fileItem._file);
+    $scope.uploader.onAfterAddingFile = function (fileItem) {
+      if ($window.FileReader) {
+        var fileReader = new FileReader();
+        fileReader.readAsDataURL(fileItem._file);
 
-      fileReader.onload = function (fileReaderEvent) {
-        $timeout(function () {
-          $scope.pdfURL = fileReaderEvent.target.result;
-        }, 0);
-      };
-    }
-   };
+        fileReader.onload = function (fileReaderEvent) {
+          $timeout(function () {
+            $scope.pdfURL = fileReaderEvent.target.result;
+          }, 0);
+        };
+      }
+    };
 
      // Called after the user has successfully uploaded a new resume
-     $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
-       // URL to resume put into database
-       vm.application.resume = $scope.uploader.url;
-       // Show success message
-       $scope.success = true;
-       // Clear uploader queue
-       $scope.uploader.clearQueue(); //?
-       return;
-     }; 
+    $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
+      // URL to resume put into database
+      vm.application.resume = $scope.uploader.url;
+      // Show success message
+      $scope.success = true;
+      // Clear uploader queue
+      $scope.uploader.clearQueue(); //?
+      return;
+    };
       //slut
-    }
-  })();
+  }
+})();
