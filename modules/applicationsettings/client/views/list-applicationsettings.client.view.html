@@ -1,0 +1,30 @@
+<section>
+  <div class="page-header">
+    <h1>Applicationsettings</h1>
+  </div>
+  <div class="list-group">
+    <a data-ng-repeat="applicationsetting in vm.applicationsettings"
+      data-ui-sref="applicationsettings.view({ applicationsettingId: applicationsetting._id })"
+      class="list-group-item">
+
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="applicationsetting.created | date:'mediumDate'"></span>
+        by
+        <span data-ng-if="applicationsetting.user" data-ng-bind="applicationsetting.user.displayName"></span>
+        <span data-ng-if="!applicationsetting.user">Deleted User</span>
+      </small>
+      <h4>Startdatum för ansökningar:</h4>
+      <span class="list-group-item-heading">{{applicationsetting.startdate | date:'mediumDate'}}</span>
+      <h4>Slutdatum för ansökningar:</h4>
+      <span class="list-group-item-heading">{{applicationsetting.enddate | date:'mediumDate'}}</span>
+      <h4>Slutdatum för Inställning:</h4>
+      <span class="list-group-item-heading">{{applicationsetting.terminatedate | date:'mediumDate'}}</span>
+      <h4>Möteslängd:</h4>
+      <span class="list-group-item-heading">{{applicationsetting.meetingtime}}</span>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" data-ng-if="vm.applicationsettings.$resolved && !vm.applicationsettings.length">
+    No Applicationsettings yet, why don't you <a data-ui-sref="applicationsettings.create">create one</a>?
+  </div>
+</section>
