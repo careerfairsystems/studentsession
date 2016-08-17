@@ -9,7 +9,8 @@
   ApplicationsController.$inject = ['$scope', '$state', '$timeout', '$window', 'Authentication', 'FileUploader',
   'applicationResolve', 'CompaniesService'];
 
-  function ApplicationsController ($scope, $state, $timeout, $window, Authentication, FileUploader,
+
+  function ApplicationsController ($scope, $state, $timeout, $window, Authentication, FileUploader, 
     application, CompaniesService) {
     var vm = this;
 
