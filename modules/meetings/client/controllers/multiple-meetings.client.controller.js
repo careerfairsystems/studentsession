@@ -39,7 +39,7 @@
     var createMeeting = function(facility, date) {
       var meeting = {};
       meeting.facility = facility;
-      meeting.date = date;
+      meeting.date = date.toISOString();
 
       MeetingsService.post(meeting);
       console.log('Möte: ' + facility + ' ' + date);
