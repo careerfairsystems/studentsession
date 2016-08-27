@@ -1,15 +1,15 @@
 (function () {
-   'use strict';
+  'use strict';
  
-   angular
+  angular
      .module('meetings')
      .controller('MeetingsListController', MeetingsListController);
  
-   MeetingsListController.$inject = ['MeetingsService'];
+  MeetingsListController.$inject = ['MeetingsService'];
  
-   function MeetingsListController(MeetingsService) {
-     var vm = this;
+  function MeetingsListController(MeetingsService) {
+    var vm = this;
  
-     vm.meetings = MeetingsService.query();
-   }
- })();
+    vm.meetings = MeetingsService.query();
+  }
+})();

@@ -46,17 +46,17 @@
     };
 
     var startBeforeOrAtEndDate = function(start, end) {
-        if(start.getFullYear() < end.getFullYear()){
-          return true;
-        } else if (start.getMonth() < end.getMonth() && start.getFullYear() === end.getFullYear()){
-          return true;
-        } else if (start.getDate() < end.getDate() && start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()) {
-          return true;
-        } else if (start.getDate() === end.getDate() && start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()) {
-          return true;
-        } else {
-          return false;
-        }
+      if(start.getFullYear() < end.getFullYear()){
+        return true;
+      } else if (start.getMonth() < end.getMonth() && start.getFullYear() === end.getFullYear()){
+        return true;
+      } else if (start.getDate() < end.getDate() && start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()) {
+        return true;        
+      } else if (start.getDate() === end.getDate() && start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()) {
+        return true;
+      } else {
+        return false;
+      }
     };
 
     var startBeforeOrAtEndTime = function(start, end) { //testa med denna ändring!!
@@ -84,24 +84,24 @@
     };
 
     $scope.createMeetings = function() {
-        var facilitiesArray = chosenFacilitiesArray();
-       if(!!vm.startDate && !!vm.endDate && !!vm.startHours && !!vm.endHours && !!vm.lunchStart && !!vm.lunchEnd && facilitiesArray !== 'undefined' && vm.meetingTimeLength !== '' && facilitiesArray.length !== 0) {
-          console.log('Alla fält är ifyllda');
+      var facilitiesArray = chosenFacilitiesArray();
+      if(!!vm.startDate && !!vm.endDate && !!vm.startHours && !!vm.endHours && !!vm.lunchStart && !!vm.lunchEnd && facilitiesArray !== 'undefined' && vm.meetingTimeLength !== '' && facilitiesArray.length !== 0) {
+        console.log('Alla fält är ifyllda');
          
-          var meetingDate = new Date(vm.startDate.getFullYear(), vm.startDate.getMonth(), vm.startDate.getDate(), vm.startHours.getHours(), vm.startHours.getMinutes());
-          var meetingEnd = new Date(meetingDate.getFullYear(), meetingDate.getMonth(), meetingDate.getDate(), meetingDate.getHours(), meetingDate.getMinutes() + vm.meetingTimeLength);
+        var meetingDate = new Date(vm.startDate.getFullYear(), vm.startDate.getMonth(), vm.startDate.getDate(), vm.startHours.getHours(), vm.startHours.getMinutes());
+        var meetingEnd = new Date(meetingDate.getFullYear(), meetingDate.getMonth(), meetingDate.getDate(), meetingDate.getHours(), meetingDate.getMinutes() + vm.meetingTimeLength);
           
-          while(startBeforeOrAtEndDate(meetingDate, vm.endDate)){ 
+        while(startBeforeOrAtEndDate(meetingDate, vm.endDate)){ 
 
-           while(startBeforeOrAtEndTime(meetingEnd, vm.endHours)){
+          while(startBeforeOrAtEndTime(meetingEnd, vm.endHours)){
 
             if(!(startBeforeOrAtEndTime(meetingEnd, vm.lunchStart) ||
               startAfterOrAtEndTime(meetingDate, vm.lunchEnd))) {  
-                meetingDate.setHours(vm.lunchEnd.getHours());
-                meetingDate.setMinutes(vm.lunchEnd.getMinutes());
+              meetingDate.setHours(vm.lunchEnd.getHours());
+              meetingDate.setMinutes(vm.lunchEnd.getMinutes());
 
-                meetingEnd.setHours(vm.lunchEnd.getHours());
-                meetingEnd.setMinutes(vm.lunchEnd.getMinutes() + vm.meetingTimeLength);
+              meetingEnd.setHours(vm.lunchEnd.getHours());
+              meetingEnd.setMinutes(vm.lunchEnd.getMinutes() + vm.meetingTimeLength);
             }
 
             for (var i=0; i < facilitiesArray.length; i++){
@@ -113,19 +113,19 @@
             meetingEnd.setMinutes(meetingDate.getMinutes() + vm.meetingTimeLength);
           } 
 
-            //updating the date to the next day
-            meetingDate.setDate(meetingDate.getDate() + 1);
-            //reseting the time of the next day
-            meetingDate.setHours(vm.startHours.getHours());
-            meetingDate.setMinutes(vm.startHours.getMinutes());
+          //updating the date to the next day
+          meetingDate.setDate(meetingDate.getDate() + 1);
+          //reseting the time of the next day
+          meetingDate.setHours(vm.startHours.getHours());
+          meetingDate.setMinutes(vm.startHours.getMinutes());
 
-            //meeting end
-            meetingEnd = new Date(meetingDate.getFullYear(), meetingDate.getMonth(), meetingDate.getDate(), meetingDate.getHours(), meetingDate.getMinutes() + vm.meetingTimeLength);
-          }
+          //meeting end
+          meetingEnd = new Date(meetingDate.getFullYear(), meetingDate.getMonth(), meetingDate.getDate(), meetingDate.getHours(), meetingDate.getMinutes() + vm.meetingTimeLength);
+        }
 
-        } else {
-          console.log('Alla fält är inte ifyllda!');
-        } 
+      } else {
+        console.log('Alla fält är inte ifyllda!');
+      } 
     };
   }
 })();
