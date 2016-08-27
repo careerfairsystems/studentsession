@@ -9,35 +9,35 @@
 
         <div class="form-group" show-errors>
           <label for="ngvalueselect">Lokal:</label><br>
-          <select size="6" name="ngvalueselect" ng-model="vm.meeting.facility" multiple>
+          <select size="6" name="ngvalueselect" ng-model="vm.facility" multiple>
             <option ng-repeat="facility in vm.facilities" ng-value="facility.name">{{facility.name}}</option>
           </select>
         </div>
         <div class="form-group" show-errors>
           <label for="ngvalueselect">Företag:</label><br>
-          <select size="6" name="ngvalueselect" ng-model="vm.meeting.company" multiple>
+          <select size="6" name="ngvalueselect" ng-model="vm.company" multiple>
             <option ng-repeat="company in vm.companies" ng-value="company.name">{{company.name}}</option>
           </select>
         </div>
         <div class="form-group" show-errors>
           <label for="ngvalueselect">Student:</label><br>
-          <select size="6" name="ngvalueselect" ng-model="vm.meeting.student" multiple>
+          <select size="6" name="ngvalueselect" ng-model="vm.student" multiple>
             <option ng-repeat="application in vm.applications" ng-value="application.email">{{application.email}} {{application.phone}}</option>
           </select>
         </div>
 
         <div class="form-group" show-errors>
-          <label class="control-label" for="description">Datum(Ska fixas):</label>        
+          <label class="control-label" for="description">Datum:</label>        
           <input type="date" name="date" ng-model="vm.date" id = "date" class="form-control" placeholder="yyyy-MM-dd" required />
         </div>
 
         <div class="form-group" show-errors>
-          <label class="control-label" for="description">Tid (Ska fixas):</label>        
+          <label class="control-label" for="description">Tid:</label>        
           <input type="time" name="time" ng-model="vm.time" id="time" class="form-control" placeholder="yyyy-MM-dd" required />
         </div>
 
         <div class="form-group">
-          <button type="submit" class="btn btn-default">{{vm.meeting._id ? 'Update' : 'Skapa möte'}}</button>
+          <button type="submit" class="btn btn-default" ng-click="createMeeting();">{{vm.meeting._id ? 'Update' : 'Skapa möte'}}</button>
         </div>
         <div ng-show="vm.error" class="text-danger">
           <strong ng-bind="vm.error"></strong>

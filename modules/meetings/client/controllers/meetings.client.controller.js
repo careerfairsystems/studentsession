@@ -38,6 +38,11 @@
         return false;
       }
 
+      vm.meeting.facility = vm.facility;
+      vm.meeting.company = vm.company;
+      vm.meeting.student = vm.student;
+      vm.meeting.date = new Date(vm.date.getFullYear(), vm.date.getMonth(), vm.date.getDate(), vm.time.getHours(), vm.time.getMinutes());
+
       // TODO: move create/update logic to service
       if (vm.meeting._id) {
         vm.meeting.$update(successCallback, errorCallback);
