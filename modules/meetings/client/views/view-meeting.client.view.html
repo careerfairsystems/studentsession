@@ -22,7 +22,12 @@
       <hr/>
       <div class="row">
         <div class="col-md-3"><strong>Datum:</strong></div>
-        <div class="col-md-6" ng-bind="vm.meeting.date"></div>
+        <div class="col-md-6" ng-bind="vm.meeting.date | date:'yyyy-MM-dd'"></div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-md-3"><strong>Tid:</strong></div>
+        <div class="col-md-6" ng-bind="vm.meeting.date | date:'HH:mm'"></div>
       </div>
       <hr/>
     </div>
