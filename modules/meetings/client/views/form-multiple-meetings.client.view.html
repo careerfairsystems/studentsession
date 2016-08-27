@@ -6,32 +6,6 @@
 		<form name="vm.form.meetingForm" class="form-horizontal" ng-submit="vm.save(vm.form.meetingForm.$valid)" novalidate>
 			<fieldset>
 
-      <!--
-      -Välj datum och tid, flera st. Typ 16/7 och 16/8 (ska man kunna välja olika tider de olika dagarna?)
-      	- Hitta något snyggt sätt att välja detta
-
-      	Tid:
-      	https://docs.angularjs.org/api/ng/input/input%5Btime%5D
-
-      	Datum:
-      	https://docs.angularjs.org/api/ng/input/input%5Bdate%5D Endast ett i taget. Inte jätteuppenbart var man ska klicka för att få upp kalender. Kanske kan man göra det tydligare på ngt sätt.
-
-      	http://bootstrap-datepicker.readthedocs.io/en/latest/options.html#multidate Kan välja flera datum i taget
-
-      	Datum och tid:
-      	https://docs.angularjs.org/api/ng/input/input%5Bdatetime-local%5D
-
-      	OBS: Vid valet, kontrollera i Firefox och Edge/Explorer då vissa ser helt annorlunda ut än i Chrome.
-
-      - Välj längd på möten.
-
-      -Välj tid för lunchrast, + fler raster? Ngn snygg lösning för det? Kan man välja valfritt antal raster/olika tidskombinationer på ngt sätt?
-	
-      -Välj lokaler - testa checkboxes :D
-      	- https://docs.angularjs.org/api/ng/input/input%5Bcheckbox%5D
-
-      -->
-
       <div class="form-group" show-errors>
       	<label for="selectStartDate">Startdatum</label><br>
 
@@ -44,29 +18,28 @@
       	</div>
       </div>
 
-      	<div class="form-group" show-errors>
-      		<label for="selectEndDate">Slutdatum</label><br>
-
-      		<input type="date" name="selectEndDate" ng-model="vm.endDate" placeholder="yyyy-MM-dd" required />
-      		<div role="alert">
-      			<span class="error" ng-show="myForm.input.$error.required">
+      <div class="form-group" show-errors>
+		<label for="selectEndDate">Slutdatum</label><br>      		
+            <input type="date" name="selectEndDate" ng-model="vm.endDate" placeholder="yyyy-MM-dd" required />
+            <div role="alert">
+      	     <span class="error" ng-show="myForm.input.$error.required">
       				Required!</span>
-      			<span class="error" ng-show="myForm.input.$error.date">
+      		<span class="error" ng-show="myForm.input.$error.date">
       				Not a valid date!</span>
-      		</div>
       	</div>
+      </div>
 
-      	<div class="form-group" show-errors>
-      		<label for="selectStartTime">Starttid</label><br>
-      		<input type="time" id="exampleInput" name="input" ng-model="vm.startHours"
+      <div class="form-group" show-errors>
+		<label for="selectStartTime">Starttid</label><br>      		
+            <input type="time" id="exampleInput" name="input" ng-model="vm.startHours"
       		placeholder="HH:mm:ss" required />
-      		<div role="alert">
-      			<span class="error" ng-show="myForm.input.$error.required">
+      	<div role="alert">
+      		<span class="error" ng-show="myForm.input.$error.required">
       				Required!</span>
-      			<span class="error" ng-show="myForm.input.$error.time">
-      				Not a valid date!</span>
-      		</div>
-      	</div>
+			<span class="error" ng-show="myForm.input.$error.time">
+      				Not a valid date!</span>      		
+            </div>
+      </div>
 
 
       	<div class="form-group" show-errors>

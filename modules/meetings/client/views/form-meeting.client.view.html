@@ -25,13 +25,19 @@
             <option ng-repeat="application in vm.applications" ng-value="application.email">{{application.email}} {{application.phone}}</option>
           </select>
         </div>
+
         <div class="form-group" show-errors>
-          <label class="control-label" for="description">Datum(Ska fixas):</label>
-          <input name="date" type="text" ng-model="vm.meeting.date" id="date" class="form-control" placeholder="Fyll i datum(Ska fixas)" required>
+          <label class="control-label" for="description">Datum(Ska fixas):</label>        
+          <input type="date" name="date" ng-model="vm.date" id = "date" class="form-control" placeholder="yyyy-MM-dd" required />
+        </div>
+
+        <div class="form-group" show-errors>
+          <label class="control-label" for="description">Tid (Ska fixas):</label>        
+          <input type="time" name="time" ng-model="vm.time" id="time" class="form-control" placeholder="yyyy-MM-dd" required />
         </div>
 
         <div class="form-group">
-          <button type="submit" class="btn btn-default">{{vm.meeting._id ? 'Update' : 'Create'}}</button>
+          <button type="submit" class="btn btn-default">{{vm.meeting._id ? 'Update' : 'Skapa möte'}}</button>
         </div>
         <div ng-show="vm.error" class="text-danger">
           <strong ng-bind="vm.error"></strong>

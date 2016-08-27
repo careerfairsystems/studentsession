@@ -21,6 +21,9 @@
     vm.remove = remove;
     vm.save = save;
 
+    vm.date = new Date('----', '--', '--', '--', '--', '--');
+    vm.time = new Date('----', '--', '--', '--', '--', '--');
+
     // Remove existing Meeting
     function remove() {
       if (confirm('Are you sure you want to delete?')) {
