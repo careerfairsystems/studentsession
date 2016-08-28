@@ -21,13 +21,23 @@
       </div>
       <hr/>
       <div class="row">
-        <div class="col-md-3"><strong>Datum:</strong></div>
+        <div class="col-md-3"><strong>Startdatum:</strong></div>
         <div class="col-md-6" ng-bind="vm.meeting.date | date:'yyyy-MM-dd'"></div>
       </div>
       <hr/>
       <div class="row">
-        <div class="col-md-3"><strong>Tid:</strong></div>
+        <div class="col-md-3"><strong>Starttid:</strong></div>
         <div class="col-md-6" ng-bind="vm.meeting.date | date:'HH:mm'"></div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-md-3"><strong>Slutdatum:</strong></div>
+        <div class="col-md-6" ng-bind="vm.meeting.endDate | date:'yyyy-MM-dd'"></div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-md-3"><strong>Sluttid:</strong></div>
+        <div class="col-md-6" ng-bind="vm.meeting.endDate | date:'HH:mm'"></div>
       </div>
       <hr/>
     </div>

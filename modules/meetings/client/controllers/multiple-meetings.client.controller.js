@@ -36,13 +36,14 @@
       return array;
     };
 
-    var createMeeting = function(facility, date) {
+    var createMeeting = function(facility, date, endDate) {
       var meeting = {};
       meeting.facility = facility;
       meeting.date = date.toISOString();
+      meeting.endDate = endDate.toISOString();
 
       MeetingsService.post(meeting);
-      console.log('Möte: ' + facility + ' ' + date);
+      console.log('Möte: ' + facility + ' ' + date + endDate);
     };
 
     var startBeforeOrAtEndDate = function(start, end) {
@@ -105,7 +106,7 @@
             }
 
             for (var i=0; i < facilitiesArray.length; i++){
-              createMeeting(facilitiesArray[i], meetingDate);
+              createMeeting(facilitiesArray[i], meetingDate, meetingEnd);
             }
 
             //updating the time to the next meeting time

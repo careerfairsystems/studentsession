@@ -28,6 +28,10 @@ var MeetingSchema = new Schema({
     type: Date,
     required: true,
   },
+  endDate: {
+    type: Date,
+    required: true,
+  },
   created: {
     type: Date,
     default: Date.now

@@ -23,10 +23,14 @@
       <h5 class><strong>Lokal:</strong></h5>
       <span data-ng-bind="meeting.facility"></span>
       <br>
-      <h5 class><strong>Datum:</strong></h5>
+      <h5 class><strong>Startdatum:</strong></h5>
       <span data-ng-bind="meeting.date | date:'yyyy-MM-dd'"></span>
-      <h5 class><strong>Tid:</strong></h5>
+      <h5 class><strong>Starttid:</strong></h5>
       <span data-ng-bind="meeting.date | date:'HH:mm'"></span>
+      <h5 class><strong>Slutdatum:</strong></h5>
+      <span data-ng-bind="meeting.endDate | date:'yyyy-MM-dd'"></span>
+      <h5 class><strong>Sluttid:</strong></h5>
+      <span data-ng-bind="meeting.endDate | date:'HH:mm'"></span>
     </a>
   </div>
   <div class="alert alert-warning text-center" data-ng-if="vm.meetings.$resolved && !vm.meetings.length">
