@@ -16,7 +16,7 @@ var CompanySchema = new Schema({
     required: 'Please fill Company name',
     trim: true
   },
-  logo: {
+  profileImageURL: {
     type: String,
     default: ''
   },

@@ -17,6 +17,12 @@ module.exports = function(app) {
     .put(companies.update)
     .delete(companies.delete);
 
+/**
+* dessa routes kan användas vid lokal bildlagring samt via s3
+*/
+//  app.route('/api/companies/picture').post(companies.changeProfilePicture);
+//  app.route('/api/companies/picture/:image').get(companies.getProfilePicture);
+
   // Finish by binding the Company middleware
   app.param('companyId', companies.companyByID);
 };

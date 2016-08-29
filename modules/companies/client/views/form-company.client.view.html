@@ -1,6 +1,6 @@
 <section>
   <div class="page-header">
-    <h1>{{vm.company._id ? 'Edit Company' : 'New Company'}}</h1>
+    <h1>{{vm.company._id ? 'Ändra företag' : 'Skapa nytt företag'}}</h1>
   </div>
   <div class="col-md-12">
     <form name="vm.form.companyForm" class="form-horizontal" ng-submit="vm.save(vm.form.companyForm.$valid)" novalidate>
@@ -25,36 +25,31 @@
         </div>
         <div class="form-group">
           <label class="control-label" for="logo">Logo</label>
-            <div ng-show="vm.company.logo.length">
-             <span class="btn btn-default btn-file">
-                 Välj Logga <input name="resume-pdf" type="file" nv-file-select uploader="uploader">
-             </span>
-           </div>
-
-           <div ng-show="vm.uploader.queue.length">
-             <button type="button" class="btn btn-primary" ng-click="uploader.uploadAll();">Skicka in cv</button>
+          <fieldset>
+            <div class="form-group">
+              <img ng-src="{{vm.company.profileImageURL}}" class="img-thumbnail user-profile-picture">
             </div>
-
-           <div ng-show="vm.uploader.queue.length">
-             <button type="button" class="btn btn-default" ng-click="uploader.clearQueue(); unsuccess();">Ångra</button>
-           </div>
-
-           <div ng-show="vm.company.logo.length">
-            Du har skickat in ett cv. Skicka in ett nytt cv för att byta.
-           </div>
-
-
-           <div ng-show="success && !uploader.queue.length" class="text-center text-success">
-             <strong>Ditt cv har har laddats upp!</strong>
-           </div>
-           <div ng-show="error" class="text-center text-danger">
-             <strong ng-bind="error"></strong>
+            <div class="form-group" ng-hide="uploader.queue.length">
+              <span class="btn btn-default btn-file">
+                Select Image <input type="file" nv-file-select uploader="uploader">
+              </span>
             </div>
+            <div class="form-group" ng-show="uploader.queue.length">
+              <button class="btn btn-primary" ng-click="uploadProfilePicture();">{{vm.company._id ? 'Ändra' : Skapa}}</button>
+              <button class="btn btn-default" ng-click="cancelUpload();">Cancel</button>
+            </div>
+            <div ng-show="success" class="text-center text-success">
+              <strong>Company logo changed Successfully</strong>
+            </div>
+            <div ng-show="error" class="text-center text-danger">
+              <strong ng-bind="error"></strong>
+            </div>
+          </fieldset>
         </div>
 
-        <div class="form-group">
+        <!--div class="form-group">
           <button type="submit" class="btn btn-default">{{vm.company._id ? 'Update' : 'Create'}}</button>
-        </div>
+        </div-->
         <div ng-show="vm.error" class="text-danger">
           <strong ng-bind="vm.error"></strong>
         </div>

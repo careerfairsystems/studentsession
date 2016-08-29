@@ -17,42 +17,24 @@
     vm.form = {};
     vm.remove = remove;
     vm.save = save;
+    vm.imageURL = '/api/companies/picture/' + vm.company.profileImageURL;
 
-    //filuppladdning
-    $scope.imgUrlBase = 'public/uploads/logos/';
-    $scope.pdfURL = $scope.imgUrlBase + vm.company.name + '.jpg';
-
-    // Resets the upload as unsuccessful
-    $scope.unsuccess = function () {
-      $scope.success = false;
-    };
-
-    function prettify(str) {
-      return str.replace(/\s/g, '')
-        .replace(/å/g, 'a')
-        .replace(/Å/g, 'A')
-        .replace(/ä/g, 'a')
-        .replace(/Ä/g, 'A')
-        .replace(/ö/g, 'o')
-        .replace(/Ö/g, 'O');
-    }
-
-    // Create file uploader instance
+   // Create file uploader instance
     $scope.uploader = new FileUploader({
-      url: 'api/companies/logo/', //osäker på om .pdf behövs
-      alias: 'newLogo'
+      url: 'api/companies/picture',
+      alias: 'newProfilePicture'
     });
 
-    // Set file uploader pdf filter
+   // Set file uploader image filter
     $scope.uploader.filters.push({
-      name: 'jpgFilter',
+      name: 'imageFilter',
       fn: function (item, options) {
         var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-        return '|jpg|'.indexOf(type) !== -1;
+        return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
       }
     });
 
-   // Called after the user selected a file
+   // Called after the user selected a new picture file
     $scope.uploader.onAfterAddingFile = function (fileItem) {
       if ($window.FileReader) {
         var fileReader = new FileReader();
@@ -60,22 +42,48 @@
 
         fileReader.onload = function (fileReaderEvent) {
           $timeout(function () {
-            $scope.pdfURL = fileReaderEvent.target.result;
+            $scope.imageURL = fileReaderEvent.target.result;
           }, 0);
         };
       }
     };
 
-    // Called after the user has successfully uploaded a new resume
+   // Called after the user has successfully uploaded a new picture
     $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
-      // URL to resume put into database
-      vm.application.resume = $scope.uploader.url;
       // Show success message
       $scope.success = true;
-      // Clear uploader queue
-      $scope.uploader.clearQueue(); //?
-      return;
+
+     // Populate user object
+      $scope.company = response;
+
+     // Clear upload buttons
+      $scope.cancelUpload();
     };
+
+   // Called after the user has failed to uploaded a new picture
+    $scope.uploader.onErrorItem = function (fileItem, response, status, headers) {
+      // Clear upload buttons
+      $scope.cancelUpload();
+
+      // Show error message
+      $scope.error = response.message;
+    };
+
+   // Change user profile picture
+    $scope.uploadProfilePicture = function () {
+      // Clear messages
+      $scope.success = $scope.error = null;
+
+     // Start upload
+      //$scope.uploader.uploadAll();
+    };
+
+   // Cancel the upload process
+    $scope.cancelUpload = function () {
+      $scope.uploader.clearQueue();
+      $scope.imageURL = '/api/companies/picture/' + vm.company.profileImageURL;
+    };
+
 
     // Remove existing Company
     function remove() {
@@ -90,6 +98,8 @@
         $scope.$broadcast('show-errors-check-validity', 'vm.form.companyForm');
         return false;
       }
+
+      vm.company.profileImageURL = $scope.imageURL;
 
       // TODO: move create/update logic to service
       if (vm.company._id) {

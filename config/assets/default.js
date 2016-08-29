@@ -38,6 +38,7 @@ module.exports = {
     views: ['modules/*/client/views/**/*.html'],
     templates: ['build/templates.js']
   },
+  s3bucket: 'belongings-assets',
   server: {
     gruntConfig: 'gruntfile.js',
     gulpConfig: 'gulpfile.js',

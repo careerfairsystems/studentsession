@@ -7,7 +7,62 @@ var path = require('path'),
   mongoose = require('mongoose'),
   Company = mongoose.model('Company'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
-  _ = require('lodash');
+  _ = require('lodash'),
+  multer = require('multer'),
+  config = require(path.resolve('./config/config'));
+
+/**
+* Koden redan motsvarar hur servern kan lagra bilder lokalt och via aws s3
+*/
+// AWS
+//var multerS3 = require('multer-s3');
+//var AWS = require('aws-sdk');
+//AWS.config.region = 'eu-west-1';
+//var s3 = new AWS.S3({ params: { Bucket: config.s3bucket } });
+
+//exports.getProfilePicture = function (req, res) {
+//  var img = req.params.image;
+//  var url;
+//  if(process.env.NODE_ENV !== 'production'){
+//    url = 'http://' + req.headers.host + '/uploads/' + img;
+//  } else {
+//    url = s3.getSignedUrl('getObject', { Bucket: config.s3bucket, Key: img });
+//  }
+//  res.redirect(url);
+//};
+
+/**
+ * Update profile picture
+ */
+//exports.changeProfilePicture = function (req, res) {
+//  var user = req.user;
+//  var message = null;
+//  var upload, fileKey;
+
+  // Upload locally if not production.
+//  if(process.env.NODE_ENV !== 'production'){
+//    upload = multer(config.uploads.profileUpload).single('newProfilePicture');
+//  } else {
+    // Production - upload to s3.
+//    fileKey = 'profile_pic_' + Date.now().toString();
+//    upload = multer({
+//      storage: multerS3({
+//        s3: s3,
+//        bucket: config.s3bucket,
+//        metadata: function (req, file, cb) {
+//          cb(null, { fieldName: file.fieldname });
+//        },
+//        key: function (req, file, cb) {
+//          cb(null, fileKey);
+//        }
+//      })
+//    }).single('newProfilePicture');
+//  }
+
+  // Filtering to upload only images
+//  var profileUploadFileFilter = require(path.resolve('./config/lib/multer')).profileUploadFileFilter;
+//  upload.fileFilter = profileUploadFileFilter;
+//};
 
 /**
  * Create a Company
@@ -80,7 +135,7 @@ exports.delete = function(req, res) {
 /**
  * List of Companies
  */
-exports.list = function(req, res) { 
+exports.list = function(req, res) {
   Company.find().sort('-created').populate('user', 'displayName').exec(function(err, companies) {
     if (err) {
       return res.status(400).send({
