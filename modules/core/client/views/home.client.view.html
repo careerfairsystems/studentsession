@@ -4,28 +4,32 @@
         <h1>Student Session</h1>
         <p>Have a exclusive meeting with your favorite Company!</p>
         <a class="btn btn-primary btn-lg" data-ui-sref="applications.create">Apply now</a>
-    </div>
-    <br>
-    <div class="row">
+        <a class="btn btn-primary btn-lg" data-ui-sref="companies.list">Read about the companies</a>
     </div>
   </div>
   <!-- HtmlDescription -->
-  <div ng-bind-html="htmlDecription">
+  <div class="row">
+    <h2>
+      About Student Session
+    </h2>
+    <div ng-bind-html="htmlDecription">
+    </div>
+    <p>
+      Cupcake ipsum dolor sit amet wafer cake gummies cake. Cookie lemon drops sugar plum bear claw tart toffee I love. Donut jelly-o sesame snaps sugar plum. Soufflé jelly sweet bear claw lemon drops jelly beans. Tootsie roll marzipan bonbon sesame snaps muffin halvah. I love topping I love cookie lemon drops cookie soufflé pudding jelly beans.
+Donut cake bear claw tiramisu cake gummies topping I love. Jelly beans apple pie brownie danish I love. Sweet jelly beans sweet bonbon. Pudding sweet roll cake cookie wafer jujubes chupa chups. Marshmallow jelly beans oat cake pastry chocolate bar marshmallow sweet roll croissant jelly beans. Cake wafer biscuit icing. Brownie apple pie chocolate cake donut sweet roll bear claw donut jujubes. Bonbon biscuit candy caramels tiramisu carrot cake bear claw I love biscuit.
+Muffin cookie chocolate soufflé halvah. Gummies bonbon lollipop gummies macaroon pastry tootsie roll biscuit. Pudding cake sweet roll. Soufflé chocolate cake gummi bears topping. Sesame snaps apple pie danish wafer I love apple pie oat cake. I love pastry pastry danish cake sweet jujubes wafer. Jelly beans cotton candy jelly beans cake tart halvah cheesecake. Apple pie jelly-o dragée marshmallow dessert I love.
+Marzipan I love jelly-o muffin I love chocolate caramels. Jelly-o candy chocolate jelly sweet roll wafer jujubes. Bonbon chocolate cake jelly-o carrot cake chupa chups gingerbread sweet roll carrot cake. Jelly-o marzipan I love marzipan. Danish sugar plum tootsie roll I love pie donut. Liquorice gingerbread toffee. Brownie marshmallow I love cake dessert powder. Lemon drops I love bonbon gummi bears I love jelly tiramisu gummies.
+I love pie donut chocolate cake chupa chups chupa chups halvah chocolate. Jelly apple pie donut croissant brownie. Sweet soufflé carrot cake ice cream wafer I love sweet caramels candy canes. Lollipop muffin candy canes. Chocolate chocolate macaroon. I love I love chocolate bar cotton candy marzipan I love jelly-o pastry.
+    <p>
   </div>
-
   <!-- Companies -->
   <div class="row">
-    <div class="list-group">
-      <a data-ng-repeat="company in vm.companies"
-         data-ui-sref="companies.view({ companyId: company._id })"
-         class="list-group-item">
-        <small class="list-group-item-text">
-          Posted on
-          <span data-ng-bind="company.created | date:'mediumDate'"></span>
-          by
-          <span data-ng-if="company.user" data-ng-bind="company.user.displayName"></span>
-          <span data-ng-if="!company.user">Deleted User</span>
-        </small>
+    <h2 id="company">
+      Companies
+    </h2>
+    <!-- Selected Company -->
+    <div class="company list-group-item" >
+      <div ng-show="company">
         <h4 class="list-group-item-heading" data-ng-bind="company.name"></h4>
         <br>
         <h5 class><strong>Description:</strong></h5>
@@ -34,38 +38,31 @@
         <h5 class><strong>Requested CV Language:</strong></h5>
         <span data-ng-if="company.language.length == 0">No language specified</span>
         <span data-ng-if="company.language.length > 0" data ng-bind="company.language"></span>
-      </a>
-    </div>
-    <div class="alert alert-warning text-center" data-ng-if="vm.companies.$resolved && !vm.companies.length">
-      No Companies yet, why don't you <a data-ui-sref="companies.create">create one</a>?
+      </div>
     </div>
 
+    <!-- CompaniesList -->
+    <div class="row">
+      <div class="companies list-group">
+        <a data-ng-repeat="company in vm.companies"
+           ng-click="viewCompany(company)"
+           class="list-group-item">
+          <h4 class="list-group-item-heading" data-ng-bind="company.name"></h4>
+        </a>
+      </div>
+      <div class="alert alert-warning text-center" data-ng-if="vm.companies.$resolved && !vm.companies.length">
+        No Companies yet, why don't you <a data-ui-sref="companies.create">create one</a>?
+      </div>
+    </div>
 
   </div>
-
-
-
-
   <div class="well">
-    <h2>MEAN.JS Documentation</h2>
+    <h2>ARKAD Systems</h2>
     <p>
-      Once you're familiar with the foundation technology, check out the MEAN.JS Documentation:
-      <ul>
-        <li><a target="_blank" href="http://meanjs.org/docs.html">MEAN.JS Documentation</a>
-        </li>
-        <!-- <li><a target="_blank" href="http://meanjs.org/generator.html">Yeoman Generator</a>
-				</li> -->
-        <li><a target="_blank" href="http://meanjs.org/modules.html">Modules</a>
-        </li>
-        <li><a target="_blank" href="http://meanjs.org/changelog.html">Changelog</a>
-        </li>
-        <li><a target="_blank" href="http://meanjs.org/community.html">Community</a>
-        </li>
-        <li><a target="_blank" href="http://blog.meanjs.org">Blog</a>
-        </li>
-      </ul>
+      If you have any questions contact: <a href="mailto:kontaktsamtal.arkad@tlth.se">
+kontaktsamtal.arkad@tlth.se</a>   
     </p>
   </div>
   <br>Enjoy &amp; Keep Us Updated,
-  <br>The MEAN.JS Team.
+  <br>The ARKAD Team.
 </section>
