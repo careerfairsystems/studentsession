@@ -29,6 +29,8 @@ I love pie donut chocolate cake chupa chups chupa chups halvah chocolate. Jelly 
     <!-- Selected Company -->
     <div class="company list-group-item" >
       <div ng-show="company">
+        
+        <img ng-src="{{company.profileImageURL}}" />
         <h4 class="list-group-item-heading" data-ng-bind="company.name"></h4>
         <br>
         <h5 class><strong>Description:</strong></h5>
@@ -42,12 +44,15 @@ I love pie donut chocolate cake chupa chups chupa chups halvah chocolate. Jelly 
 
     <!-- CompaniesList -->
     <div class="row">
-      <div class="companies list-group">
-        <a data-ng-repeat="company in vm.companies"
-           ng-click="viewCompany(company)"
-           class="list-group-item">
-          <h4 class="list-group-item-heading" data-ng-bind="company.name"></h4>
-        </a>
+      <div class="companies">
+        <div class="companybox" ng-click="viewCompany(company)"
+          data-ng-repeat="company in vm.companies" >
+          <span class="helper"></span>
+          <img data-ng-show="company.profileImageURL" 
+            class="grayscale" ng-src="{{company.profileImageURL}}" />
+          <h4 data-ng-show="!company.profileImageURL" 
+            class="grayscale" data-ng-bind="company.name" ></h4>
+        </div>
       </div>
       <div class="alert alert-warning text-center" data-ng-if="vm.companies.$resolved && !vm.companies.length">
         No Companies yet, why don't you <a data-ui-sref="companies.create">create one</a>?
