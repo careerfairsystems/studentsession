@@ -27,7 +27,7 @@
           <label class="control-label" for="logo">Logo</label>
           <fieldset>
             <div class="form-group">
-              <img ng-src="{{vm.company.profileImageURL}}" ng-bind="{{vm.company.profileURL}}" class="img-thumbnail user-profile-picture">
+              <img ng-show="vm.company.profileImageURL" ng-src="{{vm.company.profileImageURL}}" onError="angular.element(this).scope().company.profileImageURL = false" class="img-thumbnail user-profile-picture">
             </div>
             <div class="form-group">
               <span class="btn btn-default btn-file">
