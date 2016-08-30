@@ -1,23 +1,28 @@
 <section>
   <div class="page-header">
-    <h1>{{vm.company._id ? 'Ändra företag' : 'Skapa nytt företag'}}</h1>
+    <h1>{{vm.company._id ? 'Change Company info' : 'Create new Company'}}</h1>
   </div>
   <div class="col-md-12">
     <form name="vm.form.companyForm" class="form-horizontal" ng-submit="vm.save(vm.form.companyForm.$valid)" novalidate>
       <fieldset>
         <div class="form-group" show-errors>
           <label class="control-label" for="name">Name</label>
+          <br>
+          <br>
           <input name="name" type="text" ng-model="vm.company.name" id="name" class="form-control" placeholder="Name" required>
           <div ng-messages="vm.form.companyForm.name.$error" role="alert">
             <p class="help-block error-text" ng-message="required">Company name is required.</p>
           </div>
         </div>
+        <br>
         <div class="form-group" show-errors>
-          <label class="control-label" for="description">Beskrivning</label>
-          <input name="description" type="text" ng-model="vm.company.description" id="description" class="form-control" placeholder="Beskrivning" >
+             <label for="description"> Description of the company </label><br>
+             <br>
+             <textarea name="description" ng-model="vm.company.description" rows="8" cols="70"></textarea><br>
         </div>
         <div class="form-group" show-errors>
-          <label class="control-label" for="language">Språk</label><br>
+          <label class="control-label" for="language">Requested CV language</label><br>
+          <br>
           <select ng-model="vm.company.language">
             <option value='Svenska'>Svenska</option>
             <option value='English'>English</option>
@@ -25,15 +30,17 @@
         </div>
         <div class="form-group">
           <label class="control-label" for="logo">Logo</label>
-          <fieldset>
-            <div class="form-group">
+          <br>
+        </div>
+          <div class="form-group">
               <img ng-show="vm.company.profileImageURL" ng-src="{{vm.company.profileImageURL}}" onError="angular.element(this).scope().company.profileImageURL = false" class="img-thumbnail user-profile-picture">
             </div>
             <div class="form-group">
-              <span class="btn btn-default btn-file">
-                Välj logo <!--input type="file" nv-file-select uploader="uploader"-->
+              <div class="btn btn-default btn-file">
+                {{vm.company.profileImageURL ? 'Update Logo' : 'Choose Logo'}} <!--input type="file" nv-file-select uploader="uploader"-->
                 <input ng-model="vm.company.profileImageURL" onchange="angular.element(this).scope().file_changed(this)" type="file" accept="image/*" />
-              </span>
+              </div>
+              <br>
             </div>
             <!--div class="form-group" ng-show="uploader.queue.length">
               <button class="btn btn-primary" ng-click="uploader.uploadAll();">{{vm.company._id ? 'Ändra Logo' : 'Lägg till Logo'}}</button>
@@ -45,11 +52,9 @@
             <div ng-show="error" class="text-center text-danger">
               <strong ng-bind="error"></strong>
             </div>
-          </fieldset>
-        </div>
-
+        <br>
         <div class="form-group">
-          <button type="submit" class="btn btn-default">{{vm.company._id ? 'Uppdatera' : 'Skapa'}}</button>
+          <button type="submit" class="btn btn-default">{{vm.company._id ? 'Update' : 'Create'}}</button>
         </div>
         <div ng-show="vm.error" class="text-danger">
           <strong ng-bind="vm.error"></strong>

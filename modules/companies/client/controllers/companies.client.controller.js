@@ -95,8 +95,7 @@
   //    $scope.uploader.clearQueue();
   //    $scope.imageURL = '/api/companies/picture/' + vm.company.profileImageURL;
   //  };
-
-
+    
     // Remove existing Company
     function remove() {
       if (confirm('Are you sure you want to delete?')) {
