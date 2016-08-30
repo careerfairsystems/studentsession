@@ -18,6 +18,7 @@
         <h5 class><strong>Requested CV Language:</strong></h5>
         <span data-ng-if="company.language.length == 0">No language specified</span>
         <span data-ng-if="company.language.length > 0" data ng-bind="company.language"></span>
+        <a class="btn btn-primary pull-right" data-ui-sref="companies.view({ companyId: company._id })">Read more</a>
       </div>
     </div>
 
