@@ -1,13 +1,53 @@
-[![MEAN.JS Logo](http://meanjs.org/img/logo-small.png)](http://meanjs.org/)
+# Studentsession
 
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/meanjs/mean?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build Status](https://travis-ci.org/meanjs/mean.svg?branch=master)](https://travis-ci.org/meanjs/mean)
-[![Dependencies Status](https://david-dm.org/meanjs/mean.svg)](https://david-dm.org/meanjs/mean)
-[![Coverage Status](https://coveralls.io/repos/meanjs/mean/badge.svg?branch=master&service=github)](https://coveralls.io/github/meanjs/mean?branch=master)
+Student session is a full-stack project with aim to automate the processes of
+student sessions held with careerfair. Student session is the arrangement when
+companies and students meet in one-on-one meetings and get to know each other.
+This project is open source and developers on any career fair are welcome to
+use and contribute to this project. If you have any questions ask:
+it.arkad@tlth.se
 
-MEAN.JS is a full-stack JavaScript open-source solution, which provides a solid starting point for [MongoDB](http://www.mongodb.org/), [Node.js](http://www.nodejs.org/), [Express](http://expressjs.com/), and [AngularJS](http://angularjs.org/) based applications. The idea is to solve the common issues with connecting those frameworks, build a robust framework to support daily development needs, and help developers use better practices while working with popular JavaScript components.
+The system has two main types of user; the one responsible for student sessions
+here called **coordinator**, and the users applying for student sessions here
+called **students**.
 
-## Before You Begin
+## Workflow
+
+### Coordinator
+
+1. Apply settings for student session, such as:
+  - Meeting length
+  - Facilities meetings will be held.
+  - Time period when meetings will be held.
+  - Max number of companies to choose in a application.
+2. Fill in company information
+  - This can be made manually, or check with your company system for a api. 
+3. The application-period opens. (Either manually or by settings).
+4. The application-period closes. (Either manually or by settings).
+5. For every company send all the applications that want to meet them. 
+6. Await companies decision of which students to meet.
+7. Schedule meetings between students and companies.
+8. Email to all students if they got any sessions and if so time and place.
+9. Handle students that thank no to meetings and fill in with reserve-students.
+
+
+### Students
+
+1. Log in
+  - Preferably through school login such as CAS with Lunds University
+2. Read about companies that offer student sessions
+3. Create application which countains;
+  - CV pdf file
+  - Name, education.
+  - Selection of companies the student want to meet.
+  - Personal description of student 
+4. Send in application.
+5. Get answer of which companies the student will meet, and time and place.
+6. (Recieve reminder before meeting) 
+7. Goes to the meeting 
+
+
+u Begin
 Before you begin we recommend you read about the basic building blocks that assemble a MEAN.JS application:
 * MongoDB - Go through [MongoDB Official Website](http://mongodb.org/) and proceed to their [Official Manual](http://docs.mongodb.org/manual/), which should help you understand NoSQL and MongoDB better.
 * Express - The best way to understand express is through its [Official Website](http://expressjs.com/), which has a [Getting Started](http://expressjs.com/starter/installing.html) guide, as well as an [ExpressJS Guide](http://expressjs.com/guide/error-handling.html) guide for general express topics. You can also go through this [StackOverflow Thread](http://stackoverflow.com/questions/8144214/learning-express-for-node-js) for more resources.
