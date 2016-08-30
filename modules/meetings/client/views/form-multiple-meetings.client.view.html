@@ -42,76 +42,60 @@
       </div>
 
 
-      	<div class="form-group" show-errors>
-      		<label for="selectEndTime">Sluttid</label><br>
-      		<input type="time" id="exampleInput" name="input" ng-model="vm.endHours" placeholder="HH:mm:ss" required />
-      		<div role="alert">
+      <div class="form-group" show-errors>
+		<label for="selectEndTime">Sluttid</label><br>      		
+            <input type="time" id="exampleInput" name="input" ng-model="vm.endHours" placeholder="HH:mm:ss" required />
+      	<div role="alert">
+      		<span class="error" ng-show="myForm.input.$error.required">
+      			Required!</span>
+      		<span class="error" ng-show="myForm.input.$error.time">
+      			Not a valid date!</span>
+      	</div>
+      </div>
+
+
+      <div class="form-group" show-errors>
+      	<label for="selectLength">Möteslängd (minuter)</label><br>
+
+      	<input type="number" name="selectLength" ng-model="vm.meetingTimeLength" required>
+      	<div role="alert">
+      		<span class="error" ng-show="myForm.input.$error.required">
+      			Required!</span>
+      			<span class="error" ng-show="myForm.input.$error.number">
+      				Not valid number!</span>
+      	</div>
+      </div>
+
+      <div class="form-group" show-errors>
+      	<label for="selectBreak">Lunchrast</label><br>
+
+      	<input type="time" id="exampleInput" name="input" ng-model="vm.lunchStart"
+      	placeholder="HH:mm:ss" required /> -
+      	<input type="time" id="exampleInput" name="input" ng-model="vm.lunchEnd" placeholder="HH:mm" required />
+			<div role="alert">
       			<span class="error" ng-show="myForm.input.$error.required">
       				Required!</span>
       			<span class="error" ng-show="myForm.input.$error.time">
       				Not a valid date!</span>
       		</div>
-      	</div>
+      </div>
 
 
-      	<div class="form-group" show-errors>
-      		<label for="selectLength">Möteslängd (minuter)</label><br>
+      <div class="form-group">
+      	<label for="selectResources">Lokaler</label><br>
+      	<div ng-repeat = "facility in vm.facilities"> 
+      		<input name="selectResources" type="checkbox" ng-model="vm.chosenFacilities[facility.name]"> 
+      		{{facility.name}} 
+		</div>      	
+      </div>
 
-      		<input type="number" name="selectLength" ng-model="vm.meetingTimeLength" required>
-      		<div role="alert">
-      			<span class="error" ng-show="myForm.input.$error.required">
-      				Required!</span>
-      				<span class="error" ng-show="myForm.input.$error.number">
-      					Not valid number!</span>
-      		</div>
-      	</div>
-
-      	<div class="form-group" show-errors>
-      		<label for="selectBreak">Lunchrast</label><br>
-
-      		<input type="time" id="exampleInput" name="input" ng-model="vm.lunchStart"
-      		placeholder="HH:mm:ss" required /> -
-      		<input type="time" id="exampleInput" name="input" ng-model="vm.lunchEnd" placeholder="HH:mm" required />
-      					<div role="alert">
-      						<span class="error" ng-show="myForm.input.$error.required">
-      							Required!</span>
-      						<span class="error" ng-show="myForm.input.$error.time">
-      							Not a valid date!</span>
-      					</div>
-      	</div>
-
-
-      	<div class="form-group">
-      		<label for="selectResources">Lokaler</label><br>
-      		<div ng-repeat = "facility in vm.facilities"> 
-      			<input name="selectResources" type="checkbox" ng-model="vm.chosenFacilities[facility.name]"> 
-      			{{facility.name}} 
-      		</div>
-      	</div>
-
-
-      <!--TODO: lägg till kontroll att slutdatum är efter startdatum,
-      sluttid inte är innan starttid osv.
-
-      TODO: make submittion possible only when no fields are null or empty.-->
       <div class="form-group">
       	<button type="submit" class="btn btn-default" ng-click="createMeetings();">{{vm.meeting._id ? 'Update' : 'Skapa möten'}}</button>
       </div>
+
       <div ng-show="vm.error" class="text-danger">
       	<strong ng-bind="vm.error"></strong>
       </div>
-
-        <div>
-      		<b>Test</b> <br>
-      		Startdatum: {{vm.startDate | date:"yyyy-MM-dd"}} <br>
-      		Slutdatum: {{vm.endDate | date:"yyyy-MM-dd"}} <br>
-      		Starttid: {{vm.startHours | date:"HH:mm"}} <br>
-      		Sluttid: {{vm.endHours | date:"HH:mm"}} <br>
-      		Möteslängd: {{vm.meetingTimeLength}} <br>
-      		Valda lokaler: {{vm.chosenFacilities}} <br>
-      		Lunchstart: {{vm.lunchStart}} <br>
-      		Lunchslut: {{vm.lunchEnd}} <br>
-      	</div>
 
   </fieldset>
 </form>
