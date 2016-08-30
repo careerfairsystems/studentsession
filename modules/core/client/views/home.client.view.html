@@ -1,84 +1,68 @@
 <section ng-controller="HomeController">
   <div class="jumbotron text-center">
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
-        <img alt="MEAN.JS" class="img-responsive text-center" src="modules/core/client/img/brand/logo.png" />
+    <div class="row jumbotron">
+        <h1>Student Session</h1>
+        <p>Have a exclusive meeting with your favorite Company!</p>
+        <a class="btn btn-primary btn-lg" data-ui-sref="applications.create">Apply now</a>
+        <a class="btn btn-primary btn-lg" data-ui-sref="companies.list">Read about the companies</a>
+    </div>
+  </div>
+  <!-- HtmlDescription -->
+  <div class="row">
+    <h2>
+      About Student Session
+    </h2>
+    <div ng-bind-html="htmlDecription">
+    </div>
+    <p>
+      Cupcake ipsum dolor sit amet wafer cake gummies cake. Cookie lemon drops sugar plum bear claw tart toffee I love. Donut jelly-o sesame snaps sugar plum. Soufflé jelly sweet bear claw lemon drops jelly beans. Tootsie roll marzipan bonbon sesame snaps muffin halvah. I love topping I love cookie lemon drops cookie soufflé pudding jelly beans.
+Donut cake bear claw tiramisu cake gummies topping I love. Jelly beans apple pie brownie danish I love. Sweet jelly beans sweet bonbon. Pudding sweet roll cake cookie wafer jujubes chupa chups. Marshmallow jelly beans oat cake pastry chocolate bar marshmallow sweet roll croissant jelly beans. Cake wafer biscuit icing. Brownie apple pie chocolate cake donut sweet roll bear claw donut jujubes. Bonbon biscuit candy caramels tiramisu carrot cake bear claw I love biscuit.
+Muffin cookie chocolate soufflé halvah. Gummies bonbon lollipop gummies macaroon pastry tootsie roll biscuit. Pudding cake sweet roll. Soufflé chocolate cake gummi bears topping. Sesame snaps apple pie danish wafer I love apple pie oat cake. I love pastry pastry danish cake sweet jujubes wafer. Jelly beans cotton candy jelly beans cake tart halvah cheesecake. Apple pie jelly-o dragée marshmallow dessert I love.
+Marzipan I love jelly-o muffin I love chocolate caramels. Jelly-o candy chocolate jelly sweet roll wafer jujubes. Bonbon chocolate cake jelly-o carrot cake chupa chups gingerbread sweet roll carrot cake. Jelly-o marzipan I love marzipan. Danish sugar plum tootsie roll I love pie donut. Liquorice gingerbread toffee. Brownie marshmallow I love cake dessert powder. Lemon drops I love bonbon gummi bears I love jelly tiramisu gummies.
+I love pie donut chocolate cake chupa chups chupa chups halvah chocolate. Jelly apple pie donut croissant brownie. Sweet soufflé carrot cake ice cream wafer I love sweet caramels candy canes. Lollipop muffin candy canes. Chocolate chocolate macaroon. I love I love chocolate bar cotton candy marzipan I love jelly-o pastry.
+    <p>
+  </div>
+  <!-- Companies -->
+  <div class="row">
+    <h2 id="company">
+      Companies
+    </h2>
+    <!-- Selected Company -->
+    <div class="company list-group-item" >
+      <div ng-show="company">
+        <h4 class="list-group-item-heading" data-ng-bind="company.name"></h4>
+        <br>
+        <h5 class><strong>Description:</strong></h5>
+        <span data-ng-bind="company.description"></span>
+        <br></br>
+        <h5 class><strong>Requested CV Language:</strong></h5>
+        <span data-ng-if="company.language.length == 0">No language specified</span>
+        <span data-ng-if="company.language.length > 0" data ng-bind="company.language"></span>
       </div>
     </div>
-    <br>
+
+    <!-- CompaniesList -->
     <div class="row">
-      <p class="lead">
-        Open-Source Full-Stack Solution For MEAN Applications
-      </p>
+      <div class="companies list-group">
+        <a data-ng-repeat="company in vm.companies"
+           ng-click="viewCompany(company)"
+           class="list-group-item">
+          <h4 class="list-group-item-heading" data-ng-bind="company.name"></h4>
+        </a>
+      </div>
+      <div class="alert alert-warning text-center" data-ng-if="vm.companies.$resolved && !vm.companies.length">
+        No Companies yet, why don't you <a data-ui-sref="companies.create">create one</a>?
+      </div>
     </div>
-    <div class="row">
-      <p>
-        <a class="btn btn-primary btn-lg" href="http://meanjs.org" target="_blank">Learn more</a>
-      </p>
-    </div>
-  </div>
-  <div>
-    <h2>Congrats! You've configured and run the sample application.</h2>
-    <p>MEAN.JS is a web application boilerplate, which means you should start changing everything :-)</p>
-    <p>This sample application tracks users and articles.</p>
-    <ul>
-      <li>
-        Click
-        <em>Sign Up</em> to get started.
-      </li>
-      <li>
-        Configure your app to work with your social accounts, by editing the
-        <em>/config/env/*.js</em> files.
-      </li>
-      <li>
-        Edit your users module.
-      </li>
-      <li>
-        Add new CRUD modules.
-      </li>
-      <li>
-        Have fun...
-      </li>
-    </ul>
-  </div>
-  <div class="row">
-    <div class="col-md-3">
-      <h2><strong>M</strong>ongoDB</h2>
-      <p><a target="_blank" href="http://mongodb.org/">MongoDB</a> is a NoSQL database. MongoDB's <a target="_blank" href="http://docs.mongodb.org/manual/">great manual</a> is the place to get started with NoSQL and MongoDB.</p>
-    </div>
-    <div class="col-md-3">
-      <h2><strong>E</strong>xpress</h2>
-      <p><a target="_blank" href="http://expressjs.com/"> Express</a> is a NodeJS server-side application web framework. Check out <a target="_blank" href="http://expressjs.com/4x/api.html">The ExpressJS API reference for more information</a> or <a target="_blank" href="http://stackoverflow.com/questions/8144214/learning-express-for-node-js">StackOverflow</a> for more info.</p>
-    </div>
-    <div class="col-md-3">
-      <h2><strong>A</strong>ngularJS</h2>
-      <p><a target="_blank" href="http://angularjs.org/">AngularJS</a> is client-side web application framework. The <a target="_blank" href="http://www.thinkster.io/">Thinkster Popular Guide</a> and <a target="_blank" href="https://egghead.io/">Egghead Videos</a> are great resources.</p>
-    </div>
-    <div class="col-md-3">
-      <h2><strong>N</strong>ode.js</h2>
-      <p><a target="_blank" href="http://nodejs.org/">Node.js</a> is a JavaScript run-time, popular for being a web server platform. Node's website and this <a target="_blank" href="http://stackoverflow.com/questions/2353818/how-do-i-get-started-with-node-js">stackOverflow thread</a> offer excellent starting points to get to grasps with node.</p>
-    </div>
+
   </div>
   <div class="well">
-    <h2>MEAN.JS Documentation</h2>
+    <h2>ARKAD Systems</h2>
     <p>
-      Once you're familiar with the foundation technology, check out the MEAN.JS Documentation:
-      <ul>
-        <li><a target="_blank" href="http://meanjs.org/docs.html">MEAN.JS Documentation</a>
-        </li>
-        <!-- <li><a target="_blank" href="http://meanjs.org/generator.html">Yeoman Generator</a>
-				</li> -->
-        <li><a target="_blank" href="http://meanjs.org/modules.html">Modules</a>
-        </li>
-        <li><a target="_blank" href="http://meanjs.org/changelog.html">Changelog</a>
-        </li>
-        <li><a target="_blank" href="http://meanjs.org/community.html">Community</a>
-        </li>
-        <li><a target="_blank" href="http://blog.meanjs.org">Blog</a>
-        </li>
-      </ul>
+      If you have any questions contact: <a href="mailto:kontaktsamtal.arkad@tlth.se">
+kontaktsamtal.arkad@tlth.se</a>   
     </p>
   </div>
   <br>Enjoy &amp; Keep Us Updated,
-  <br>The MEAN.JS Team.
+  <br>The ARKAD Team.
 </section>
