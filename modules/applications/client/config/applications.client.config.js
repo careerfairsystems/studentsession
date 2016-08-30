@@ -16,6 +16,12 @@
       roles: ['*']
     }); // vart kommer man med denna?
 
+    Menus.addSubMenuItem('topbar', 'applications', {
+      title: 'Information',
+      state: 'applications.info',
+      roles: ['*']
+    });
+
     // Add the dropdown list item
     Menus.addSubMenuItem('topbar', 'applications', {
       title: 'Inkomna ansökningar',

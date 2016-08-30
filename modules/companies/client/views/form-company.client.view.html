@@ -23,10 +23,35 @@
             <option value='English'>English</option>
           </select>
         </div>
-        <div class="form-group" show-errors>
+        <div class="form-group">
           <label class="control-label" for="logo">Logo</label>
+            <div ng-show="vm.company.logo.length">
+             <span class="btn btn-default btn-file">
+                 Välj Logga <input name="resume-pdf" type="file" nv-file-select uploader="uploader">
+             </span>
+           </div>
 
+           <div ng-show="vm.uploader.queue.length">
+             <button type="button" class="btn btn-primary" ng-click="uploader.uploadAll();">Skicka in cv</button>
+            </div>
+
+           <div ng-show="vm.uploader.queue.length">
+             <button type="button" class="btn btn-default" ng-click="uploader.clearQueue(); unsuccess();">Ångra</button>
+           </div>
+
+           <div ng-show="vm.company.logo.length">
+            Du har skickat in ett cv. Skicka in ett nytt cv för att byta.
+           </div>
+
+
+           <div ng-show="success && !uploader.queue.length" class="text-center text-success">
+             <strong>Ditt cv har har laddats upp!</strong>
+           </div>
+           <div ng-show="error" class="text-center text-danger">
+             <strong ng-bind="error"></strong>
+            </div>
         </div>
+
         <div class="form-group">
           <button type="submit" class="btn btn-default">{{vm.company._id ? 'Update' : 'Create'}}</button>
         </div>

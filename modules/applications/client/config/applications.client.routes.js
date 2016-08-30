@@ -49,6 +49,11 @@
           pageTitle: 'Edit Application {{ applicationResolve.name }}'
         }
       })
+      .state('applications.info', {
+        url: '/info',
+        templateUrl: 'modules/applications/client/views/info-application.client.view.html',
+        
+      })
       .state('applications.view', {
         url: '/:applicationId',
         templateUrl: 'modules/applications/client/views/view-application.client.view.html',

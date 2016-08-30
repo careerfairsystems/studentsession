@@ -18,7 +18,7 @@ var CompanySchema = new Schema({
   },
   logo: {
     type: String,
-    default: 'modules/companies/client/img/profile/default.png'
+    default: ''
   },
 
   language: {

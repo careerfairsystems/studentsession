@@ -1,0 +1,54 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.applicationsetting._id ? 'Uppdatera inställning' : 'Skapa ny inställning'}}</h1>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.applicationsettingForm" class="form-horizontal" ng-submit="vm.save(vm.form.applicationsettingForm.$valid)" novalidate>
+      <fieldset>
+        <div ng-controller="dateCtrler">
+          <h4><strong>Välj startdatum för ansökningar:</strong></h4>
+          <p class="input-group">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          <input datepicker-localdate type="text" class="form-control" datepicker-popup="{{format}}" placeholder="Välj datum (XXXX-XX-XX)" is-open="opened" ng-required="true" ng-model="vm.setting.startdate" />
+          </p>
+          <hr>
+        </div>
+        <div ng-controller="dateCtrler">
+          <h4><strong>Välj slutdatum för ansökningar:</strong></h4>
+          <p class="input-group">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          <input datepicker-localdate type="text" class="form-control" datepicker-popup="{{format}}" placeholder="Välj datum (XXXX-XX-XX)" is-open="opened" ng-required="true" ng-model="vm.setting.enddatum" />
+          </p>
+          <hr>
+        </div>
+        <div ng-controller="dateCtrler">
+          <h4><strong>Välj slutdatum för denna inställning:</strong></h4>
+          <p class="input-group">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          <input datepicker-localdate type="text" class="form-control" datepicker-popup="{{format}}" placeholder="Välj datum (XXXX-XX-XX)" is-open="opened" ng-required="true" ng-model="vm.setting.terminatedate" />
+          </p>
+          <hr>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Välj möteslängd i minuter</label>
+          <input name="name" type="text" ng-model="vm.applicationsetting.meetingtime" id="name" class="form-control" required>
+          <div ng-messages="vm.form.applicationsettingForm.meetingtime.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Möteslängd krävs</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.applicationsetting._id ? 'Uppdatera' : 'Skapa'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>
