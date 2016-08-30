@@ -1,13 +1,12 @@
 <section>
   <div class="page-header">
     <h1 data-ng-bind="vm.company.name"></h1>
-    <p data-ng-bind="vm.company.description"></p>
   </div>
 
   <div class="row">
     <div class="col-md-8">
       <div class="row">
-        <div class="col-md-3"><strong>Company name</strong></div>
+        <div class="col-md-3"><strong>Name</strong></div>
         <div class="col-md-6" ng-bind="vm.company.name"></div>
       </div>
       <hr/>
@@ -17,20 +16,15 @@
       </div>
       <hr/>
       <div class="row">
-        <div class="col-md-3"><strong>Language</strong></div>
+        <div class="col-md-3"><strong>Requested CV Language</strong></div>
         <div class="col-md-6" ng-bind="vm.company.language"></div>
       </div>
       <hr/>
       <div class="row">
         <div class="col-md-3"><strong>Logo</strong></div>
         <div class="col-md-6">
-          <img ng-src="{{vm.company.logo}}"></img>
+          <img style='height: 100%; width: 100%; object-fit: contain' ng-src="{{vm.company.profileImageURL}}"></img>
         </div>
-      </div>
-      <hr/>
-      <div class="row">
-        <div class="col-md-3"><strong>Logo location</strong></div>
-        <div class="col-md-6" ng-bind="vm.company.logo"></div>
       </div>
       <hr/>
     </div>

@@ -10,7 +10,7 @@
   function menuConfig(Menus) {
     // Set top bar menu items
     Menus.addMenuItem('topbar', {
-      title: 'Företag',
+      title: 'Companies',
       state: 'companies',
       type: 'dropdown',
       roles: ['*']
@@ -18,14 +18,14 @@
 
     // Add the dropdown list item
     Menus.addSubMenuItem('topbar', 'companies', {
-      title: 'Företagslista',
+      title: 'List of Companies',
       state: 'companies.list',
       roles: ['*']
     });
 
     // Add the dropdown create item
     Menus.addSubMenuItem('topbar', 'companies', {
-      title: 'Skapa ett företag',
+      title: 'Create a Company',
       state: 'companies.create',
       roles: ['admin']
     });
