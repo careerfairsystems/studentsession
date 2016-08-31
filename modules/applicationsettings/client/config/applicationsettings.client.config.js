@@ -10,7 +10,7 @@
   function menuConfig(Menus) {
     // Set top bar menu items
     Menus.addMenuItem('topbar', {
-      title: 'Inställningar',
+      title: 'Settings',
       state: 'applicationsettings',
       type: 'dropdown',
       roles: ['*']
@@ -18,13 +18,13 @@
 
     // Add the dropdown list item
     Menus.addSubMenuItem('topbar', 'applicationsettings', {
-      title: 'Visa inställningar',
+      title: 'Show settings',
       state: 'applicationsettings.list'
     });
 
     // Add the dropdown create item
     Menus.addSubMenuItem('topbar', 'applicationsettings', {
-      title: 'Skapa inställning',
+      title: 'Create setting',
       state: 'applicationsettings.create',
       roles: ['user']
     });

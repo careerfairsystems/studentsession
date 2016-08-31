@@ -12,25 +12,34 @@ var mongoose = require('mongoose'),
 var ApplicationsettingSchema = new Schema({
   startdate: {
     type: Date,
-    required: 'Vänligen fyll i startdatum för ansökningsperiod'
+    required: 'Please fill the start date for the application period'
   },
   enddate: {
     type: Date,
-    required: 'Vänligen fyll i startdatum för ansökningsperiod'
-  },
-  meetingtime: {
-    type: String,
-    required: 'Vänligen fyll i standard mötestid'
+    required: 'Please fill the end date for the application period'
   },
   terminatedate: {
     type: Date,
-    required: 'Vänligen fyll i slutdatum för denna inställning'
+    required: 'Please fill the date of termination for this setting'
+  },
+  frontpagehtml: {
+    type: String,
+    default: '',
+    required: 'Please fill HTML code for front page'
+  },
+  meetingtime: {
+    type: String,
+    default: '',
   },
   name: {
     type: String,
     default: '',
     required: 'Please fill Applicationsetting name',
     trim: true
+  },
+  active: {
+    type: Boolean,
+    default:false
   },
   created: {
     type: Date,

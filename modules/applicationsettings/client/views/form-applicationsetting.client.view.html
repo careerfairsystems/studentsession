@@ -1,49 +1,66 @@
 <section>
   <div class="page-header">
-    <h1>{{vm.applicationsetting._id ? 'Uppdatera inställning' : 'Skapa ny inställning'}}</h1>
+    <h1>{{vm.applicationsetting._id ? 'Update Setting' : 'Create Setting'}}</h1>
   </div>
   <div class="col-md-12">
     <form name="vm.form.applicationsettingForm" class="form-horizontal" ng-submit="vm.save(vm.form.applicationsettingForm.$valid)" novalidate>
       <fieldset>
-        <div ng-controller="dateCtrler">
-          <h4><strong>Välj startdatum för ansökningar:</strong></h4>
-          <p class="input-group">
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-            </span>
-          <input datepicker-localdate type="text" class="form-control" datepicker-popup="{{format}}" placeholder="Välj datum (XXXX-XX-XX)" is-open="opened" ng-required="true" ng-model="vm.setting.startdate" />
-          </p>
-          <hr>
-        </div>
-        <div ng-controller="dateCtrler">
-          <h4><strong>Välj slutdatum för ansökningar:</strong></h4>
-          <p class="input-group">
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-            </span>
-          <input datepicker-localdate type="text" class="form-control" datepicker-popup="{{format}}" placeholder="Välj datum (XXXX-XX-XX)" is-open="opened" ng-required="true" ng-model="vm.setting.enddatum" />
-          </p>
-          <hr>
-        </div>
-        <div ng-controller="dateCtrler">
-          <h4><strong>Välj slutdatum för denna inställning:</strong></h4>
-          <p class="input-group">
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-            </span>
-          <input datepicker-localdate type="text" class="form-control" datepicker-popup="{{format}}" placeholder="Välj datum (XXXX-XX-XX)" is-open="opened" ng-required="true" ng-model="vm.setting.terminatedate" />
-          </p>
-          <hr>
-        </div>
-        <div class="form-group" show-errors>
-          <label class="control-label" for="name">Välj möteslängd i minuter</label>
-          <input name="name" type="text" ng-model="vm.applicationsetting.meetingtime" id="name" class="form-control" required>
-          <div ng-messages="vm.form.applicationsettingForm.meetingtime.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Möteslängd krävs</p>
+        <div show-errors>
+          <label class="control-label" for="phone">Name</label>
+          <input name="phone" type="text" ng-model="vm.applicationsetting.name" id="name" class="form-control" placeholder="Choose a name" required>
+          <div ng-messages="vm.form.applicationForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">A name has to be chosen</p>
           </div>
         </div>
+        <hr>
+        <div ng-controller="dateCtrler">
+          <h4><strong>Choose start date for applications</strong></h4>
+          <p class="input-group">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          <input datepicker-localdate type="text" class="form-control" datepicker-popup="{{format}}" placeholder="Choose date (XXXX-XX-XX)" is-open="opened" ng-required="true" ng-model="vm.applicationsetting.startdate" />
+          </p>
+          <hr>
+        </div>
+        <div ng-controller="dateCtrler">
+          <h4><strong>Choose end date for applications</strong></h4>
+          <p class="input-group">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          <input datepicker-localdate type="text" class="form-control" datepicker-popup="{{format}}" placeholder="Choose date (XXXX-XX-XX)" is-open="opened" ng-required="true" ng-model="vm.applicationsetting.enddate" />
+          </p>
+        </div>
+        <br>
+        <div ng-controller="dateCtrler">
+          <h4><strong>Choose date of termination for this setting</strong></h4>
+          <p class="input-group">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          <input datepicker-localdate type="text" class="form-control" datepicker-popup="{{format}}" placeholder="Choose date (XXXX-XX-XX)" is-open="opened" ng-required="true" ng-model="vm.applicationsetting.terminatedate" />
+          </p>
+        </div>
+        <br>
+        <div show-errors>
+          <h4 for="description"><strong>Fill with HTML-code for frontpage information</strong></h4>
+          <textarea name="description" ng-model="vm.applicationsetting.frontpagehtml" rows="20" cols="70"></textarea><br>
+        </div>
+        <strong>Common tags are:</strong> <br>
+        <strong>&lt;br&gt;</strong>  = A line break <br>
+        <strong>&lt;h1&gt;Hello&lt;/h1&gt;</strong> = The word 'Hello' is displayed as a large header. <br>
+        <strong>&lt;h2&gt;Hello&lt;/h2&gt;</strong> = The word 'Hello' is displayed as a slightly smaller header. <br>
+        <strong>&lt;strong&gt;Strong&lt;/strong&gt;</strong> = The word 'Strong' is displayed in bold. <br>
+        For further information <a href="http://web.stanford.edu/group/csp/cs21/htmlcheatsheet.pdf" target="_blank">look here</a><br>
+        <br>
+        <div show-errors>
+          <label class="control-label">Default meeting time</label>
+          <input type="text" ng-model="vm.applicationsetting.meetingtime" class="form-control" placeholder="Choose a time in minutes">
+        </div>
+        <br>
         <div class="form-group">
-          <button type="submit" class="btn btn-default">{{vm.applicationsetting._id ? 'Uppdatera' : 'Skapa'}}</button>
+          <button type="submit" class="btn btn-default">{{vm.applicationsetting._id ? 'Update' : 'Create'}}</button>
         </div>
         <div ng-show="vm.error" class="text-danger">
           <strong ng-bind="vm.error"></strong>
