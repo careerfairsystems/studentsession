@@ -1,6 +1,7 @@
 'use strict';
 
 var passport = require('passport'),
+  config = require('../../../../../config/config'),
   users = require('../../controllers/users.server.controller'),
   mongoose = require('mongoose'),
   User = mongoose.model('User');
@@ -9,7 +10,7 @@ var passport = require('passport'),
 module.exports = function (config) {
   passport.use(new (require('passport-cas').Strategy)({
     ssoBaseURL: 'https://cas.lu.se/cas',
-    serverBaseURL: 'http://localhost:3000',
+    serverBaseURL: config.host,
     serviceURL: '/api/auth/cas/callback',
     passReqToCallback: true
   }, function(req, profile, done) {
