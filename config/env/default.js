@@ -29,7 +29,14 @@ module.exports = {
   sessionCollection: 'sessions',
   logo: 'modules/core/client/img/brand/logo.png',
   favicon: 'modules/core/client/img/brand/favicon.ico',
+  s3bucket: 'studentsession-assets',
   uploads: {
+    logoUpload: {
+      dest: './public/uploads/', // Company upload destination path
+      limits: {
+        fileSize: 2*1024*1024 // Max file size in bytes (2 MB)
+      }
+    },
     profileUpload: {
       dest: './public/uploads/', // Company upload destination path
       limits: {

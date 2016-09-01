@@ -12,16 +12,16 @@ module.exports = function(app) {
     .get(companies.list)
     .post(companies.create);
 
+  // The correct order is important, these need to be before
+  // /api/companies/:companyId
+  app.route('/api/companies/logo/:image').get(companies.getLogo);
+  app.route('/api/companies/logo').post(companies.changeLogo);
+
+
   app.route('/api/companies/:companyId').all(companiesPolicy.isAllowed)
     .get(companies.read)
     .put(companies.update)
     .delete(companies.delete);
-
-/**
-* dessa routes kan användas vid lokal bildlagring samt via s3
-*/
-//  app.route('/api/companies/picture').post(companies.changeProfilePicture);
-//  app.route('/api/companies/picture/:image').get(companies.getProfilePicture);
 
   // Finish by binding the Company middleware
   app.param('companyId', companies.companyByID);
