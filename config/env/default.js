@@ -2,7 +2,7 @@
 
 module.exports = {
   app: {
-    title: 'Student Session',
+    title: 'ARKAD - Student Session',
     description: 'Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js',
     keywords: 'student session, careerfair, mongodb, express, angularjs, node.js, mongoose, passport',
     googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
