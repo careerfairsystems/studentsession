@@ -71,8 +71,6 @@
         return false;
       }
 
-      vm.application.resume = $scope.uploader.url;
-
       // TODO: move create/update logic to service
       if (vm.application._id) {
         vm.application.$update(successCallback, errorCallback);
@@ -124,7 +122,7 @@
 
         fileReader.onload = function (fileReaderEvent) {
           $timeout(function () {
-            $scope.pdfURL = fileReaderEvent.target.result;
+            //$scope.pdfURL = fileReaderEvent.target.result;
           }, 0);
         };
       }
@@ -133,7 +131,7 @@
      // Called after the user has successfully uploaded a new resume
     $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
       // URL to resume put into database
-      vm.application.resume = $scope.uploader.url;
+      vm.application.resume = response;
       // Show success message
       $scope.success = true;
       // Clear uploader queue

@@ -11,6 +11,13 @@ var path = require('path'),
   config = require(path.resolve('./config/config.js')),
   multer = require('multer');
 
+// Libraries to upload to S3
+// AWS
+var multerS3 = require('multer-s3');
+var AWS = require('aws-sdk');
+AWS.config.region = 'eu-west-1';
+var s3 = new AWS.S3({ params: { Bucket: config.s3bucket } });
+
 /**
  * Create a Application
  */
@@ -119,27 +126,56 @@ exports.applicationByID = function(req, res, next, id) {
 };
 
 /**
+ * Get attachment-pdf
+ */
+exports.getResume = function (req, res) {
+  var filename = req.params.pdfName;
+  var url;
+  if(process.env.NODE_ENV !== 'production'){
+    url = 'http://' + req.headers.host + '/uploads/' + filename;
+  } else {
+    url = s3.getSignedUrl('getObject', { Bucket: config.s3bucket, Key: img });
+  }
+  res.redirect(url);
+};
+
+
+/**
  * Update attachment-pdf
  */
 exports.addResumeAttachment = function (req, res) { //när körs denna?
-  var pdfName = req.params.pdfName;
+  var pdfName = 'resume_' + Date.now().toString();
   var message = null;
+  var upload;
  
-  var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, './public/uploads/resume/'); //här sparas cv
-    },
-    filename: function (req, file, cb) {
-      cb(null, pdfName);
-    }
-  });
-
-  config.uploads.resumeUpload.storage = storage;
-
-  var upload = multer(config.uploads.resumeUpload).single('newResume');
+  // Upload locally if not production.
+  if(process.env.NODE_ENV !== 'production'){
+    var storage = multer.diskStorage({
+      destination: function (req, file, cb) {
+        cb(null, './public/uploads/'); //här sparas cv
+      },
+      filename: function (req, file, cb) {
+        cb(null, pdfName);
+      }
+    });
+    config.uploads.resumeUpload.storage = storage;
+    upload = multer(config.uploads.resumeUpload).single('newResume');
+  } else {
+    // Production - upload to s3.
+    upload = multer({
+      storage: multerS3({
+        s3: s3,
+        bucket: config.s3bucket,
+        metadata: function (req, file, cb) {
+          cb(null, { fieldName: file.fieldname });
+        },
+        key: function (req, file, cb) {
+          cb(null, fileKey);
+        }
+      })
+    }).single('newCompanyLogo');
+  }
   var resumeFileFilter = require(path.resolve('./config/lib/multer')).resumeFileFilter;
-  
-  // Filtering to upload only pdf's
   upload.fileFilter = resumeFileFilter;
 
   upload(req, res, function (uploadError) {
@@ -148,9 +184,7 @@ exports.addResumeAttachment = function (req, res) { //när körs denna?
         message: uploadError
       });
     } else {
-      return res.status(200).send({
-        message: 'Upload succeeded.'
-      });
+      return res.status(200).send(pdfName);
     }
   });
 };
