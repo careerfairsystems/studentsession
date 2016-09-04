@@ -8,7 +8,7 @@
   menuConfig.$inject = ['Menus'];
 
   function menuConfig(Menus) {
-    // Set top bar menu items
+
     Menus.addMenuItem('topbar', {
       title: 'Settings',
       state: 'applicationsettings',
@@ -16,13 +16,16 @@
       roles: ['*']
     });
 
-    // Add the dropdown list item
     Menus.addSubMenuItem('topbar', 'applicationsettings', {
       title: 'Show settings',
       state: 'applicationsettings.list'
     });
 
-    // Add the dropdown create item
+    Menus.addSubMenuItem('topbar', 'applicationsettings', {
+      title: 'Choose active setting',
+      state: 'applicationsettings.active'
+    });
+
     Menus.addSubMenuItem('topbar', 'applicationsettings', {
       title: 'Create setting',
       state: 'applicationsettings.create',

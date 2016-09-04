@@ -36,6 +36,15 @@
           pageTitle : 'Applicationsettings Create'
         }
       })
+      .state('applicationsettings.active', {
+        url: '/active',
+        templateUrl: 'modules/applicationsettings/client/views/active-applicationsetting.client.view.html',
+        controller: 'ActiveApplicationsettingsController',
+        controllerAs: 'vm',
+        resolve: {
+          settingListResolve: getSettingsList
+        },
+      })
       .state('applicationsettings.edit', {
         url: '/:applicationsettingId/edit',
         templateUrl: 'modules/applicationsettings/client/views/form-applicationsetting.client.view.html',
@@ -61,6 +70,13 @@
           pageTitle: 'Applicationsetting {{ articleResolve.name }}'
         }
       });
+  }
+
+
+  getSettingsList.$inject = ['$stateParams', 'ApplicationsettingsService'];
+
+  function getSettingsList($stateParams, ApplicationsettingsService) {
+    return ApplicationsettingsService.query().$promise;
   }
 
   getApplicationsetting.$inject = ['$stateParams', 'ApplicationsettingsService'];
