@@ -1,0 +1,38 @@
+<section>
+  <div class="page-header">
+    <h1>Choose an active setting</h1>
+  </div>
+
+    <!-- Selected Setting -->
+    <div class="setting list-group-item" >
+      <div ng-show="setting">
+        <h4 class="list-group-item-heading" data-ng-bind="setting.name"></h4>
+        <br>
+        <h5><strong>Start date for applications:</strong></h5>
+        <span data-ng-bind="setting.startdate | date:'mediumDate'"></span>
+        <br></br>
+        <h5 class><strong>End date for applications:</strong></h5>
+        <span data-ng-bind="setting.enddate | date:'mediumDate'"></span>
+        <h5><strong>Date of termination for the setting:</strong></h5>
+        <span data-ng-bind="setting.terminatedate | date:'mediumDate'"></span>
+        <h5><strong>Active status:</strong></h5>
+        <span data-ng-bind="setting.active"></span>
+        <a class="btn btn-primary pull-right" ng-click="setActive(setting)">Set as active</a>
+        <br>
+        <br>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="settings list-group">
+        <a data-ng-repeat="setting in vm.settings"
+          ng-click="viewSetting(setting)"
+          class="list-group-item">
+          <h4 class="list-group-item-heading" data-ng-bind="setting.name"></h4>
+        </a>
+      </div>
+      <div class="alert alert-warning text-center" data-ng-if="vm.applicationsettings.$resolved && !vm.applicationsettings.length">
+        No Applicationsettings yet, why don't you <a data-ui-sref="applicationsettings.create">create one</a>?
+      </div>
+    </div>
+</section>
