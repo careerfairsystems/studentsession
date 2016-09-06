@@ -89,7 +89,7 @@ exports.delete = function(req, res) {
 /**
  * List of Applications
  */
-exports.list = function(req, res) { 
+exports.list = function(req, res) {
   Application.find().sort('-created').populate('user', 'displayName').exec(function(err, applications) {
     if (err) {
       return res.status(400).send({
@@ -134,7 +134,7 @@ exports.getResume = function (req, res) {
   if(process.env.NODE_ENV !== 'production'){
     url = 'http://' + req.headers.host + '/uploads/' + filename;
   } else {
-    url = s3.getSignedUrl('getObject', { Bucket: config.s3bucket, Key: img });
+    url = s3.getSignedUrl('getObject', { Bucket: config.s3bucket, Key: filename });
   }
   res.redirect(url);
 };
@@ -147,7 +147,7 @@ exports.addResumeAttachment = function (req, res) { //när körs denna?
   var pdfName = 'resume_' + Date.now().toString();
   var message = null;
   var upload;
- 
+
   // Upload locally if not production.
   if(process.env.NODE_ENV !== 'production'){
     var storage = multer.diskStorage({
@@ -170,7 +170,7 @@ exports.addResumeAttachment = function (req, res) { //när körs denna?
           cb(null, { fieldName: file.fieldname });
         },
         key: function (req, file, cb) {
-          cb(null, fileKey);
+          cb(null, pdfName);
         }
       })
     }).single('newCompanyLogo');
