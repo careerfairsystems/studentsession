@@ -18,6 +18,7 @@ module.exports = function(app) {
     .delete(applications.delete);
 
   app.route('/api/applications/resume/:pdfName').all(applicationsPolicy.isAllowed)
+     .get(applications.getResume)
      .post(applications.addResumeAttachment);
 
   // Finish by binding the Application middleware

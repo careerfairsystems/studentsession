@@ -15,54 +15,96 @@ var path = require('path'),
 * Koden redan motsvarar hur servern kan lagra bilder lokalt och via aws s3
 */
 // AWS
-//var multerS3 = require('multer-s3');
-//var AWS = require('aws-sdk');
-//AWS.config.region = 'eu-west-1';
-//var s3 = new AWS.S3({ params: { Bucket: config.s3bucket } });
+var multerS3 = require('multer-s3');
+var AWS = require('aws-sdk');
+AWS.config.region = 'eu-west-1';
+var s3 = new AWS.S3({ params: { Bucket: config.s3bucket } });
 
-//exports.getProfilePicture = function (req, res) {
-//  var img = req.params.image;
-//  var url;
-//  if(process.env.NODE_ENV !== 'production'){
-//    url = 'http://' + req.headers.host + '/uploads/' + img;
-//  } else {
-//    url = s3.getSignedUrl('getObject', { Bucket: config.s3bucket, Key: img });
-//  }
-//  res.redirect(url);
-//};
+exports.getLogo = function (req, res) {
+  var img = req.params.image;
+  var url;
+  if(process.env.NODE_ENV !== 'production'){
+    url = 'http://' + req.headers.host + '/uploads/' + img;
+  } else {
+    url = s3.getSignedUrl('getObject', { Bucket: config.s3bucket, Key: img });
+  }
+  res.redirect(url);
+};
 
 /**
  * Update profile picture
  */
-//exports.changeProfilePicture = function (req, res) {
-//  var user = req.user;
-//  var message = null;
-//  var upload, fileKey;
+exports.changeLogo = function (req, res) {
+  var company = req.company ? req.company.toJSON() : {};
+  var message = null;
+  var upload, fileKey;
 
   // Upload locally if not production.
-//  if(process.env.NODE_ENV !== 'production'){
-//    upload = multer(config.uploads.profileUpload).single('newProfilePicture');
-//  } else {
+  if(process.env.NODE_ENV !== 'production'){
+    upload = multer(config.uploads.logoUpload).single('newCompanyLogo');
+  } else {
     // Production - upload to s3.
-//    fileKey = 'profile_pic_' + Date.now().toString();
-//    upload = multer({
-//      storage: multerS3({
-//        s3: s3,
-//        bucket: config.s3bucket,
-//        metadata: function (req, file, cb) {
-//          cb(null, { fieldName: file.fieldname });
-//        },
-//        key: function (req, file, cb) {
-//          cb(null, fileKey);
-//        }
-//      })
-//    }).single('newProfilePicture');
-//  }
-
+    fileKey = 'company_logo_' + Date.now().toString();
+    upload = multer({
+      storage: multerS3({
+        s3: s3,
+        bucket: config.s3bucket,
+        metadata: function (req, file, cb) {
+          cb(null, { fieldName: file.fieldname });
+        },
+        key: function (req, file, cb) {
+          cb(null, fileKey);
+        }
+      })
+    }).single('newCompanyLogo');
+  }
   // Filtering to upload only images
-//  var profileUploadFileFilter = require(path.resolve('./config/lib/multer')).profileUploadFileFilter;
-//  upload.fileFilter = profileUploadFileFilter;
-//};
+  var profileUploadFileFilter = require(path.resolve('./config/lib/multer')).profileUploadFileFilter;
+  upload.fileFilter = profileUploadFileFilter;
+
+  upload(req, res, function (uploadError) {
+    if(uploadError) {
+      return res.status(400).send({
+        message: 'Error occurred while uploading profile picture'
+      });
+    } else {
+      //Success, Delete old companyLogo if exists.
+      if(process.env.NODE_ENV){
+        fileKey = req.file.filename;
+      } else if(company.profileImageURL){
+        s3.deleteObjects({
+          Bucket: config.s3bucket,
+          Delete: {
+            Objects: [
+             { Key: company.profileImageURL }
+            ]
+          }
+        }, function(err, data) {
+          if (err)
+            return console.log(err);
+          console.log('Old company image removed safely.');
+        });
+      }
+
+      if(req.company){
+        //Replace imgurl on company with new one.
+        company.profileImageURL = fileKey;
+
+        company.save(function (saveError) {
+          if (saveError) {
+            return res.status(400).send({
+              message: errorHandler.getErrorMessage(saveError)
+            });
+          } else {
+            res.send(fileKey);
+          }
+        });
+      } else {
+        res.send(fileKey); 
+      }
+    }
+  });
+};
 
 /**
  * Create a Company
