@@ -13,23 +13,25 @@
       title: 'Settings',
       state: 'applicationsettings',
       type: 'dropdown',
-      roles: ['*']
+      roles: ['admin']
     });
 
     Menus.addSubMenuItem('topbar', 'applicationsettings', {
       title: 'Show settings',
-      state: 'applicationsettings.list'
+      state: 'applicationsettings.list',
+      roles: ['admin']
     });
 
     Menus.addSubMenuItem('topbar', 'applicationsettings', {
       title: 'Choose active setting',
-      state: 'applicationsettings.active'
+      state: 'applicationsettings.active',
+      roles: ['admin']
     });
 
     Menus.addSubMenuItem('topbar', 'applicationsettings', {
       title: 'Create setting',
       state: 'applicationsettings.create',
-      roles: ['user']
+      roles: ['admin']
     });
   }
 })();

@@ -13,20 +13,21 @@
       title: 'Lokaler',
       state: 'facilities',
       type: 'dropdown',
-      roles: ['*']
+      roles: ['admin']
     });
 
     // Add the dropdown list item
     Menus.addSubMenuItem('topbar', 'facilities', {
       title: 'Visa lokaler',
-      state: 'facilities.list'
+      state: 'facilities.list',
+      roles: ['admin']
     });
 
     // Add the dropdown create item
     Menus.addSubMenuItem('topbar', 'facilities', {
       title: 'Skapa lokal',
       state: 'facilities.create',
-      roles: ['user']
+      roles: ['admin']
     });
   }
 })();

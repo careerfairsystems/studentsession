@@ -13,14 +13,14 @@
       title: 'Companies',
       state: 'companies',
       type: 'dropdown',
-      roles: ['*']
+      roles: ['admin']
     });
 
     // Add the dropdown list item
     Menus.addSubMenuItem('topbar', 'companies', {
       title: 'List of Companies',
       state: 'companies.list',
-      roles: ['*']
+      roles: ['admin']
     });
 
     // Add the dropdown create item
