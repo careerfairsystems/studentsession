@@ -80,7 +80,7 @@ exports.delete = function(req, res) {
 /**
  * List of Applicationsettings
  */
-exports.list = function(req, res) { 
+exports.list = function(req, res) {
   Applicationsetting.find().sort('-created').populate('user', 'displayName').exec(function(err, applicationsettings) {
     if (err) {
       return res.status(400).send({
@@ -88,6 +88,18 @@ exports.list = function(req, res) {
       });
     } else {
       res.jsonp(applicationsettings);
+    }
+  });
+};
+
+exports.getActive = function(req, res) {
+  Applicationsetting.find({ active: true }).exec(function(err, applicationsettings) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.jsonp(applicationsettings[0]);
     }
   });
 };

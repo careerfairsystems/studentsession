@@ -7,7 +7,11 @@
     </div>
   </div>
   <!-- HtmlDescription -->
-  <div class="row">
+
+  <div ng-bind-html="vm.frontpagehtml"></div>
+
+
+  <!--div class="row">
     <h2>
       About Student Session
     </h2>
@@ -20,7 +24,7 @@ Muffin cookie chocolate soufflé halvah. Gummies bonbon lollipop gummies macaroo
 Marzipan I love jelly-o muffin I love chocolate caramels. Jelly-o candy chocolate jelly sweet roll wafer jujubes. Bonbon chocolate cake jelly-o carrot cake chupa chups gingerbread sweet roll carrot cake. Jelly-o marzipan I love marzipan. Danish sugar plum tootsie roll I love pie donut. Liquorice gingerbread toffee. Brownie marshmallow I love cake dessert powder. Lemon drops I love bonbon gummi bears I love jelly tiramisu gummies.
 I love pie donut chocolate cake chupa chups chupa chups halvah chocolate. Jelly apple pie donut croissant brownie. Sweet soufflé carrot cake ice cream wafer I love sweet caramels candy canes. Lollipop muffin candy canes. Chocolate chocolate macaroon. I love I love chocolate bar cotton candy marzipan I love jelly-o pastry.
     <p>
-  </div>
+  </div-->
   <!-- Companies -->
   <div class="row">
     <h2 id="company">
@@ -29,7 +33,7 @@ I love pie donut chocolate cake chupa chups chupa chups halvah chocolate. Jelly 
     <!-- Selected Company -->
     <div class="company list-group-item" >
       <div ng-show="company">
-        
+
         <img ng-src="{{company.profileImageURL}}" />
         <h4 class="list-group-item-heading" data-ng-bind="company.name"></h4>
         <br>
@@ -48,9 +52,9 @@ I love pie donut chocolate cake chupa chups chupa chups halvah chocolate. Jelly 
         <div class="companybox" ng-click="viewCompany(company)"
           data-ng-repeat="company in vm.companies" >
           <span class="helper"></span>
-          <img data-ng-show="company.profileImageURL" 
+          <img data-ng-show="company.profileImageURL"
             class="grayscale" ng-src="{{company.profileImageURL}}" />
-          <h4 data-ng-show="!company.profileImageURL" 
+          <h4 data-ng-show="!company.profileImageURL"
             class="grayscale" data-ng-bind="company.name" ></h4>
         </div>
       </div>
@@ -64,7 +68,7 @@ I love pie donut chocolate cake chupa chups chupa chups halvah chocolate. Jelly 
     <h2>ARKAD Systems</h2>
     <p>
       If you have any questions contact: <a href="mailto:kontaktsamtal.arkad@tlth.se">
-kontaktsamtal.arkad@tlth.se</a>   
+kontaktsamtal.arkad@tlth.se</a>
     </p>
   </div>
   <br>Enjoy &amp; Keep Us Updated,

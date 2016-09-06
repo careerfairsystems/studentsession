@@ -16,8 +16,8 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
     .state('home', {
       url: '/',
       templateUrl: 'modules/core/client/views/home.client.view.html',
-      controller: 'CompaniesListController',
-      controllerAs: 'vm'
+      controller: 'HomeController',
+      controllerAs: 'vm',
     })
     .state('not-found', {
       url: '/not-found',
@@ -40,5 +40,14 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
         ignoreState: true
       }
     });
+
+    getActiveSetting.$inject = ['$stateParams', 'ApplicationsettingsService'];
+
+    function getActiveSetting($stateParams, ApplicationsettingsService) {
+      return ApplicationsettingsService.getactive({
+        active: true
+      }).$promise;
+    }
+
   }
 ]);

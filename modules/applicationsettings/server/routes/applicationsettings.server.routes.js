@@ -8,6 +8,8 @@ var applicationsettingsPolicy = require('../policies/applicationsettings.server.
 
 module.exports = function(app) {
   // Applicationsettings Routes
+  app.route('/api/applicationsettings/active')
+    .get(applicationsettings.getActive);
   app.route('/api/applicationsettings').all(applicationsettingsPolicy.isAllowed)
     .get(applicationsettings.list)
     .post(applicationsettings.create);

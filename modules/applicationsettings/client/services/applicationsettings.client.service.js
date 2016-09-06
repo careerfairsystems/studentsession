@@ -14,6 +14,10 @@
     }, {
       update: {
         method: 'PUT'
+      },
+      getactive: {
+        method: 'GET',
+        isArray: true
       }
     });
   }
