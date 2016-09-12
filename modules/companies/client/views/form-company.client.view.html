@@ -5,6 +5,7 @@
   <div class="col-md-12">
     <form name="vm.form.companyForm" class="form-horizontal" ng-submit="vm.save(vm.form.companyForm.$valid)" novalidate>
       <fieldset>
+        <!-- Name -->
         <div class="form-group" show-errors>
           <label class="control-label" for="name">Name</label>
           <br>
@@ -15,6 +16,7 @@
           </div>
         </div>
         <br>
+        <!-- Description -->
         <div class="form-group" show-errors>
              <label for="description"> Description of the company </label><br>
              <br>
@@ -23,11 +25,12 @@
         <div class="form-group" show-errors>
           <label class="control-label" for="language">Requested CV language</label><br>
           <br>
-          <select ng-model="vm.company.language">
+          <select name="language" ng-model="vm.company.language">
             <option value='Svenska'>Svenska</option>
             <option value='English'>English</option>
           </select>
         </div>
+        <!-- Logo -->
         <div class="form-group">
           <label class="control-label" for="logo">Logo</label>
           <br>
