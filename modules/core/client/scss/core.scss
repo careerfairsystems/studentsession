@@ -1,5 +1,5 @@
 
-
+/* Company design */
 .company{
   padding: 25px;
   
@@ -40,9 +40,6 @@
       margin: auto;
       max-width: 175px;
       left: 12px;
-
-
-    
     }
   }
 }
@@ -62,10 +59,70 @@
 }
 }
 
+/* ARKAD design */
+$white: #FFFFFF;
+$gray: gray;
+$black: #333;
+$break-mobile: 768px;
+$menu-black: rgba(30,30,30,0.95);
+
+body {
+  background: #002B64;
+  //background: url("/modules/core/client/img/bakground-image.jpg");
+  background-attachment: fixed;
+}
+
+.navbar nav {
+  @media screen and (max-width: $break-mobile) {
+    background-color: $menu-black;
+
+    .navbar-nav .open .dropdown-menu > .active > a {
+      background: none;
+      color: #4a87ff;
+    }
+    .dropdown-menu > li > a {
+      color: $white;
+    }
+  }
+}
+section.container {
+  background-color: rgba(230,230,230, 0.8);
+  border-radius: 2px;
+  padding: 25px;
+  min-height: 400px;
+}
+.navbar-nav > li.open > a.dropdown-toggle {
+  color: $black;
+}
+.navbar-nav > li > a { 
+  color: $white;
+  text-shadow: none;
+
+  &:focus, &:hover, &:link, &:active {
+    color: $black;
+  }
+}
+.navbar-brand {
+  color: $white;
+  text-shadow: none;
+  &:focus {
+    text-shadow: none;
+    color: $gray;
+  }
+  &:hover {
+    text-shadow: none;
+    color: $gray;
+  }
+}
+.icon-bar {
+  background-color: $white;
+}
 
 
 
-// Old CSS
+
+
+/* Old CSS */
 .content {
   margin-top: 50px;
 }
