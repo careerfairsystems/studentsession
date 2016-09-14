@@ -6,8 +6,6 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     $scope.authentication = Authentication;
     var vm = this;
 
-    vm.companies = CompaniesService.query();
-
     $scope.gotoSelected = function() {
       // set the location.hash to the id of
       // the element you wish to scroll to.
@@ -26,11 +24,21 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       url: '/api/applicationsettings/active'
     }).then(function successCallback(response) {
       vm.frontpagehtml = $sce.trustAsHtml(response.data.frontpagehtml);
-
       console.log(response);
     }, function errorCallback(response) {
       console.log('ERROR: ' + response);
     });
+
+
+    $http({
+      method: 'GET',
+      url: '/api/companies/active'
+    }).then(function successCallback(response) {
+      vm.companies = response.data;
+    }, function errorCallback(response) {
+      console.log('ERROR: ' + response);
+    });
+
 
   }
 ]);

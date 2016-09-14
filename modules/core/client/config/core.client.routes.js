@@ -41,13 +41,5 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
       }
     });
 
-    getActiveSetting.$inject = ['$stateParams', 'ApplicationsettingsService'];
-
-    function getActiveSetting($stateParams, ApplicationsettingsService) {
-      return ApplicationsettingsService.getactive({
-        active: true
-      }).$promise;
-    }
-
   }
 ]);

@@ -100,8 +100,20 @@ exports.changeLogo = function (req, res) {
           }
         });
       } else {
-        res.send(fileKey); 
+        res.send(fileKey);
       }
+    }
+  });
+};
+
+exports.getActive = function(req, res) {
+  Company.find({ active: true }).exec(function(err, companies) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.jsonp(companies);
     }
   });
 };

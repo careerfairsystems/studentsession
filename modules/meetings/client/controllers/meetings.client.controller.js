@@ -6,16 +6,15 @@
     .module('meetings')
     .controller('MeetingsController', MeetingsController);
 
-  MeetingsController.$inject = ['$scope', '$state', 'Authentication', 'meetingResolve', 'listFacilitiesResolve', 'listApplicationsResolve', 'listCompaniesResolve'];
+  MeetingsController.$inject = ['$scope', '$http', '$state', 'Authentication', 'meetingResolve', 'listFacilitiesResolve', 'listApplicationsResolve', 'listCompaniesResolve'];
 
-  function MeetingsController ($scope, $state, Authentication, meeting, facilities, applications, companies) {
+  function MeetingsController ($scope, $http, $state, Authentication, meeting, facilities, applications, companies) {
     var vm = this;
 
     vm.authentication = Authentication;
     vm.meeting = meeting;
     vm.facilities = facilities;
     vm.applications = applications;
-    vm.companies = companies;
     vm.error = null;
     vm.form = {};
     vm.remove = remove;
@@ -25,6 +24,15 @@
     vm.time = new Date('----', '--', '--', '--', '--', '--');
     vm.endDate = new Date('----', '--', '--', '--', '--', '--');
     vm.endTime = new Date('----', '--', '--', '--', '--', '--');
+
+    $http({
+      method: 'GET',
+      url: '/api/companies/active'
+    }).then(function successCallback(response) {
+      vm.companies = response.data;
+    }, function errorCallback(response) {
+      console.log('ERROR: ' + response);
+    });
 
     // Remove existing Meeting
     function remove() {

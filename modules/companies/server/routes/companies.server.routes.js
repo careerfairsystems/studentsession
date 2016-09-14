@@ -8,6 +8,10 @@ var companiesPolicy = require('../policies/companies.server.policy'),
 
 module.exports = function(app) {
   // Companies Routes
+
+  app.route('/api/companies/active')
+    .get(companies.getActive);
+
   app.route('/api/companies').all(companiesPolicy.isAllowed)
     .get(companies.list)
     .post(companies.create);
