@@ -21,9 +21,8 @@
       var file = $('input[type=file]')[0].files[0];
 
       function receivedText() {
-        console.log(vm.fetchedCompanies);
         vm.fetchedCompanies = JSON.parse(fr.result);
-        console.log(vm.fetchedCompanies);
+        $scope.$apply();
       }
       var fr = new FileReader();
       fr.onload = receivedText;
