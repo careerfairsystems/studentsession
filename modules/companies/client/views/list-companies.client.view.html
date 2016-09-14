@@ -18,8 +18,9 @@
         <h5 class><strong>Requested CV Language:</strong></h5>
         <span data-ng-if="company.language.length == 0">No language specified</span>
         <span data-ng-if="company.language.length > 0" data ng-bind="company.language"></span>
+        <h5 class><strong>Aktiv status:</strong></h5>
+        <span data-ng-bind="company.active"></span>
         <a class="btn btn-primary pull-right" data-ui-sref="companies.view({ companyId: company._id })">Read more</a>
-        
       </div>
     </div>
 
@@ -29,7 +30,7 @@
         <a data-ng-repeat="company in vm.companies"
            ng-click="viewCompany(company)"
            class="list-group-item">
-          <h4 class="list-group-item-heading" data-ng-bind="company.name"></h4>
+          <h4 class="list-group-item-heading">{{company.name}} <small class="pull-right"> is active: {{company.active}}</small></h4>
         </a>
       </div>
       <div class="alert alert-warning text-center" data-ng-if="vm.companies.$resolved && !vm.companies.length">
