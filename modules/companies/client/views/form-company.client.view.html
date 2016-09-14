@@ -35,8 +35,8 @@
           <input name="name" type="text" ng-model="vm.company.weOffer" id="name" class="form-control" placeholder="Name">
         </div>
         <div class="form-group" show-errors>
-          <label class="control-label" for="language">Active status</label><br>
-          <select ng-model="vm.company.active" required>
+          <label class="control-label" for="active">Active status</label><br>
+          <select name="active" ng-model="vm.company.active" required>
             <option value='true'>true</option>
             <option value='false'>false</option>
           </select>
@@ -55,24 +55,22 @@
         <div class="form-group">
           <label class="control-label" for="logo">Logo</label>
           <br>
-        </div>
-        <div class="form-group text-center">
-          <img ng-src="{{imageURL}}" alt="{{company.name}}" class="img-thumbnail user-profile-picture">
-        </div>
-        <div class="text-center form-group" ng-hide="uploader.queue.length">
-          <span class="btn btn-default btn-file">
-              Select Image <input type="file" nv-file-select uploader="uploader">
-          </span>
-        </div>
-        <div class="text-center form-group" ng-show="uploader.queue.length">
-          <button type="button" class="btn btn-primary" ng-click="uploadProfilePicture();">Upload</button>
-          <button type="button" class="btn btn-default" ng-click="cancelUpload();">Cancel</button>
-        </div>
-        <div ng-show="success" class="text-center text-success">
-          <strong>Profile Picture Changed Successfully</strong>
-        </div>
-        <div ng-show="error" class="text-center text-danger">
-          <strong ng-bind="error"></strong>
+          <img name="logo" ng-src="{{imageURL}}" alt="{{company.name}}" class="img-thumbnail user-profile-picture">
+          <div ng-hide="uploader.queue.length">
+            <span class="btn btn-default btn-file">
+                Select Image <input type="file" nv-file-select uploader="uploader">
+            </span>
+          </div>
+          <div ng-show="uploader.queue.length">
+            <button type="button" class="btn btn-primary" ng-click="uploadProfilePicture();">Upload</button>
+            <button type="button" class="btn btn-default" ng-click="cancelUpload();">Cancel</button>
+          </div>
+          <div ng-show="success" class="text-center text-success">
+            <strong>Profile Picture Changed Successfully</strong>
+          </div>
+          <div ng-show="error" class="text-center text-danger">
+            <strong ng-bind="error"></strong>
+          </div>
         </div>
         <br>
         <!-- Submit buttons -->
