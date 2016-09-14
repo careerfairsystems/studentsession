@@ -2,7 +2,7 @@
 /* Company design */
 .company{
   padding: 25px;
-  
+
   img {
     position: relative;
     display: inline-block;
@@ -29,7 +29,6 @@
     h4{
       position:relative;
       display: inline-block;
-      line-height: 200px;
       text-align: center;
       width: 194px;
     }
@@ -94,7 +93,7 @@ section.container {
 .navbar-nav > li.open > a.dropdown-toggle {
   color: $black;
 }
-.navbar-nav > li > a { 
+.navbar-nav > li > a {
   color: $white;
   text-shadow: none;
 
