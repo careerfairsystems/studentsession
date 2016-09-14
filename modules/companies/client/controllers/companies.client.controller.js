@@ -18,7 +18,10 @@
     vm.remove = remove;
     vm.save = save;
     vm.imageURL = '';
-    vm.offerstring = vm.company.weOffer.join(', ');
+
+    if(vm.company.weOffer){
+      vm.offerstring = vm.company.weOffer.join(', ');
+    }
 
     // Create file uploader instance
     $scope.uploader = new FileUploader({

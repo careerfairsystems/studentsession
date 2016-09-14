@@ -33,7 +33,11 @@ var CompanySchema = new Schema({
   },
   language: {
     type: String,
-    enum: ['Svenska', 'English']
+    enum: ['Swedish', 'English', 'Swedish/English']
+  },
+  active: {
+    type: Boolean,
+    default: false
   },
   created: {
     type: Date,
