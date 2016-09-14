@@ -14,6 +14,14 @@ var ApplicationSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  name: {
+    type: String,
+    required:true
+  },
+  year: {
+    type: String,
+    required: true
+  },
   user: {
     type: Schema.ObjectId,
     ref: 'User'
@@ -22,10 +30,10 @@ var ApplicationSchema = new Schema({
     type: [String],
     required: true
   },
-  resume: {
-    type: String,
-    required: true //lägg till två platser här, en för eng en för svenska. hur ändå bara en required?
-  },
+  attachments: [{
+    language: String,
+    link: String
+  }],
   phone: {
     type: String,
     required: true

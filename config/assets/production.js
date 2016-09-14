@@ -6,7 +6,8 @@ module.exports = {
       css: [
         'public/lib/bootstrap/dist/css/bootstrap.min.css',
         'public/lib/bootstrap/dist/css/bootstrap-theme.min.css',
-        'public/lib/datatables.net-bs/css/dataTables.bootstrap.min.css'
+        'public/lib/datatables.net-bs/css/dataTables.bootstrap.min.css',
+        'public/lib/chosen/chosen.css'
       ],
       js: [
         'public/lib/angular/angular.min.js',
@@ -20,7 +21,8 @@ module.exports = {
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
         'public/lib/jquery/dist/jquery.min.js',
         'public/lib/datatables.net/js/jquery.dataTables.min.js',
-        'public/lib/datatables.net-bs/js/dataTables.bootstrap.min.js'
+        'public/lib/datatables.net-bs/js/dataTables.bootstrap.min.js',
+        'public/lib/chosen/chosen.jquery.js'
       ]
     },
     css: 'public/dist/application.min.css',

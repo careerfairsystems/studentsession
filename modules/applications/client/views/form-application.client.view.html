@@ -4,7 +4,7 @@
 
 <section>
   <div class="page-header">
-    <h1>{{vm.application._id ? 'Edit Application' : 'Ny ansökan'}}</h1>
+    <h1>{{vm.application._id ? 'Edit Application' : 'Ansök / Apply'}}</h1>
   </div>
 
   <p>Kul att du är intresserad av att ansöka till kontaksamtalen! Fyll i detta formulär för att ansöka. 
@@ -15,48 +15,67 @@
     <form name="vm.form.applicationForm" class="form-horizontal" ng-submit="vm.save(vm.form.applicationForm.$valid)" novalidate>
       <fieldset>
 
+        <!-- Name -->
         <div class="form-group" show-errors>
-          <label class="control-label" for="phone">Telefonnummer</label>
-          <input name="phone" type="text" ng-model="vm.application.phone" id="name" class="form-control" placeholder="Telefonnummer" required>
-          <div ng-messages="vm.form.applicationForm.phone.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Telefonnummer måste anges.</p>
+          <label class="control-label" for="name">Namn / Name</label>
+           <input name="name" type="text" ng-model="vm.application.name" id="name" class="form-control" placeholder="Name" required>
+          <div ng-messages="vm.form.applicationForm.program.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Name is required.</p>
           </div>
         </div>
-
+        <!-- Phone number -->
         <div class="form-group" show-errors>
-          <label class="control-label" for="email">Email</label>
+          <label class="control-label" for="phone">Telefonnummer / Phone number</label>
+          <input name="phone" type="text" ng-model="vm.application.phone" id="phone" class="form-control" placeholder="Telefonnummer" required>
+          <div ng-messages="vm.form.applicationForm.phone.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Phone number is required.</p>
+          </div>
+        </div>
+        <!-- Email -->
+        <div class="form-group" show-errors>
+          <label class="control-label" for="email">Email / Email</label>
           <input name="email" type="text" ng-model="vm.application.email" id="email" class="form-control" placeholder="Email" required>
           <div ng-messages="vm.form.applicationForm.email.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Email måste anges.</p>
+            <p class="help-block error-text" ng-message="required">Email is required.</p>
           </div>
         </div>
-
+        <!-- Program -->
         <div class="form-group" show-errors>
-          <label class="control-label" for="program">Program</label>
-          <input name="program" type="text" ng-model="vm.application.program" id="program" class="form-control" placeholder="Program" required>
+          <label class="control-label" for="program">Program / Education</label>
+          <select name="program" ng-model="vm.application.program" ng-options="program for program in programs" class="my_select_box form-control" required>
+          </select>
           <div ng-messages="vm.form.applicationForm.program.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Program måste anges.</p> 
+            <p class="help-block error-text" ng-message="required">Program is required.</p>
           </div>
         </div>
-
+        <!-- Year -->
+        <div class="form-group" show-errors>
+          <label class="control-label" for="program">År / Year</label>
+          <select name="program" ng-model="vm.application.year" ng-options="year for year in years" class="form-control" required>
+          </select>
+          <div ng-messages="vm.form.applicationForm.program.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Program is required.</p>
+          </div>
+        </div>
+        <!-- Companies -->
         <div class="form-group">
-          <label for="selectCompanies"> Företag </label><br>
+          <label for="selectcompanies"> Företag </label><br>
           Välj de företag du skulle vilja träffa.<br>
 
-          <ng-form name="innerForm">
-            <select name="selectCompanies" id="selectCompanies" ng-model="vm.application.companies" multiple ng-options='string for string in companyNames' required>
+            <select name="selectcompanies" id="selectcompanies" ng-model="vm.application.companies" ng-options='string for string in companyNames' class="my_select_box form-control" multiple required>
             </select><br>
-            <span ng-show="innerForm.foo.$error.required">Comp required</span>
-            </ng-form>
-          <tt>selectCompanies = {{vm.application.companies}}</tt><br>
+            <div ng-messages="vm.form.applicationForm.selectcompanies.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Choose companies required.</p>
+            </div>
         </div>
 
+
+        <!-- Times -->
         <div class="form-group">
           <label for="selectTimes"> Tider </label><br>
           Vänligen ange de tider du kan.<br>
           <select name="selectTimes" id="selectTimes" ng-model="vm.application.times" multiple ng-options='string for string in times'>
             </select><br>
-          <tt>selectTimes = {{vm.application.times}}</tt><br>
         </div>
 
        <div class="form-group" show-errors>
@@ -66,11 +85,7 @@
              rows="4" cols="70" ng-change="monitorLength(500)"></textarea><br>
         </div>
 
-        <!--Ladda upp CV på engelska resp. svenska. Minst en version är ett krav. 
-            Filen måste vara i pdf.
-            Filnamn? -->
-        
-
+        <!--Resume upload -->
         <div class="form-group">
           <h3>Uppladdning av CV</h3>
           <p> Kontrollera i företagsbeskrivningen för de företag du sökt till vilket eller vilka språk de tar emot cv på. </p>
