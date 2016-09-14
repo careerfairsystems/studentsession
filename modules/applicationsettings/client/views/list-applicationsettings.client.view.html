@@ -22,7 +22,8 @@
       <h4>Date of termination for the setting:</h4>
       <span class="list-group-item-heading">{{applicationsetting.terminatedate | date:'mediumDate'}}</span>
       <h4>Default meeting length:</h4>
-      <span class="list-group-item-heading">{{applicationsetting.meetingtime}}</span>
+      <span data-ng-if="applicationsetting.meetingtime.length == 0">No meeting time specified</span>
+      <span data-ng-if="applicationsetting.meetingtime.length > 0" data ng-bind="applicationsetting.meetingtime"></span>
     </a>
   </div>
   <div class="alert alert-warning text-center" data-ng-if="vm.applicationsettings.$resolved && !vm.applicationsettings.length">

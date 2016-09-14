@@ -23,6 +23,15 @@
           pageTitle: 'Companies List'
         }
       })
+      .state('companies.multiple', {
+        url: '/multiple',
+        templateUrl: 'modules/companies/client/views/multiple-companies.client.view.html',
+        controller: 'CompaniesMultipleController',
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'Companies List'
+        }
+      })
       .state('companies.create', {
         url: '/create',
         templateUrl: 'modules/companies/client/views/form-company.client.view.html',

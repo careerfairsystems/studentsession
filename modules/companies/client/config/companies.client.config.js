@@ -16,6 +16,12 @@
       roles: ['admin']
     });
 
+    Menus.addSubMenuItem('topbar', 'companies', {
+      title: 'Generate Companies',
+      state: 'companies.multiple',
+      roles: ['admin']
+    });
+
     // Add the dropdown list item
     Menus.addSubMenuItem('topbar', 'companies', {
       title: 'List of Companies',

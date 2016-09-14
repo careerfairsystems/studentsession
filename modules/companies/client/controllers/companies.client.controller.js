@@ -18,6 +18,7 @@
     vm.remove = remove;
     vm.save = save;
     vm.imageURL = '';
+    vm.offerstring = vm.company.weOffer.join(', ');
 
     // Create file uploader instance
     $scope.uploader = new FileUploader({
@@ -73,7 +74,7 @@
       $scope.uploader.clearQueue();
       $scope.imageURL = '/api/companies/logo/' + vm.company.profileImageURL;
     };
-    
+
     // Remove existing Company
     function remove() {
       if (confirm('Are you sure you want to delete?')) {

@@ -20,12 +20,21 @@ var CompanySchema = new Schema({
     type: String,
     default: ''
   },
-
+  description: {
+    type: String,
+    default: '',
+  },
+  weOffer: [{
+    type: String,
+  }],
+  website: {
+    type: String,
+    default: ''
+  },
   language: {
     type: String,
     enum: ['Svenska', 'English']
   },
-  description: String,
   created: {
     type: Date,
     default: Date.now

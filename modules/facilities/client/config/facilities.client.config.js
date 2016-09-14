@@ -10,7 +10,7 @@
   function menuConfig(Menus) {
     // Set top bar menu items
     Menus.addMenuItem('topbar', {
-      title: 'Lokaler',
+      title: 'Facilities',
       state: 'facilities',
       type: 'dropdown',
       roles: ['admin']
@@ -18,14 +18,14 @@
 
     // Add the dropdown list item
     Menus.addSubMenuItem('topbar', 'facilities', {
-      title: 'Visa lokaler',
+      title: 'Show facilities',
       state: 'facilities.list',
       roles: ['admin']
     });
 
     // Add the dropdown create item
     Menus.addSubMenuItem('topbar', 'facilities', {
-      title: 'Skapa lokal',
+      title: 'Create facilities',
       state: 'facilities.create',
       roles: ['admin']
     });
