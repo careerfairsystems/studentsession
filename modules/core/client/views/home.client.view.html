@@ -7,24 +7,7 @@
     </div>
   </div>
   <!-- HtmlDescription -->
-
   <div ng-bind-html="vm.frontpagehtml"></div>
-
-
-  <!--div class="row">
-    <h2>
-      About Student Session
-    </h2>
-    <div ng-bind-html="htmlDecription">
-    </div>
-    <p>
-      Cupcake ipsum dolor sit amet wafer cake gummies cake. Cookie lemon drops sugar plum bear claw tart toffee I love. Donut jelly-o sesame snaps sugar plum. Soufflé jelly sweet bear claw lemon drops jelly beans. Tootsie roll marzipan bonbon sesame snaps muffin halvah. I love topping I love cookie lemon drops cookie soufflé pudding jelly beans.
-Donut cake bear claw tiramisu cake gummies topping I love. Jelly beans apple pie brownie danish I love. Sweet jelly beans sweet bonbon. Pudding sweet roll cake cookie wafer jujubes chupa chups. Marshmallow jelly beans oat cake pastry chocolate bar marshmallow sweet roll croissant jelly beans. Cake wafer biscuit icing. Brownie apple pie chocolate cake donut sweet roll bear claw donut jujubes. Bonbon biscuit candy caramels tiramisu carrot cake bear claw I love biscuit.
-Muffin cookie chocolate soufflé halvah. Gummies bonbon lollipop gummies macaroon pastry tootsie roll biscuit. Pudding cake sweet roll. Soufflé chocolate cake gummi bears topping. Sesame snaps apple pie danish wafer I love apple pie oat cake. I love pastry pastry danish cake sweet jujubes wafer. Jelly beans cotton candy jelly beans cake tart halvah cheesecake. Apple pie jelly-o dragée marshmallow dessert I love.
-Marzipan I love jelly-o muffin I love chocolate caramels. Jelly-o candy chocolate jelly sweet roll wafer jujubes. Bonbon chocolate cake jelly-o carrot cake chupa chups gingerbread sweet roll carrot cake. Jelly-o marzipan I love marzipan. Danish sugar plum tootsie roll I love pie donut. Liquorice gingerbread toffee. Brownie marshmallow I love cake dessert powder. Lemon drops I love bonbon gummi bears I love jelly tiramisu gummies.
-I love pie donut chocolate cake chupa chups chupa chups halvah chocolate. Jelly apple pie donut croissant brownie. Sweet soufflé carrot cake ice cream wafer I love sweet caramels candy canes. Lollipop muffin candy canes. Chocolate chocolate macaroon. I love I love chocolate bar cotton candy marzipan I love jelly-o pastry.
-    <p>
-  </div-->
   <!-- Companies -->
   <div class="row">
     <h2 id="company">
@@ -53,7 +36,7 @@ I love pie donut chocolate cake chupa chups chupa chups halvah chocolate. Jelly 
           data-ng-repeat="company in vm.companies" >
           <span class="helper"></span>
           <img data-ng-show="company.profileImageURL"
-            class="grayscale" ng-src="{{company.profileImageURL}}" />
+            class="grayscale" ng-src="/api/companies/logo/{{company.profileImageURL}}" />
           <h4 data-ng-show="!company.profileImageURL"
             class="grayscale" data-ng-bind="company.name" ></h4>
         </div>
