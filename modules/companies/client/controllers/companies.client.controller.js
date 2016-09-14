@@ -55,7 +55,6 @@
     // Called after the user has successfully uploaded a new picture
     $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
       $scope.success = true;
-      console.log('Hej: ' + response);
       vm.company.profileImageURL = response;
       $scope.cancelUpload();
     };
