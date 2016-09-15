@@ -32,6 +32,7 @@ var ApplicationSchema = new Schema({
   },
   attachments: [{
     language: String,
+    description: String,
     link: String
   }],
   phone: {
@@ -41,7 +42,6 @@ var ApplicationSchema = new Schema({
   email: {
     type: String,
     required: true
-    //hämta denna information från användaren?
   },
   times: {
     type: [String],

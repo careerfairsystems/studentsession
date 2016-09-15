@@ -93,6 +93,53 @@
 
     $scope.years = [1, 2, 3, 4, 5];
 
+    /*
+      Ladda upp flera cv:n;
+
+      arr=[{}];
+
+      Just nu laddas en fil upp. Vill ladda upp valfri mängd när ansökaren klickar på knappen.
+      <div ng-repeat = "ngt i arr track by $index"> 
+        Ladda upp CV-------
+        id: $namn_{{index}} (som man får av ng-repeat) 
+      </div>
+      
+      Button pekar på detta
+      func addAttachment = {
+                        arr.push({})
+                        }
+
+      När man klickar på knapp, kör addAttachment
+
+      Exempel: Lägger till tasks till taskgroups i hostapplication
+
+        attachments: [{
+    language: String,
+    link: String
+  }],
+      */
+
+    if(!vm.application.attachments){
+      vm.application.attachments = [];
+    }
+
+    $scope.languages = ['Svenska / Swedish', 'Engelska / English'];
+
+    //Functions for uploading several resumes/attachments
+    $scope.addAttachment = function (attachments) {
+      vm.application.attachments.push({ language: '', description: 'resume', edit: true }); //vad betyder edit: true?? finns inte i modellen för tasks
+    };
+
+    //Create the first attachment (one required)
+    $scope.addAttachment(vm.application.attachments);
+
+    $scope.saveAttachment = function (index) {
+      vm.application.attachments[index].edit = false;
+    };
+    
+    $scope.deleteAttachment = function (index) {
+      vm.application.attachments.splice(index, 1);
+    };
     
     //limit length of "vm.application.description"
     $scope.monitorLength = function (maxLength) {
@@ -117,6 +164,7 @@
     function save(isValid) {
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.applicationForm');
+        vm.error = "Du har inte fyllt i alla fält / You need to fill all fields";
         return false;
       }
 
@@ -180,7 +228,7 @@
      // Called after the user has successfully uploaded a new resume
     $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
       // URL to resume put into database
-      vm.application.resume = response;
+      vm.application.attachments = response; //pusha på response??
       // Show success message
       $scope.success = true;
       // Clear uploader queue

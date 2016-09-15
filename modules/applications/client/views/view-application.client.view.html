@@ -45,6 +45,14 @@
        {{ time }}
       </li>
     </ul>
+    <h5>
+      Attachments
+    </h5>
+    <ul>
+      <li ng-repeat="applications in vm.application.applications">
+       {{ description }}: {{ language }}
+      </li>
+    </ul>
 
   </div>
   <div class="pull-right"
