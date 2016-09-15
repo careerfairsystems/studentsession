@@ -45,6 +45,9 @@
     '17/11 13-15',
     '17/11 15-17'];
 
+    //uploaders to upload several pdf:S
+    $scope.uploaders = [];
+
     //programs
     var allPrograms = ['Byggteknik med arkitektur / Civil Engineering - Architecture',
                   'Arkitekt / Architect',
@@ -125,9 +128,54 @@
 
     $scope.languages = ['Svenska / Swedish', 'Engelska / English'];
 
+    // A type of uploader that has an index and filters for pdf:s
+    var indexedPdfUploader = function (conf, index) {
+
+      var fileUploader = new FileUploader(conf);
+      fileUploader.index = index;
+    
+      // Set file uploader pdf filter
+      fileUploader.filters.push({
+          name: 'pdfFilter',
+          fn: function (item, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|pdf|'.indexOf(type) !== -1;
+          }
+        });
+      
+
+      // Called after the user selected a file
+      fileUploader.onAfterAddingFile = function(fileItem) {
+        if ($window.FileReader) {
+          var fileReader = new FileReader();
+          fileReader.readAsDataURL(fileItem._file);
+
+          fileReader.onload = function (fileReaderEvent) {
+            $timeout(function () {
+              //$scope.pdfURL = fileReaderEvent.target.result;
+            }, 0);
+          };
+        }
+      };
+
+       // Called after the user has successfully uploaded a new resume
+      fileUploader.onSuccessItem = function(fileItem, response, status, headers) {
+        // URL to resume put into database
+        vm.application.attachments.push({ link: response }); //pusha på response??
+        // Show success message
+        $scope.success = true;
+        // Clear uploader queue
+        $scope.uploader[fileUploader.index].clearQueue(); 
+        return;
+      };
+      return fileUploader;
+    };
+
     //Functions for uploading several resumes/attachments
     $scope.addAttachment = function (attachments) {
-      vm.application.attachments.push({ language: '', description: 'resume', edit: true }); //vad betyder edit: true?? finns inte i modellen för tasks
+      console.log('Attachment added');
+      $scope.uploaders.push(indexedPdfUploader({ url: 'api/applications/resume', alias: 'newResume' }, vm.application.length)); 
+      vm.application.attachments.push({ language: '', description: 'resume', edit: true }); 
     };
 
     //Create the first attachment (one required)
@@ -138,6 +186,7 @@
     };
     
     $scope.deleteAttachment = function (index) {
+      console.log('Attachment deleted');
       vm.application.attachments.splice(index, 1);
     };
     
@@ -186,12 +235,6 @@
       }
     }
 
-    // Create file uploader instance
-    $scope.uploader = new FileUploader({
-      url: 'api/applications/resume/' + prettify($scope.user.displayName) + $scope.user._id + '_cv' + '.pdf', //osäker på om .pdf behövs
-      alias: 'newResume'
-    });
-
     function prettify(str) {
       return str.replace(/\s/g, '')
         .replace(/å/g, 'a')
@@ -201,40 +244,5 @@
         .replace(/ö/g, 'o')
         .replace(/Ö/g, 'O');
     }
-
-     // Set file uploader pdf filter
-    $scope.uploader.filters.push({
-      name: 'pdfFilter',
-      fn: function (item, options) {
-        var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-        return '|pdf|'.indexOf(type) !== -1;
-      }
-    });
-
-     // Called after the user selected a file
-    $scope.uploader.onAfterAddingFile = function (fileItem) {
-      if ($window.FileReader) {
-        var fileReader = new FileReader();
-        fileReader.readAsDataURL(fileItem._file);
-
-        fileReader.onload = function (fileReaderEvent) {
-          $timeout(function () {
-            //$scope.pdfURL = fileReaderEvent.target.result;
-          }, 0);
-        };
-      }
-    };
-
-     // Called after the user has successfully uploaded a new resume
-    $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
-      // URL to resume put into database
-      vm.application.attachments = response; //pusha på response??
-      // Show success message
-      $scope.success = true;
-      // Clear uploader queue
-      $scope.uploader.clearQueue(); //?
-      return;
-    };
-      //slut
   }
 })();

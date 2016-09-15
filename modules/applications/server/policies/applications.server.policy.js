@@ -24,6 +24,9 @@ exports.invokeRolesPolicies = function () {
       }, {
         resources: '/api/applications/resume/:pdfName',
         permissions: ['get', 'post']
+      }, {
+        resources: '/api/applications/resume/',
+        permissions: ['post']
       }]
     }, {
       roles: ['user'],
@@ -35,6 +38,9 @@ exports.invokeRolesPolicies = function () {
         permissions: ['get']
       }, {
         resources: '/api/applications/resume/:pdfName',
+        permissions: ['post']
+       }, {
+        resources: '/api/applications/resume/',
         permissions: ['post']
       }]
     }, {

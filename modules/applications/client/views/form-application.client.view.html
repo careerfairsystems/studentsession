@@ -98,18 +98,18 @@
 
           <p> Kontrollera i företagsbeskrivningen för de företag du sökt till vilket eller vilka språk de tar emot cv på. </p>
 
-            <div ng-hide="uploader.queue.length">
+            <div ng-hide="uploaders[$index].queue.length">
              <span class="btn btn-default btn-file">
                  Välj PDF <input name="resume-pdf" type="file" nv-file-select uploader="uploader">
              </span>
            </div>
 
-           <div ng-show="uploader.queue.length">
-             <button type="button" class="btn btn-primary" ng-click="uploader.uploadAll();">Skicka in cv</button>
+           <div ng-show="uploaders[$index].queue.length">
+             <button type="button" class="btn btn-primary" ng-click="uploaders[$index].uploadAll();">Skicka in cv</button>
             </div>
 
-           <div ng-show="uploader.queue.length">  
-             <button type="button" class="btn btn-default" ng-click="uploader.clearQueue(); unsuccess();">Ångra</button> 
+           <div ng-show="uploaders[$index].queue.length">  
+             <button type="button" class="btn btn-default" ng-click="uploaders[$index].clearQueue(); unsuccess();">Ångra</button> 
            </div>
 
            <div ng-show="vm.application.resume.length">
@@ -117,7 +117,7 @@
            </div>
 
 
-           <div ng-show="success && !uploader.queue.length" class="text-center text-success">
+           <div ng-show="success && !uploaders[$index].queue.length" class="text-center text-success">
              <strong>Ditt cv har har laddats upp!</strong>
            </div>
            <div ng-show="error" class="text-center text-danger">
@@ -136,7 +136,7 @@
               <td style="width:40%">Filnamn</td>
               <td style="width:40%">Val av fil</td>
             </tr>
-            <tr ng-repeat="language in vm.application.attachments track by $index">
+            <tr ng-repeat="$index in vm.application.attachments track by $index">
               <td>
                 <div ng-show="!vm.application.attachments[$index].edit">
                   <span>{{ vm.application.attachments[$index].language }}</span>
@@ -152,25 +152,26 @@
               </td>
               <td>
                 <div ng-show="vm.application.attachments[$index].edit">
-                  <div ng-hide="uploader.queue.length || !vm.application.attachments[$index].edit">
+                  <div ng-hide="uploaders[$index].queue.length || !vm.application.attachments[$index].edit">
                    <span class="btn btn-default btn-file">
-                       Välj PDF <input name="resume-pdf" type="file" nv-file-select uploader="uploader">
+                       Välj PDF <input name="resume-pdf" type="file" nv-file-select uploader="uploaders[$index]">
                    </span>
                  </div>
 
-                 <div ng-show="uploader.queue.length">
-                   <button type="button" class="btn btn-primary" ng-click="uploader.uploadAll();">Skicka in cv</button>
+                 <div ng-show="uploaders[$index].queue.length">
+                   <button type="button" class="btn btn-primary" ng-click="uploaders[$index].uploadAll();">Skicka in cv</button>
                   </div>
 
-                 <div ng-show="uploader.queue.length">  
-                   <button type="button" class="btn btn-default" ng-click="uploader.clearQueue(); unsuccess();">Ångra</button> 
+                 <div ng-show="uploaders[$index].queue.length">  
+                   <button type="button" class="btn btn-default" ng-click="uploaders[$index].clearQueue(); unsuccess();">Ångra</button> 
                  </div>
                  
-                 <div ng-show="success && !uploader.queue.length" class="text-center text-success">
+                 <div ng-show="success && !uploaders[$index].queue.length" class="text-center text-success">
                     <strong>Ditt cv har har laddats upp!</strong>
                 </div>
                 </div>
               </td>
+              Index {{$index}}
               <td style="white-space: nowrap">
                 <!-- Save / delete attachment buttons -->
                 <div class="buttons" ng-show="vm.application.attachments[$index].edit">
