@@ -20,12 +20,14 @@ module.exports = {
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
         'public/lib/jquery/dist/jquery.min.js',
         'public/lib/datatables.net/js/jquery.dataTables.min.js',
-        'public/lib/datatables.net-bs/js/dataTables.bootstrap.min.js'
+        'public/lib/datatables.net-bs/js/dataTables.bootstrap.min.js',
+        'public/lib/chosen/chosen.jquery.js',
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },
     css: [
-      'modules/*/client/css/*.css'
+      'modules/*/client/css/*.css',
+      'public/lib/chosen/chosen.css'
     ],
     less: [
       'modules/*/client/less/*.less'

@@ -7,55 +7,55 @@
 			<fieldset>
 
       <div class="form-group" show-errors>
-      	<label for="selectStartDate">Startdatum</label><br>
+      	<label for="selectStartDate">Start time</label><br>
 
       	<input type="date" name="selectStartDate" ng-model="vm.startDate" placeholder="yyyy-MM-dd" required />
       	<div role="alert">
       		<span class="error" ng-show="myForm.input.$error.required">
       			Required!</span>
       		<span class="error" ng-show="myForm.input.$error.date">
-      			Not a valid date!</span>
+      			Not a valid start time!</span>
       	</div>
       </div>
 
       <div class="form-group" show-errors>
-		<label for="selectEndDate">Slutdatum</label><br>      		
+		<label for="selectEndDate">End date</label><br>
             <input type="date" name="selectEndDate" ng-model="vm.endDate" placeholder="yyyy-MM-dd" required />
             <div role="alert">
       	     <span class="error" ng-show="myForm.input.$error.required">
       				Required!</span>
       		<span class="error" ng-show="myForm.input.$error.date">
-      				Not a valid date!</span>
+      				Not a valid end date!</span>
       	</div>
       </div>
 
       <div class="form-group" show-errors>
-		<label for="selectStartTime">Starttid</label><br>      		
+		<label for="selectStartTime">Start time</label><br>
             <input type="time" id="exampleInput" name="input" ng-model="vm.startHours"
       		placeholder="HH:mm:ss" required />
       	<div role="alert">
       		<span class="error" ng-show="myForm.input.$error.required">
       				Required!</span>
 			<span class="error" ng-show="myForm.input.$error.time">
-      				Not a valid date!</span>      		
+      				Not a valid start time!</span>
             </div>
       </div>
 
 
       <div class="form-group" show-errors>
-		<label for="selectEndTime">Sluttid</label><br>      		
+		<label for="selectEndTime">End time</label><br>
             <input type="time" id="exampleInput" name="input" ng-model="vm.endHours" placeholder="HH:mm:ss" required />
       	<div role="alert">
       		<span class="error" ng-show="myForm.input.$error.required">
       			Required!</span>
       		<span class="error" ng-show="myForm.input.$error.time">
-      			Not a valid date!</span>
+      			Not a valid end date!</span>
       	</div>
       </div>
 
 
       <div class="form-group" show-errors>
-      	<label for="selectLength">Möteslängd (minuter)</label><br>
+      	<label for="selectLength">Meeting duration (minutes)</label><br>
 
       	<input type="number" name="selectLength" ng-model="vm.meetingTimeLength" required>
       	<div role="alert">
@@ -67,26 +67,23 @@
       </div>
 
       <div class="form-group" show-errors>
-      	<label for="selectBreak">Lunchrast</label><br>
+      	<label for="selectBreak">Lunch break</label><br>
       	<input type="time" id="exampleInput" name="input" ng-model="vm.lunchStart"
-      	placeholder="HH:mm:ss" required /> -
-      	<input type="time" id="exampleInput" name="input" ng-model="vm.lunchEnd" placeholder="HH:mm" required />
+      	placeholder="HH:mm:ss" /> -
+      	<input type="time" id="exampleInput" name="input" ng-model="vm.lunchEnd" placeholder="HH:mm" />
 			<div role="alert">
       			<span class="error" ng-show="myForm.input.$error.required">
       				Required!</span>
       			<span class="error" ng-show="myForm.input.$error.time">
-      				Not a valid date!</span>
+      				Not a valid lunch break!</span>
       		</div>
       </div>
 
-
-      <div class="form-group">
-      	<label for="selectResources">Lokaler</label><br>
-      	<div ng-repeat = "facility in vm.facilities"> 
-      		<input name="selectResources" type="checkbox" ng-model="vm.chosenFacilities[facility.name]"> 
-      		{{facility.name}} 
-		</div>      	
-      </div>
+			<div class="form-group">
+				<label>Facility:</label>
+				<select name="program" ng-model="vm.facility" ng-options="facility.name for facility in vm.facilities" multiple class="facility_select_box">
+				</select>
+			</div>
 
       <div class="form-group">
       	<button type="submit" class="btn btn-default" ng-click="createMeetings();">{{vm.meeting._id ? 'Update' : 'Skapa möten'}}</button>

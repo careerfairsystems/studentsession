@@ -1,3 +1,4 @@
+/* global $:false */
 (function () {
   'use strict';
 
@@ -6,9 +7,9 @@
     .module('meetings')
     .controller('MeetingsController', MeetingsController);
 
-  MeetingsController.$inject = ['$scope', '$http', '$state', 'Authentication', 'meetingResolve', 'listFacilitiesResolve', 'listApplicationsResolve', 'listCompaniesResolve'];
+  MeetingsController.$inject = ['$scope', '$http', '$state', 'Authentication', 'meetingResolve', 'listFacilitiesResolve', 'listApplicationsResolve', 'listCompaniesResolve', '$timeout'];
 
-  function MeetingsController ($scope, $http, $state, Authentication, meeting, facilities, applications, companies) {
+  function MeetingsController ($scope, $http, $state, Authentication, meeting, facilities, applications, companies, $timeout) {
     var vm = this;
 
     vm.authentication = Authentication;
@@ -25,6 +26,7 @@
     vm.endDate = new Date('----', '--', '--', '--', '--', '--');
     vm.endTime = new Date('----', '--', '--', '--', '--', '--');
 
+
     $http({
       method: 'GET',
       url: '/api/companies/active'
@@ -32,6 +34,60 @@
       vm.companies = response.data;
     }, function errorCallback(response) {
       console.log('ERROR: ' + response);
+    });
+
+    // Angular needs to complete rendering before applying 'chosen'
+    $timeout(function () {
+        // Chosen method
+      $(".company_select_box").chosen({
+        no_results_text: "Oops, nothing found!",
+        max_selected_options: 5,
+        width: "100%"
+      });
+      $(".student_select_box").chosen({
+        no_results_text: "Oops, nothing found!",
+        max_selected_options: 5,
+        width: "100%"
+      });
+      $(".facility_select_box").chosen({
+        no_results_text: "Oops, nothing found!",
+        max_selected_options: 5,
+        width: "100%"
+      });
+    }, 0, false);
+
+    vm.company = [];
+    $('.company_select_box').on('change', function(evt, params) {
+      var element = $('.company_select_box');
+      if(params.selected){
+        vm.company = vm.companies[params.selected];
+      } else if(params.deselected) {
+        vm.company = {};
+      }
+      console.log(vm.company);
+    });
+
+
+    vm.student = [];
+    $('.student_select_box').on('change', function(evt, params) {
+      var element = $('.student_select_box');
+      if(params.selected){
+        vm.student = vm.applications[params.selected];
+      } else if(params.deselected) {
+        vm.student = {};
+      }
+      console.log(vm.student);
+    });
+
+    vm.facility = [];
+    $('.facility_select_box').on('change', function(evt, params) {
+      var element = $('.facility_select_box');
+      if(params.selected){
+        vm.facility = vm.facilities[params.selected];
+      } else if(params.deselected) {
+        vm.facility = {};
+      }
+      console.log(vm.facility);
     });
 
     // Remove existing Meeting
