@@ -92,103 +92,62 @@
         <!--Resume upload -->
         <div class="form-group">
           <h3>Uppladdning av CV</h3>
-          
+           <p> Kontrollera i företagsbeskrivningen för de företag du sökt till vilket eller vilka språk de tar emot cv på. </p>
 
-          <!-- gammalt
-
-          <p> Kontrollera i företagsbeskrivningen för de företag du sökt till vilket eller vilka språk de tar emot cv på. </p>
-
-            <div ng-hide="uploaders[$index].queue.length">
+           <!-- CV svenska -->
+            <div ng-hide="swedishFileUploader.queue.length">
              <span class="btn btn-default btn-file">
-                 Välj PDF <input name="resume-pdf" type="file" nv-file-select uploader="uploader">
+                 Välj CV på svenska. / Pick a Swedish resume. <input name="newResume" type="file" nv-file-select uploader="swedishFileUploader">
              </span>
            </div>
 
-           <div ng-show="uploaders[$index].queue.length">
-             <button type="button" class="btn btn-primary" ng-click="uploaders[$index].uploadAll();">Skicka in cv</button>
-            </div>
+           <div ng-show="swedishFileUploader.queue.length">
+             <button type="button" class="btn btn-primary" ng-click="swedishFileUploader.uploadAll();">Skicka in cv</button>
+          </div>
 
-           <div ng-show="uploaders[$index].queue.length">  
-             <button type="button" class="btn btn-default" ng-click="uploaders[$index].clearQueue(); unsuccess();">Ångra</button> 
+           <div ng-show="swedishFileUploader.queue.length">  
+             <button type="button" class="btn btn-default" ng-click="swedishFileUploader.clearQueue(); swedishUploadUnsuccess();">Ångra</button> 
            </div>
 
-           <div ng-show="vm.application.resume.length">
+           <div ng-show="vm.application.resume.swedishLink.length">
             Du har skickat in ett cv. Skicka in ett nytt cv för att byta.
            </div>
 
 
-           <div ng-show="success && !uploaders[$index].queue.length" class="text-center text-success">
+           <div ng-show="swedishUploadSuccess && !swedishFileUploader.queue.length" class="text-center text-success">
+             <strong>Ditt cv har har laddats upp!</strong>
+           </div>
+           <div ng-show="error" class="text-center text-danger">
+             <strong ng-bind="error"></strong>
+            </div> 
+
+            <!-- CV engelska -->
+            <div ng-hide="englishFileUploader.queue.length">
+             <span class="btn btn-default btn-file">
+                 Välj CV på engelska. / Pick an English resume. <input name="newResume" type="file" nv-file-select uploader="englishFileUploader">
+             </span>
+           </div>
+
+           <div ng-show="englishFileUploader.queue.length">
+             <button type="button" class="btn btn-primary" ng-click="englishFileUploader.uploadAll();">Skicka in cv</button>
+            </div>
+
+           <div ng-show="englishFileUploader.queue.length">  
+             <button type="button" class="btn btn-default" ng-click="englishFileUploader.clearQueue(); englishUploadUnsuccess();">Ångra</button> 
+           </div>
+
+           <div ng-show="vm.application.resume.englishLink.length">
+            Du har skickat in ett cv. Skicka in ett nytt cv för att byta.
+           </div>
+
+           <div ng-show="englishUploadSuccess && !englishFileUploader.queue.length" class="text-center text-success">
              <strong>Ditt cv har har laddats upp!</strong>
            </div>
            <div ng-show="error" class="text-center text-danger">
              <strong ng-bind="error"></strong>
             </div> 
         </div>
-        -->
-       
-       <!-- Resume upload, several resumes -->
-
-       <p> Kontrollera i företagsbeskrivningen för de företag du sökt till vilket eller vilka språk de tar emot cv på. Du kan ladda upp flera cv:n, men lägg bara till ett alternativ på varje språk.</p>
-
-       <table class="table table-bordered table-hover table-condensed">
-            <tr style="font-weight: bold">
-              <td style="width:20%">Språk</td>
-              <td style="width:40%">Filnamn</td>
-              <td style="width:40%">Val av fil</td>
-            </tr>
-            <tr ng-repeat="$index in vm.application.attachments track by $index">
-              <td>
-                <div ng-show="!vm.application.attachments[$index].edit">
-                  <span>{{ vm.application.attachments[$index].language }}</span>
-                </div>
-                <div ng-show="vm.application.attachments[$index].edit">
-                  <select name="language" ng-model="vm.application.attachments[$index].language" ng-options="language for language in languages" class="my_select_box form-control" required></select>
-                </div>
-              </td>
-              <td>
-                <div ng-show="!vm.application.attachments[$index].edit">
-                  <span>{{ vm.application.attachments[$index].fileName }}</span>
-                </div>
-              </td>
-              <td>
-                <div ng-show="vm.application.attachments[$index].edit">
-                  <div ng-hide="uploaders[$index].queue.length || !vm.application.attachments[$index].edit">
-                   <span class="btn btn-default btn-file">
-                       Välj PDF <input name="resume-pdf" type="file" nv-file-select uploader="uploaders[$index]">
-                   </span>
-                 </div>
-
-                 <div ng-show="uploaders[$index].queue.length">
-                   <button type="button" class="btn btn-primary" ng-click="uploaders[$index].uploadAll();">Skicka in cv</button>
-                  </div>
-
-                 <div ng-show="uploaders[$index].queue.length">  
-                   <button type="button" class="btn btn-default" ng-click="uploaders[$index].clearQueue(); unsuccess();">Ångra</button> 
-                 </div>
-                 
-                 <div ng-show="success && !uploaders[$index].queue.length" class="text-center text-success">
-                    <strong>Ditt cv har har laddats upp!</strong>
-                </div>
-                </div>
-              </td>
-              Index {{$index}}
-              <td style="white-space: nowrap">
-                <!-- Save / delete attachment buttons -->
-                <div class="buttons" ng-show="vm.application.attachments[$index].edit">
-                  <button type="button" class="btn btn-primary" ng-click="saveAttachment($index)"><i class="glyphicon glyphicon-ok"></i></button>
-                  <button type="button" class="btn btn-danger" ng-click="deleteAttachment($index)"><i class="glyphicon glyphicon-trash"></i></button>
-                </div>  
-                <!-- Edit attachment button -->
-                <div class="buttons" ng-show="!vm.application.attachments[$index].edit">
-                  <button type="button" class="btn btn-primary" ng-click="vm.application.attachments[$index].edit = true;"><i class="glyphicon glyphicon-edit"></i></a>
-                </div>  
-              </td>
-            </tr>
-          </table>
-          <p class="text-danger" ng-bind="assignmenterror"></p>
-          <button ng-click="addAttachment(vm.application.attachments)" type="button" class="btn btn-warning">Lägg till CV / Add resume</button>
-        </div>
-
+          
         <div class="form-group">
           <button type="submit" class="btn btn-default">{{vm.application._id ? 'Update' : 'Skicka'}}</button>
         </div>

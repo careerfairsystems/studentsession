@@ -45,9 +45,6 @@
     '17/11 13-15',
     '17/11 15-17'];
 
-    //uploaders to upload several pdf:S
-    $scope.uploaders = [];
-
     //programs
     var allPrograms = ['Byggteknik med arkitektur / Civil Engineering - Architecture',
                   'Arkitekt / Architect',
@@ -91,61 +88,33 @@
                   'Maskinteknik / Mechanical Engineering',
                   'Medicin och teknik / Biomedical Engineering',
                   'Lantmäteri / Surveying'];
+
     var set = new Set(allPrograms);
     $scope.programs = Array.from(set);
 
     $scope.years = [1, 2, 3, 4, 5];
 
-    /*
-      Ladda upp flera cv:n;
 
-      arr=[{}];
+    /*------------------------------ File Uploaders --------------------------------------------------------*/
 
-      Just nu laddas en fil upp. Vill ladda upp valfri mängd när ansökaren klickar på knappen.
-      <div ng-repeat = "ngt i arr track by $index"> 
-        Ladda upp CV-------
-        id: $namn_{{index}} (som man får av ng-repeat) 
-      </div>
-      
-      Button pekar på detta
-      func addAttachment = {
-                        arr.push({})
-                        }
+    // Creation of the file uploaders
+    $scope.swedishFileUploader = new FileUploader({ url: 'api/applications/resume', alias: 'newResume' });
+    $scope.englishFileUploader = new FileUploader({ url: 'api/applications/resume', alias: 'newResume' });
 
-      När man klickar på knapp, kör addAttachment
-
-      Exempel: Lägger till tasks till taskgroups i hostapplication
-
-        attachments: [{
-    language: String,
-    link: String
-  }],
-      */
-
-    if(!vm.application.attachments){
-      vm.application.attachments = [];
-    }
-
-    $scope.languages = ['Svenska / Swedish', 'Engelska / English'];
-
-    // A type of uploader that has an index and filters for pdf:s
-    var indexedPdfUploader = function (conf, index) {
-
-      var fileUploader = new FileUploader(conf);
-      fileUploader.index = index;
-    
-      // Set file uploader pdf filter
-      fileUploader.filters.push({
+    // Methods for an pdf uploader
+    var pdfFilter = {
           name: 'pdfFilter',
           fn: function (item, options) {
             var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
             return '|pdf|'.indexOf(type) !== -1;
           }
-        });
-      
+        };
 
-      // Called after the user selected a file
-      fileUploader.onAfterAddingFile = function(fileItem) {
+    // Connecting of file uploaders to their methods (filters etc.)
+    $scope.swedishFileUploader.filters.push(pdfFilter);
+
+    // Called after the user selected a file
+    $scope.swedishFileUploader.onAfterAddingFile = function(fileItem) {
         if ($window.FileReader) {
           var fileReader = new FileReader();
           fileReader.readAsDataURL(fileItem._file);
@@ -158,38 +127,57 @@
         }
       };
 
-       // Called after the user has successfully uploaded a new resume
-      fileUploader.onSuccessItem = function(fileItem, response, status, headers) {
+    // Called after the user has successfully uploaded a new resume
+    $scope.swedishFileUploader.onSuccessItem = function(fileItem, response, status, headers) {
         // URL to resume put into database
-        vm.application.attachments.push({ link: response }); //pusha på response??
+        vm.application.resume.swedishLink.push(response); //pusha på response??
         // Show success message
-        $scope.success = true;
+        $scope.swedishUploadSuccess = true;
         // Clear uploader queue
-        $scope.uploader[fileUploader.index].clearQueue(); 
+        $scope.swedishFileUploader.clearQueue(); 
         return;
       };
-      return fileUploader;
+
+    // Resets the upload as unsuccessful
+    $scope.swedishUploadUnsuccess = function () {
+      $scope.swedishUploadSuccess = false;
     };
 
-    //Functions for uploading several resumes/attachments
-    $scope.addAttachment = function (attachments) {
-      console.log('Attachment added');
-      $scope.uploaders.push(indexedPdfUploader({ url: 'api/applications/resume', alias: 'newResume' }, vm.application.length)); 
-      vm.application.attachments.push({ language: '', description: 'resume', edit: true }); 
-    };
+    
+    $scope.englishFileUploader.filters.push(pdfFilter);
+    // Called after the user selected a file
+    $scope.englishFileUploader.onAfterAddingFile = function(fileItem) {
+        if ($window.FileReader) {
+          var fileReader = new FileReader();
+          fileReader.readAsDataURL(fileItem._file);
 
-    //Create the first attachment (one required)
-    $scope.addAttachment(vm.application.attachments);
+          fileReader.onload = function (fileReaderEvent) {
+            $timeout(function () {
+              //$scope.pdfURL = fileReaderEvent.target.result;
+            }, 0);
+          };
+        }
+      };
 
-    $scope.saveAttachment = function (index) {
-      vm.application.attachments[index].edit = false;
+    // Called after the user has successfully uploaded a new resume
+    $scope.englishFileUploader.onSuccessItem = function(fileItem, response, status, headers) {
+        // URL to resume put into database
+        $scope.vm.application.resume.englishLink.push(response); //pusha på response??
+        // Show success message
+        $scope.englishUploadSuccess = true;
+        // Clear uploader queue
+        $scope.englishFileUploader.clearQueue(); 
+        return;
+      };
+
+    // Resets the upload as unsuccessful
+    $scope.englishUploadUnsuccess = function () {
+      $scope.englishUploadSuccess = false;
     };
     
-    $scope.deleteAttachment = function (index) {
-      console.log('Attachment deleted');
-      vm.application.attachments.splice(index, 1);
-    };
-    
+    /*------------------------------ End of File Uploaders --------------------------------------------------------*/
+
+
     //limit length of "vm.application.description"
     $scope.monitorLength = function (maxLength) {
       if ($scope.vm.application.description.length > maxLength) {

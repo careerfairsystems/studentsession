@@ -173,7 +173,7 @@ exports.addResumeAttachment = function (req, res) { //när körs denna?
           cb(null, pdfName);
         }
       })
-    }).single('newCompanyLogo');
+    }).single('newCompanyLogo'); //newResume???
   }
   var resumeFileFilter = require(path.resolve('./config/lib/multer')).resumeFileFilter;
   upload.fileFilter = resumeFileFilter;

@@ -30,11 +30,10 @@ var ApplicationSchema = new Schema({
     type: [String],
     required: true
   },
-  attachments: [{
-    language: String,
-    description: String,
-    link: String
-  }],
+  resume: {
+    swedishLink: String,
+    englishLink: String
+  },
   phone: {
     type: String,
     required: true
