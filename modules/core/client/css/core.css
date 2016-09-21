@@ -52,7 +52,7 @@
 
 /* ARKAD design */
 body {
-  background: #002B64;
+  background: url("/modules/core/client/img/bakground-image.png");
   background-attachment: fixed; }
 
 @media screen and (max-width: 768px) {
