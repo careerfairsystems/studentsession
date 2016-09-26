@@ -204,6 +204,10 @@
        no_results_text: "Oops, nothing found!",
        width: "100%"
      });
+    $(".year_select_box").chosen({
+       no_results_text: "Oops, nothing found!",
+       width: "100%"
+     });
     }, 0, false);
 
 
@@ -228,6 +232,16 @@
       } else if(params.deselected) {
         var position = vm.application.times.indexOf($scope.times[params.deselected]);
         vm.application.times.splice(position, 1);
+      }
+    });
+
+    $('.year_select_box').on('change', function(evt, params) {
+      var element = $('.year_select_box');
+      if(params.selected){
+        vm.application.year.push($scope.years[params.selected]);
+      } else if(params.deselected) {
+        var position = vm.application.year.indexOf($scope.years[params.deselected]);
+        vm.application.year.splice(position, 1);
       }
     });
 

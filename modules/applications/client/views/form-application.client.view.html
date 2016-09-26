@@ -51,7 +51,7 @@
         <!-- Year -->
         <div class="form-group" show-errors>
           <label class="control-label" for="program">År / Year</label>
-          <select name="program" ng-model="vm.application.year" ng-options="year for year in years" class="form-control" required>
+          <select name="program" ng-model="vm.application.year" ng-options="year for year in years" class="year_select_box" required>
           </select>
           <div ng-messages="vm.form.applicationForm.program.$error" role="alert">
             <p class="help-block error-text" ng-message="required">Program is required.</p>
