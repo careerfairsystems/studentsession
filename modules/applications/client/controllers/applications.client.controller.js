@@ -222,9 +222,6 @@
         return false;
       } else if (vm.application.resume === undefined || 
         (vm.application.resume.englishLink === undefined && vm.application.resume.swedishLink === undefined)) {
-        console.log('inget cv');
-        console.log('vm.application.resume == null', vm.application.resume === null);
-        console.log('vm.application.resume.length < 1', vm.application.resume.length < 1);
         vm.error = 'Du måste bifoga minst ett CV / You must attach at least one resume';
         return false;
       }
