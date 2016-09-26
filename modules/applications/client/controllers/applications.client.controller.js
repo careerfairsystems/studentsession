@@ -16,6 +16,7 @@
 
     vm.authentication = Authentication;
     vm.application = application;
+    vm.application.resume = {};
     vm.error = null;
     vm.form = {};
     vm.remove = remove;
@@ -103,40 +104,40 @@
 
     // Methods for an pdf uploader
     var pdfFilter = {
-          name: 'pdfFilter',
-          fn: function (item, options) {
-            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-            return '|pdf|'.indexOf(type) !== -1;
-          }
-        };
+      name: 'pdfFilter',
+      fn: function (item, options) {
+        var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+        return '|pdf|'.indexOf(type) !== -1;
+      }        
+    };
 
     // Connecting of file uploaders to their methods (filters etc.)
     $scope.swedishFileUploader.filters.push(pdfFilter);
 
     // Called after the user selected a file
     $scope.swedishFileUploader.onAfterAddingFile = function(fileItem) {
-        if ($window.FileReader) {
-          var fileReader = new FileReader();
-          fileReader.readAsDataURL(fileItem._file);
+      if ($window.FileReader) {
+        var fileReader = new FileReader();
+        fileReader.readAsDataURL(fileItem._file);
 
-          fileReader.onload = function (fileReaderEvent) {
-            $timeout(function () {
-              //$scope.pdfURL = fileReaderEvent.target.result;
-            }, 0);
-          };
-        }
-      };
+        fileReader.onload = function (fileReaderEvent) {
+          $timeout(function () {
+            //$scope.pdfURL = fileReaderEvent.target.result;
+          }, 0);
+        };
+      }
+    };
 
     // Called after the user has successfully uploaded a new resume
     $scope.swedishFileUploader.onSuccessItem = function(fileItem, response, status, headers) {
-        // URL to resume put into database
-        vm.application.resume.swedishLink.push(response); //pusha på response??
-        // Show success message
-        $scope.swedishUploadSuccess = true;
-        // Clear uploader queue
-        $scope.swedishFileUploader.clearQueue(); 
-        return;
-      };
+      // URL to resume put into database
+      vm.application.resume.swedishLink = response; 
+      // Show success message
+      $scope.swedishUploadSuccess = true;
+      // Clear uploader queue
+      $scope.swedishFileUploader.clearQueue(); 
+      return;
+    };
 
     // Resets the upload as unsuccessful
     $scope.swedishUploadUnsuccess = function () {
@@ -147,28 +148,28 @@
     $scope.englishFileUploader.filters.push(pdfFilter);
     // Called after the user selected a file
     $scope.englishFileUploader.onAfterAddingFile = function(fileItem) {
-        if ($window.FileReader) {
-          var fileReader = new FileReader();
-          fileReader.readAsDataURL(fileItem._file);
+      if ($window.FileReader) {
+        var fileReader = new FileReader();
+        fileReader.readAsDataURL(fileItem._file);
 
-          fileReader.onload = function (fileReaderEvent) {
-            $timeout(function () {
-              //$scope.pdfURL = fileReaderEvent.target.result;
-            }, 0);
-          };
-        }
-      };
+        fileReader.onload = function (fileReaderEvent) {            
+          $timeout(function () {
+          //$scope.pdfURL = fileReaderEvent.target.result;
+          }, 0);
+        };
+      }
+    };
 
     // Called after the user has successfully uploaded a new resume
     $scope.englishFileUploader.onSuccessItem = function(fileItem, response, status, headers) {
-        // URL to resume put into database
-        $scope.vm.application.resume.englishLink.push(response); //pusha på response??
-        // Show success message
-        $scope.englishUploadSuccess = true;
-        // Clear uploader queue
-        $scope.englishFileUploader.clearQueue(); 
-        return;
-      };
+      // URL to resume put into database
+      $scope.vm.application.resume.englishLink = response; 
+      // Show success message
+      $scope.englishUploadSuccess = true;
+      // Clear uploader queue
+      $scope.englishFileUploader.clearQueue(); 
+      return;
+    };
 
     // Resets the upload as unsuccessful
     $scope.englishUploadUnsuccess = function () {
@@ -177,8 +178,17 @@
     
     /*------------------------------ End of File Uploaders --------------------------------------------------------*/
 
+    $scope.removeSwedishResume = function() {
+      $scope.vm.application.resume.swedishLink = '';
+      $scope.swedishUploadSuccess = false;
+    };
 
-    //limit length of "vm.application.description"
+    $scope.removeEnglishResume = function() {
+      $scope.vm.application.resume.englishLink = '';
+      $scope.englishUploadSuccess = false;
+    };
+
+    //limit length of 'vm.application.description'
     $scope.monitorLength = function (maxLength) {
       if ($scope.vm.application.description.length > maxLength) {
         $scope.vm.application.description = $scope.vm.application.description.substring(0, maxLength);
@@ -199,9 +209,23 @@
 
     // Save Application
     function save(isValid) {
+      console.log('save');
+      console.log('vm.application.resume.length', vm.application.resume.length);
+      console.log('vm.application.resume', vm.application.resume);
+      console.log ('vm.application.resume.englishLink', vm.application.resume.englishLink);
+      console.log('vm.application.resume.swedishLink', vm.application.resume.swedishLink);
+
+      vm.error = false;
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.applicationForm');
-        vm.error = "Du har inte fyllt i alla fält / You need to fill all fields";
+        vm.error = 'Du har inte fyllt i alla fält / You need to fill all fields';
+        return false;
+      } else if (vm.application.resume === undefined || 
+        (vm.application.resume.englishLink === undefined && vm.application.resume.swedishLink === undefined)) {
+        console.log('inget cv');
+        console.log('vm.application.resume == null', vm.application.resume === null);
+        console.log('vm.application.resume.length < 1', vm.application.resume.length < 1);
+        vm.error = 'Du måste bifoga minst ett CV / You must attach at least one resume';
         return false;
       }
 

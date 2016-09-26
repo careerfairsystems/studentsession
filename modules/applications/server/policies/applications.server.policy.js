@@ -39,7 +39,7 @@ exports.invokeRolesPolicies = function () {
       }, {
         resources: '/api/applications/resume/:pdfName',
         permissions: ['post']
-       }, {
+      }, {
         resources: '/api/applications/resume/',
         permissions: ['post']
       }]

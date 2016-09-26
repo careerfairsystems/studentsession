@@ -95,54 +95,58 @@
            <p> Kontrollera i företagsbeskrivningen för de företag du sökt till vilket eller vilka språk de tar emot cv på. </p>
 
            <!-- CV svenska -->
+           <h4> Svenska / Swedish </h4>
             <div ng-hide="swedishFileUploader.queue.length">
              <span class="btn btn-default btn-file">
-                 Välj CV på svenska. / Pick a Swedish resume. <input name="newResume" type="file" nv-file-select uploader="swedishFileUploader">
+                 Välj CV på svenska / Pick a Swedish resume <input name="newResume" type="file" nv-file-select uploader="swedishFileUploader">
              </span>
            </div>
 
            <div ng-show="swedishFileUploader.queue.length">
-             <button type="button" class="btn btn-primary" ng-click="swedishFileUploader.uploadAll();">Skicka in cv</button>
+             <button type="button" class="btn btn-primary" ng-click="swedishFileUploader.uploadAll();">Skicka in cv / Submit resume</button>
           </div>
 
            <div ng-show="swedishFileUploader.queue.length">  
-             <button type="button" class="btn btn-default" ng-click="swedishFileUploader.clearQueue(); swedishUploadUnsuccess();">Ångra</button> 
+             <button type="button" class="btn btn-default" ng-click="swedishFileUploader.clearQueue(); swedishUploadUnsuccess();">Ångra / Cancel</button> 
            </div>
 
-           <div ng-show="vm.application.resume.swedishLink.length">
-            Du har skickat in ett cv. Skicka in ett nytt cv för att byta.
+           <div ng-show="swedishUploadSuccess && !swedishFileUploader.queue.length" class="text-success">
+             <strong>Ditt cv har har laddats upp! / Your resume has been uploaded!</strong>
            </div>
 
-
-           <div ng-show="swedishUploadSuccess && !swedishFileUploader.queue.length" class="text-center text-success">
-             <strong>Ditt cv har har laddats upp!</strong>
+            <div ng-show="vm.application.resume.swedishLink.length">
+             <button type="button" class="btn btn-default" ng-click="removeSwedishResume();"> Ta bort / Remove </button>
            </div>
+
            <div ng-show="error" class="text-center text-danger">
              <strong ng-bind="error"></strong>
             </div> 
 
+            <br>
             <!-- CV engelska -->
+            <h4> Engelska / English </h4>
             <div ng-hide="englishFileUploader.queue.length">
              <span class="btn btn-default btn-file">
-                 Välj CV på engelska. / Pick an English resume. <input name="newResume" type="file" nv-file-select uploader="englishFileUploader">
+                 Välj CV på engelska / Pick an English resume <input name="newResume" type="file" nv-file-select uploader="englishFileUploader">
              </span>
            </div>
 
            <div ng-show="englishFileUploader.queue.length">
-             <button type="button" class="btn btn-primary" ng-click="englishFileUploader.uploadAll();">Skicka in cv</button>
+             <button type="button" class="btn btn-primary" ng-click="englishFileUploader.uploadAll();">Skicka in cv / Submit resume</button>
             </div>
 
            <div ng-show="englishFileUploader.queue.length">  
-             <button type="button" class="btn btn-default" ng-click="englishFileUploader.clearQueue(); englishUploadUnsuccess();">Ångra</button> 
+             <button type="button" class="btn btn-default" ng-click="englishFileUploader.clearQueue(); englishUploadUnsuccess();">Ångra / Cancel</button> 
+           </div>
+
+           <div ng-show="englishUploadSuccess && !englishFileUploader.queue.length" class="text-success">
+             <strong>Ditt cv har har laddats upp!</strong>
            </div>
 
            <div ng-show="vm.application.resume.englishLink.length">
-            Du har skickat in ett cv. Skicka in ett nytt cv för att byta.
+            <button type="button" class="btn btn-default" ng-click="removeEnglishResume();"> Ta bort / Remove </button>
            </div>
 
-           <div ng-show="englishUploadSuccess && !englishFileUploader.queue.length" class="text-center text-success">
-             <strong>Ditt cv har har laddats upp!</strong>
-           </div>
            <div ng-show="error" class="text-center text-danger">
              <strong ng-bind="error"></strong>
             </div> 
