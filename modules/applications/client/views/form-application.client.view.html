@@ -42,7 +42,7 @@
         <!-- Program -->
         <div class="form-group" show-errors>
           <label class="control-label" for="program">Program / Education</label>
-          <select name="program" ng-model="vm.application.program" ng-options="program for program in programs" class="my_select_box form-control" required>
+          <select name="program" ng-model="vm.application.program" ng-options="program for program in programs" class="program_select_box" required>
           </select>
           <div ng-messages="vm.form.applicationForm.program.$error" role="alert">
             <p class="help-block error-text" ng-message="required">Program is required.</p>
@@ -62,7 +62,7 @@
           <label for="selectcompanies"> Företag </label><br>
           Välj de företag du skulle vilja träffa.<br>
 
-            <select name="selectcompanies" id="selectcompanies" ng-model="vm.application.companies" ng-options='string for string in companyNames' class="my_select_box form-control" multiple required>
+            <select name="selectcompanies" id="selectcompanies" ng-model="vm.application.companies" ng-options='string for string in companyNames' class="company_select_box" multiple required>
             </select><br>
             <div ng-messages="vm.form.applicationForm.selectcompanies.$error" role="alert">
               <p class="help-block error-text" ng-message="required">Choose companies required.</p>
@@ -74,7 +74,7 @@
         <div class="form-group">
           <label for="selectTimes"> Tider </label><br>
           Vänligen ange de tider du kan.<br>
-          <select name="selectTimes" id="selectTimes" ng-model="vm.application.times" multiple ng-options='string for string in times'>
+          <select name="selectTimes" id="selectTimes" ng-model="vm.application.times" multiple ng-options='string for string in times' class="time_select_box">
             </select><br>
         </div>
 
