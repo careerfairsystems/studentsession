@@ -197,17 +197,17 @@
         width: "100%"
       });
       $(".company_select_box").chosen({
-       no_results_text: "Oops, nothing found!",
-       width: "100%"
-     });
-    $(".time_select_box").chosen({
-       no_results_text: "Oops, nothing found!",
-       width: "100%"
-     });
-    $(".year_select_box").chosen({
-       no_results_text: "Oops, nothing found!",
-       width: "100%"
-     });
+        no_results_text: "Oops, nothing found!",
+        width: "100%"
+      });
+      $(".time_select_box").chosen({
+        no_results_text: "Oops, nothing found!",
+        width: "100%"
+      });
+      $(".year_select_box").chosen({
+        no_results_text: "Oops, nothing found!",
+        width: "100%"
+      });
     }, 0, false);
 
 
@@ -246,5 +246,5 @@
     });
 
     //slut
-    }
+  }
 })();
