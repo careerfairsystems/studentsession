@@ -8,32 +8,48 @@
         <!-- Name -->
         <div class="form-group" show-errors>
           <label class="control-label" for="name">Name</label>
-          <br>
-          <br>
           <input name="name" type="text" ng-model="vm.company.name" id="name" class="form-control" placeholder="Name" required>
           <div ng-messages="vm.form.companyForm.name.$error" role="alert">
             <p class="help-block error-text" ng-message="required">Company name is required.</p>
           </div>
         </div>
         <br>
+        <!-- Did You Know -->
+        <div class="form-group" show-errors>
+             <label for="didyouknow"> Did You Know?... </label><br>
+             <textarea class="form-control" name="didyouknow" ng-model="vm.company.didYouKnow" rows="4" cols="70"></textarea>
+        </div>
+        <!-- Why shudentsession -->
+        <div class="form-group" show-errors>
+             <label for="whystudentsession"> Why studentsession </label><br>
+             <textarea class="form-control" name="whystudentsession" ng-model="vm.company.whyStudentSession" rows="4" cols="70"></textarea>
+        </div>
         <!-- Description -->
         <div class="form-group" show-errors>
              <label for="description"> Description of the company </label><br>
-             <br>
              <textarea class="form-control" name="description" ng-model="vm.company.description" rows="8" cols="70"></textarea><br>
         </div>
+        <!-- Website -->
         <div class="form-group" show-errors>
           <label class="control-label" for="name">Website</label>
-          <br>
-          <br>
           <input name="name" type="text" ng-model="vm.company.website" id="name" class="form-control" placeholder="Name">
         </div>
+        <!-- Branch -->
+        <div class="form-group" show-errors>
+          <label class="control-label" for="branch">Branch</label>
+          <input name="branch" type="text" ng-model="vm.company.branch" id="branch" class="form-control" placeholder="Branch (comma seperated)">
+        </div>
+        <!-- Desired Programme -->
+        <div class="form-group" show-errors>
+          <label class="control-label" for="desiredprogramme">Desired Programme</label>
+          <input name="desiredprogramme" type="text" ng-model="vm.company.desiredProgramme" id="desiredprogramme" class="form-control" placeholder="Desired programme (comma seperated)">
+        </div>
+        <!-- Can Offer -->
         <div class="form-group" show-errors>
           <label class="control-label" for="name">Can offer</label>
-          <br>
-          <br>
           <input name="name" type="text" ng-model="vm.company.weOffer" id="name" class="form-control" placeholder="Name">
         </div>
+        <!-- Is Active -->
         <div class="form-group" show-errors>
           <label class="control-label" for="active">Active status</label><br>
           <select name="active" ng-model="vm.company.active" required>
@@ -41,9 +57,9 @@
             <option value='false'>false</option>
           </select>
         </div>
+        <!-- Language -->
         <div class="form-group" show-errors>
           <label class="control-label" for="language">Requested CV language</label><br>
-          <br>
           <select name="language" ng-model="vm.company.language">
             <option value='Swedish'>Swedish</option>
             <option value='English'>English</option>
