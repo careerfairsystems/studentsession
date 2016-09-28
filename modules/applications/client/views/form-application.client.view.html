@@ -14,7 +14,7 @@
         <div class="form-group" show-errors>
           <label class="control-label" for="name">Namn / Name</label>
            <input name="name" type="text" ng-model="vm.application.name" id="name" class="form-control" placeholder="Name" required>
-          <div ng-messages="vm.form.applicationForm.program.$error" role="alert">
+          <div ng-messages="vm.form.applicationForm.name.$error" role="alert">
             <p class="help-block error-text" ng-message="required">Name is required.</p>
           </div>
         </div>
@@ -38,6 +38,7 @@
         <div class="form-group" show-errors>
           <label class="control-label" for="program">Program / Education</label>
           <select name="program" ng-model="vm.application.program" ng-options="program for program in programs" class="program_select_box" required>
+            <option disabled></option>
           </select>
           <div ng-messages="vm.form.applicationForm.program.$error" role="alert">
             <p class="help-block error-text" ng-message="required">Program is required.</p>
@@ -47,6 +48,7 @@
         <div class="form-group" show-errors>
           <label class="control-label" for="program">År / Year</label>
           <select name="program" ng-model="vm.application.year" ng-options="year for year in years" class="year_select_box" required>
+            <option disabled></option>
           </select>
           <div ng-messages="vm.form.applicationForm.program.$error" role="alert">
             <p class="help-block error-text" ng-message="required">Year is required.</p>
@@ -65,8 +67,6 @@
               <p class="help-block error-text" ng-message="required">Choose companies required.</p>
             </div>
         </div>
-
-
         <!-- Times -->
         <div class="form-group">
           <label for="selectTimes"> Tider / Available </label><br>
@@ -151,6 +151,20 @@
              <strong ng-bind="error"></strong>
             </div> 
         </div>
+
+        Program: {{vm.application.program}} Error: {{vm.form.applicationForm.program.$error}}
+        <br>
+        År: {{vm.application.year}} Error: {{vm.form.applicationForm.year.$error}}
+        <br>
+        Namn: {{vm.application.name}} Error: {{vm.form.applicationForm.name.$error}}
+        <br>
+        Tel: {{vm.application.phone}} Error: {{vm.form.applicationForm.phone.$error}}
+        <br>
+        Företag: {{vm.application.companies}} Error: {{vm.form.applicationForm.selectcompanies.$error}}
+        <br>
+        Tider: {{vm.application.times}} Error: {{vm.form.applicationForm.program.$error}}
+        <br>
+        Beskrivning: {{vm.application.description}} Error: {{vm.form.applicationForm.program.$error}}
           
         <div class="form-group">
           <button type="submit" class="btn btn-default">{{vm.application._id ? 'Update' : 'Skicka'}}</button>

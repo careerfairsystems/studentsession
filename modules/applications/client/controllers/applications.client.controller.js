@@ -22,6 +22,9 @@
     vm.form = {};
     vm.remove = remove;
     vm.save = save;
+    vm.application.year = "";
+    vm.application.times = [];
+    vm.application.companies = [];
 
     //filuppladdning
     $scope.user = Authentication.user;
@@ -249,40 +252,6 @@
         .replace(/Ö/g, 'O');
     }
 
-    // Set file uploader pdf filter
-    $scope.uploader.filters.push({
-      name: 'pdfFilter',
-      fn: function (item, options) {
-        var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-        return '|pdf|'.indexOf(type) !== -1;
-      }
-    });
-
-    // Called after the user selected a file
-    $scope.uploader.onAfterAddingFile = function (fileItem) {
-      if ($window.FileReader) {
-        var fileReader = new FileReader();
-        fileReader.readAsDataURL(fileItem._file);
-
-        fileReader.onload = function (fileReaderEvent) {
-          $timeout(function () {
-            //$scope.pdfURL = fileReaderEvent.target.result;
-          }, 0);
-        };
-      }
-    };
-
-    // Called after the user has successfully uploaded a new resume
-    $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
-      // URL to resume put into database
-      vm.application.resume = response;
-      // Show success message
-      $scope.success = true;
-      // Clear uploader queue
-      $scope.uploader.clearQueue(); //?
-      return;
-    };
-
     // Angular needs to complete rendering before applying 'chosen'
     $timeout(function () {
       // Chosen methods
@@ -306,7 +275,8 @@
 
 
     $('.program_select_box').on('change', function(evt, params) {
-      vm.application.companies = $scope.programs[params.selected];
+      vm.application.program = $scope.programs[params.selected];
+      $scope.$apply();
     });
 
     $('.company_select_box').on('change', function(evt, params) {
@@ -317,6 +287,7 @@
         var position = vm.application.companies.indexOf($scope.companyNames[params.deselected]);
         vm.application.companies.splice(position, 1);
       }
+      $scope.$apply();
     });
 
     $('.time_select_box').on('change', function(evt, params) {
@@ -327,16 +298,12 @@
         var position = vm.application.times.indexOf($scope.times[params.deselected]);
         vm.application.times.splice(position, 1);
       }
+      $scope.$apply();
     });
 
     $('.year_select_box').on('change', function(evt, params) {
-      var element = $('.year_select_box');
-      if(params.selected){
-        vm.application.year.push($scope.years[params.selected]);
-      } else if(params.deselected) {
-        var position = vm.application.year.indexOf($scope.years[params.deselected]);
-        vm.application.year.splice(position, 1);
-      }
+      vm.application.year = parseInt(params.selected) + 1;
+      $scope.$apply();
     });
   }
 })();
