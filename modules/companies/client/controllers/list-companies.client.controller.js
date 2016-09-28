@@ -14,7 +14,7 @@
     vm.companies = CompaniesService.query(function(data) {
       vm.companies = data;
       angular.forEach(vm.companies, function(company, key) {
-        company.canOffer = company.canOffer || '';
+        company.weOffer = company.weOffer || '';
         company.language = company.language || '';
       });
       // Datatable code
@@ -68,7 +68,7 @@
           { data: 'website' },
           { data: 'branch' },
           { data: 'desiredProgramme' },
-          { data: 'canOffer' },
+          { data: 'weOffer' },
           { data: 'language' }
         ]
       });
