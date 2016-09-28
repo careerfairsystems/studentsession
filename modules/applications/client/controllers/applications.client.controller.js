@@ -21,6 +21,8 @@
     vm.form = {};
     vm.remove = remove;
     vm.save = save;
+    vm.createMode = !vm.application._id;
+
 
     //filuppladdning
     $scope.user = Authentication.user;
@@ -129,9 +131,11 @@
       }
 
       function successCallback(res) {
-        $state.go('applications.view', {
-          applicationId: res._id
-        });
+        if(vm.createMode){
+          $state.go('applications.submitted', { name: vm.application.name, email: vm.application.email });
+        } else {
+          $state.go('applications.view', { applicationId: res._id });
+        }
       }
 
       function errorCallback(res) {
