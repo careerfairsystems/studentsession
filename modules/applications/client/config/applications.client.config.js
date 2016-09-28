@@ -13,7 +13,7 @@
       title: 'Application',
       state: 'applications',
       type: 'dropdown',
-      roles: ['*']
+      roles: ['admin']
     }); // vart kommer man med denna?
 
     Menus.addSubMenuItem('topbar', 'applications', {
@@ -25,14 +25,14 @@
     Menus.addSubMenuItem('topbar', 'applications', {
       title: 'F.A.Q',
       state: 'applications.info',
-      roles: ['*']
+      roles: ['admin']
     });
 
     // Add the dropdown create item
     Menus.addSubMenuItem('topbar', 'applications', {
       title: 'Apply',
       state: 'applications.create',
-      roles: ['user']
+      roles: ['admin']
     });
   }
 })();

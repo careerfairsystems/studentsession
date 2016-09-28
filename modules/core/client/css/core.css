@@ -130,4 +130,7 @@ a:hover .header-profile-image {
 .has-error .help-inline.error-text {
   display: inline; }
 
+a {
+  cursor: pointer; }
+
 /*# sourceMappingURL=core.css.map */
