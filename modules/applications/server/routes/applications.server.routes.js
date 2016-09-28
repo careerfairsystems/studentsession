@@ -12,14 +12,16 @@ module.exports = function(app) {
     .get(applications.list)
     .post(applications.create);
 
+  app.route('/api/applications/resume/:pdfName').all(applicationsPolicy.isAllowed)
+    .get(applications.getResume);
+
+  app.route('/api/applications/resume/').all(applicationsPolicy.isAllowed)
+    .post(applications.addResumeAttachment);
+
   app.route('/api/applications/:applicationId').all(applicationsPolicy.isAllowed)
     .get(applications.read)
     .put(applications.update)
     .delete(applications.delete);
-
-  app.route('/api/applications/resume/:pdfName').all(applicationsPolicy.isAllowed)
-     .get(applications.getResume)
-     .post(applications.addResumeAttachment);
 
   // Finish by binding the Application middleware
   app.param('applicationId', applications.applicationByID);

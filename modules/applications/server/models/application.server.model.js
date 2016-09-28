@@ -30,10 +30,10 @@ var ApplicationSchema = new Schema({
     type: [String],
     required: true
   },
-  attachments: [{
-    language: String,
-    link: String
-  }],
+  resume: {
+    swedishLink: String,
+    englishLink: String
+  },
   phone: {
     type: String,
     required: true
@@ -41,7 +41,6 @@ var ApplicationSchema = new Schema({
   email: {
     type: String,
     required: true
-    //hämta denna information från användaren?
   },
   times: {
     type: [String],
