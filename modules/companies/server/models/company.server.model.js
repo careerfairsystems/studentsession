@@ -27,6 +27,16 @@ var CompanySchema = new Schema({
   weOffer: [{
     type: String,
   }],
+  desiredProgramme: [{ type: String }],
+  branch: [{ type: String }],
+  whyStudentSession: {
+    type: String,
+    default: ''
+  },
+  didYouKnow: {
+    type: String,
+    default: ''
+  },
   website: {
     type: String,
     default: ''

@@ -65,25 +65,28 @@ exports.changeLogo = function (req, res) {
   upload(req, res, function (uploadError) {
     if(uploadError) {
       return res.status(400).send({
-        message: 'Error occurred while uploading profile picture'
+        message: 'Error occurred while uploading profile picture:' + uploadError
       });
     } else {
       //Success, Delete old companyLogo if exists.
-      if(process.env.NODE_ENV){
+      if(process.env.NODE_ENV !== 'production'){
         fileKey = req.file.filename;
-      } else if(company.profileImageURL){
-        s3.deleteObjects({
-          Bucket: config.s3bucket,
-          Delete: {
-            Objects: [
-             { Key: company.profileImageURL }
-            ]
-          }
-        }, function(err, data) {
-          if (err)
-            return console.log(err);
-          console.log('Old company image removed safely.');
-        });
+      } else {
+        fileKey = req.file.key;
+        if(company.profileImageURL){
+          s3.deleteObjects({
+            Bucket: config.s3bucket,
+            Delete: {
+              Objects: [
+               { Key: company.profileImageURL }
+              ]
+            }
+          }, function(err, data) {
+            if (err)
+              return console.log(err);
+            console.log('Old company image removed safely.');
+          });
+        }
       }
 
       if(req.company){

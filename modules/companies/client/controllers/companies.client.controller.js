@@ -22,6 +22,12 @@
     if(vm.company.weOffer){
       vm.offerstring = vm.company.weOffer.join(', ');
     }
+    if(vm.company.branch){
+      vm.branchstring = vm.company.branch.join(', ');
+    }
+    if(vm.company.desiredProgramme){
+      vm.programmestring = vm.company.desiredProgramme.join(', ');
+    }
 
     // Create file uploader instance
     $scope.uploader = new FileUploader({
@@ -55,7 +61,6 @@
     // Called after the user has successfully uploaded a new picture
     $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
       $scope.success = true;
-      console.log('Hej: ' + response);
       vm.company.profileImageURL = response;
       $scope.cancelUpload();
     };

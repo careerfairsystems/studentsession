@@ -88,8 +88,17 @@
       }
       vm.fetchedCompanies.forEach(function(fc){
         // Check that company doesnt already exist. Assumes unique name.
-        if(cName.indexOf(fc.name) < 0){
+        var pos = cName.indexOf(fc.name);
+        if(pos < 0){
           CompaniesService.post({ name: fc.name, description: fc.profile.aboutUs, website: fc.profile.urlWebsite, weOffer: fc.profile.weOffer, desiredProgramme: fc.profile.desiredProgramme }, successCallback);
+        } else {
+          var compToUpdate = vm.companies[pos];
+          compToUpdate.description = fc.profile.aboutUs;
+          compToUpdate.website = fc.profile.urlWebsite;
+          compToUpdate.weOffer = fc.profile.weOffer;
+          compToUpdate.desiredProgramme = fc.profile.desiredProgramme;
+          compToUpdate.branch = fc.profile.industry;
+          CompaniesService.update(compToUpdate, successCallback);
         }
       });
       vm.msg = 'Successfully saved all fetched companies';
