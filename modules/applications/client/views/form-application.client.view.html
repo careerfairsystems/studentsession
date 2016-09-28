@@ -60,12 +60,8 @@
           <br>
           Välj de företag du skulle vilja träffa. / Choose the companies you would like to meet.
           <br>
-
-            <select name="selectcompanies" id="selectcompanies" ng-model="vm.application.companies" ng-options='string for string in companyNames' class="company_select_box" multiple required>
+            <select name="selectcompanies" id="selectcompanies" ng-model="vm.application.companies" ng-options='string for string in companyNames' class="company_select_box" multiple> 
             </select><br>
-            <div ng-messages="vm.form.applicationForm.selectcompanies.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">Choose companies required.</p>
-            </div>
         </div>
         <!-- Times -->
         <div class="form-group">
@@ -91,7 +87,7 @@
         <div class="form-group">
           <h3>Uppladdning av CV</h3>
           <p> Kontrollera i företagsbeskrivningen för de företag du sökt till vilket eller vilka språk de tar emot cv på. / 
-              Please double-check in company-desrcriptions for the companies you want to meet for what languages they accept resumé's on.
+              Please double check in the company descriptions for the companies you want to meet what languages they accept resumes on.
           </p>
 
            <!-- CV svenska -->
@@ -155,6 +151,8 @@
         Program: {{vm.application.program}} Error: {{vm.form.applicationForm.program.$error}}
         <br>
         År: {{vm.application.year}} Error: {{vm.form.applicationForm.year.$error}}
+        <br>
+        Email: {{vm.application.email}}
         <br>
         Namn: {{vm.application.name}} Error: {{vm.form.applicationForm.name.$error}}
         <br>

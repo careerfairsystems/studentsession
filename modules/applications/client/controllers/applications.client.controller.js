@@ -222,6 +222,12 @@
         (vm.application.resume.englishLink === undefined && vm.application.resume.swedishLink === undefined)) {
         vm.error = 'Du måste bifoga minst ett CV / You must attach at least one resume';
         return false;
+      } else if (vm.application.companies === undefined || vm.application.companies.length === 0) {
+        vm.error = 'Du måste välja minst ett företag / You must choose at least one company';
+        return false;
+      } else if (vm.application.times === undefined || vm.application.times.length === 0) {
+        vm.error = 'Du måste välja minst en tid / You must tell when you are available';
+        return false;
       }
 
       // TODO: move create/update logic to service
