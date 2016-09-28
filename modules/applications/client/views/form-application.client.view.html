@@ -6,11 +6,6 @@
   <div class="page-header">
     <h1>{{vm.application._id ? 'Edit Application' : 'Ansök / Apply'}}</h1>
   </div>
-
-  <p>Kul att du är intresserad av att ansöka till kontaksamtalen! Fyll i detta formulär för att ansöka. 
-  Du kan läsa mer om de företag som erbjuder kontaktsamtal under Arkad 2016 under fliken "företag". Välj sedan de företag du är intresserad av i din ansökan. Var vänlig ange endast de tider du vet att du kan. </p> 
-  <p>Om du har några frågor är du varmt välkommen att kontakta xxxx.</p> <!-- lägg till ngn slags artikel här så att meddelandet/informationen kan ändras av admin. + denna blir alldeles för bred-->
-
   <div class="col-md-12">
     <form name="vm.form.applicationForm" class="form-horizontal" ng-submit="vm.save(vm.form.applicationForm.$valid)" novalidate>
       <fieldset>
@@ -59,8 +54,10 @@
         </div>
         <!-- Companies -->
         <div class="form-group">
-          <label for="selectcompanies"> Företag </label><br>
-          Välj de företag du skulle vilja träffa.<br>
+          <label for="selectcompanies"> Företag / Companies</label>
+          <br>
+          Välj de företag du skulle vilja träffa. / Choose the companies you would like to meet.
+          <br>
 
             <select name="selectcompanies" id="selectcompanies" ng-model="vm.application.companies" ng-options='string for string in companyNames' class="company_select_box" multiple required>
             </select><br>
@@ -72,15 +69,16 @@
 
         <!-- Times -->
         <div class="form-group">
-          <label for="selectTimes"> Tider </label><br>
-          Vänligen ange de tider du kan.<br>
+          <label for="selectTimes"> Tider / Available </label><br>
+          Vänligen ange de tider du kan. / Please apply when you are available for meetings.
+          <br>
           <select name="selectTimes" id="selectTimes" ng-model="vm.application.times" multiple ng-options='string for string in times' class="time_select_box">
             </select><br>
         </div>
 
        <div class="form-group" show-errors>
-            <label for="description"> Kort om dig </label><br>
-            Max 500 tecken. <br>
+            <label for="description"> Kort om dig / Short description of yourself</label><br>
+            Max 500 tecken. / Max of 500 characters. <br>
              <textarea name="description" ng-model="vm.application.description" 
              rows="4" cols="70" ng-change="monitorLength(500)"></textarea><br>
         </div>
@@ -88,29 +86,31 @@
         <!--Resume upload -->
         <div class="form-group">
           <h3>Uppladdning av CV</h3>
-          <p> Kontrollera i företagsbeskrivningen för de företag du sökt till vilket eller vilka språk de tar emot cv på. </p>
+          <p> Kontrollera i företagsbeskrivningen för de företag du sökt till vilket eller vilka språk de tar emot cv på. / 
+              Please double-check in company-desrcriptions for the companies you want to meet for what languages they accept resumé's on.
+          </p>
 
             <div ng-hide="uploader.queue.length">
              <span class="btn btn-default btn-file">
-                 Välj PDF <input name="resume-pdf" type="file" nv-file-select uploader="uploader">
+                 Välj PDF / Choose PDF<input name="resume-pdf" type="file" nv-file-select uploader="uploader">
              </span>
            </div>
 
            <div ng-show="uploader.queue.length">
-             <button type="button" class="btn btn-primary" ng-click="uploader.uploadAll();">Skicka in cv</button>
+             <button type="button" class="btn btn-primary" ng-click="uploader.uploadAll();">Skicka in cv / Send in resumé</button>
             </div>
 
            <div ng-show="uploader.queue.length">  
-             <button type="button" class="btn btn-default" ng-click="uploader.clearQueue(); unsuccess();">Ångra</button> 
+             <button type="button" class="btn btn-default" ng-click="uploader.clearQueue(); unsuccess();">Ångra / Undo</button> 
            </div>
 
            <div ng-show="vm.application.resume.length">
-            Du har skickat in ett cv. Skicka in ett nytt cv för att byta.
+            Du har skickat in ett cv. Skicka in ett nytt cv för att byta. / You have sent in your resumé. Choose a new one for updating.
            </div>
 
 
            <div ng-show="success && !uploader.queue.length" class="text-center text-success">
-             <strong>Ditt cv har har laddats upp!</strong>
+             <strong>Ditt cv har har laddats upp! / Your resumé has been uploaded!</strong>
            </div>
            <div ng-show="error" class="text-center text-danger">
              <strong ng-bind="error"></strong>

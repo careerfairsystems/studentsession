@@ -23,7 +23,8 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       method: 'GET',
       url: '/api/applicationsettings/active'
     }).then(function successCallback(response) {
-      vm.frontpagehtml = $sce.trustAsHtml(response.data.frontpagehtml);
+      // Add again when settings completely working.
+      //vm.frontpagehtml = $sce.trustAsHtml(response.data.frontpagehtml);
       console.log(response);
     }, function errorCallback(response) {
       console.log('ERROR: ' + response);
