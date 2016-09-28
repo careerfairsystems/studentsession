@@ -147,23 +147,6 @@
              <strong ng-bind="error"></strong>
             </div> 
         </div>
-
-        Program: {{vm.application.program}} Error: {{vm.form.applicationForm.program.$error}}
-        <br>
-        År: {{vm.application.year}} Error: {{vm.form.applicationForm.year.$error}}
-        <br>
-        Email: {{vm.application.email}}
-        <br>
-        Namn: {{vm.application.name}} Error: {{vm.form.applicationForm.name.$error}}
-        <br>
-        Tel: {{vm.application.phone}} Error: {{vm.form.applicationForm.phone.$error}}
-        <br>
-        Företag: {{vm.application.companies}} Error: {{vm.form.applicationForm.selectcompanies.$error}}
-        <br>
-        Tider: {{vm.application.times}} Error: {{vm.form.applicationForm.program.$error}}
-        <br>
-        Beskrivning: {{vm.application.description}} Error: {{vm.form.applicationForm.program.$error}}
-          
         <div class="form-group">
           <button type="submit" class="btn btn-default">{{vm.application._id ? 'Update' : 'Skicka'}}</button>
         </div>
