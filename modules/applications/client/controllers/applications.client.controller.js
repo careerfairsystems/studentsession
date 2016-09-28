@@ -209,12 +209,6 @@
 
     // Save Application
     function save(isValid) {
-      console.log('save');
-      console.log('vm.application.resume.length', vm.application.resume.length);
-      console.log('vm.application.resume', vm.application.resume);
-      console.log ('vm.application.resume.englishLink', vm.application.resume.englishLink);
-      console.log('vm.application.resume.swedishLink', vm.application.resume.swedishLink);
-
       vm.error = false;
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.applicationForm');
