@@ -26,10 +26,9 @@ var ApplicationSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'User'
   },
-  companies: {
-    type: [String],
-    required: true
-  },
+  companies: [{
+    name: String
+  }],
   attachments: [{
     language: String,
     link: String
@@ -43,18 +42,17 @@ var ApplicationSchema = new Schema({
     required: true
     //hämta denna information från användaren?
   },
-  times: {
-    type: [String],
-    required: true
-  },
+  times: [{
+    time: String
+  }],
   program: {
     type: String,
     required: true
   },
-  description: {
-    type: String,
-    required: true
-  }
+  descriptions: [{
+    companyName: String,
+    description: String
+  }]
 });
 
 mongoose.model('Application', ApplicationSchema);

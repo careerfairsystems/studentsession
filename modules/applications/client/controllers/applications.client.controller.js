@@ -17,6 +17,8 @@
 
     vm.authentication = Authentication;
     vm.application = application;
+    vm.application.companies = [];
+    vm.application.times = [];
     vm.error = null;
     vm.form = {};
     vm.remove = remove;
@@ -35,6 +37,9 @@
         $scope.companyNames.push(company.name);
       });
     });
+
+    //placeholder for companies and their descriptions
+    //$scope.companyDescriptions
 
     //meeting times
     $scope.times = ['16/11 8-10',
@@ -95,7 +100,7 @@
     $scope.years = [1, 2, 3, 4, 5];
 
     
-    //limit length of "vm.application.description"
+    //limit length of 'vm.application.description'
     $scope.monitorLength = function (maxLength) {
       if ($scope.vm.application.description.length > maxLength) {
         $scope.vm.application.description = $scope.vm.application.description.substring(0, maxLength);
@@ -192,27 +197,27 @@
     // Angular needs to complete rendering before applying 'chosen'
     $timeout(function () {
       // Chosen methods
-      $(".program_select_box").chosen({
-        no_results_text: "Oops, nothing found!",
-        width: "100%"
+      $('.program_select_box').chosen({
+        no_results_text: 'Oops, nothing found!',
+        width: '100%'
       });
-      $(".company_select_box").chosen({
-       no_results_text: "Oops, nothing found!",
-       width: "100%"
+      $('.company_select_box').chosen({
+       no_results_text: 'Oops, nothing found!',
+       width: '100%'
      });
-    $(".time_select_box").chosen({
-       no_results_text: "Oops, nothing found!",
-       width: "100%"
+    $('.times_select_box').chosen({
+       no_results_text: 'Oops, nothing found!',
+       width: '100%'
      });
-    $(".year_select_box").chosen({
-       no_results_text: "Oops, nothing found!",
-       width: "100%"
+    $('.year_select_box').chosen({
+       no_results_text: 'Oops, nothing found!',
+       width: '100%'
      });
     }, 0, false);
 
 
     $('.program_select_box').on('change', function(evt, params) {
-      vm.application.companies = $scope.programs[params.selected];
+      vm.application.program = $scope.programs[params.selected];
     });
 
     $('.company_select_box').on('change', function(evt, params) {
@@ -225,8 +230,8 @@
       }
     });
 
-    $('.time_select_box').on('change', function(evt, params) {
-      var element = $('.time_select_box');
+    $('.times_select_box').on('change', function(evt, params) {
+      var element = $('.times_select_box');
       if(params.selected){
         vm.application.times.push($scope.times[params.selected]);
       } else if(params.deselected) {
@@ -236,13 +241,7 @@
     });
 
     $('.year_select_box').on('change', function(evt, params) {
-      var element = $('.year_select_box');
-      if(params.selected){
-        vm.application.year.push($scope.years[params.selected]);
-      } else if(params.deselected) {
-        var position = vm.application.year.indexOf($scope.years[params.deselected]);
-        vm.application.year.splice(position, 1);
-      }
+      vm.application.year = $scope.years[params.selected];
     });
 
     //slut

@@ -74,15 +74,26 @@
         <div class="form-group">
           <label for="selectTimes"> Tider </label><br>
           Vänligen ange de tider du kan.<br>
-          <select name="selectTimes" id="selectTimes" ng-model="vm.application.times" multiple ng-options='string for string in times' class="time_select_box">
+          <select name="selectTimes" id="selectTimes" ng-model="vm.application.times" multiple ng-options='string for string in times' class="times_select_box">
             </select><br>
         </div>
 
        <div class="form-group" show-errors>
-            <label for="description"> Kort om dig </label><br>
-            Max 500 tecken. <br>
-             <textarea name="description" ng-model="vm.application.description" 
-             rows="4" cols="70" ng-change="monitorLength(500)"></textarea><br>
+          <label for="description"> Kort om dig </label><br>
+            Skriv här en introduktion om dig till de företag du önskat. Max 500 tecken per introduktion. <br>
+            Companies: {{vm.application.companies}}
+            <div name="noCompanies" ng-show="vm.application.companies.length === 0">
+              <br> 
+              Du har inte valt några företag.
+            </div>
+
+             <div ng-repeat="company in vm.application.companies track by $index">
+              <b>{{company}}</b>
+              description company: {{vm.application.description[$index].description}}
+              <br>
+               <textarea name="description$index" ng-model="vm.application.descriptions[$index].description" 
+               rows="4" cols="70" ng-change="monitorLength(500)"></textarea><br>
+             </div>
         </div>
 
         <!--Resume upload -->
