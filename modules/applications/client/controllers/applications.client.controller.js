@@ -220,7 +220,10 @@
         vm.error = 'Du har inte fyllt i alla fält / You need to fill all fields';
         return false;
       } else if (vm.application.resume === undefined || 
-        (vm.application.resume.englishLink === undefined && vm.application.resume.swedishLink === undefined)) {
+        (vm.application.resume.englishLink === undefined && vm.application.resume.swedishLink === undefined) ||
+        (vm.application.resume.englishLink === "" && vm.application.resume.swedishLink === undefined) ||
+        (vm.application.resume.englishLink === undefined && vm.application.resume.swedishLink === "") ||
+        (vm.application.resume.englishLink === "" && vm.application.resume.swedishLink === "")) {
         vm.error = 'Du måste bifoga minst ett CV / You must attach at least one resume';
         return false;
       } else if (vm.application.companies === undefined || vm.application.companies.length === 0) {
