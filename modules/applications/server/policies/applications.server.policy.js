@@ -29,10 +29,10 @@ exports.invokeRolesPolicies = function () {
       roles: ['user'],
       allows: [{
         resources: '/api/applications',
-        permissions: ['get', 'post']
+        permissions: ['']
       }, {
         resources: '/api/applications/:applicationId',
-        permissions: ['get']
+        permissions: ['post']
       }, {
         resources: '/api/applications/resume/:pdfName',
         permissions: ['post']
@@ -41,13 +41,13 @@ exports.invokeRolesPolicies = function () {
       roles: ['guest'],
       allows: [{
         resources: '/api/applications',
-        permissions: ['get']
+        permissions: ['']
       }, {
         resources: '/api/applications/:applicationId',
-        permissions: ['get']
+        permissions: ['post']
       }, {
         resources: '/api/applications/resume/:pdfName',
-        permissions: []
+        permissions: ['post']
       }]
     }
   ]);
