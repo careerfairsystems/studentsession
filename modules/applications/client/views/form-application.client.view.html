@@ -71,7 +71,7 @@
           <select name="selectTimes" id="selectTimes" ng-model="vm.application.times" multiple ng-options='string for string in times' class="time_select_box">
             </select><br>
         </div>
-
+        <!-- Descriptions -->
        <div class="form-group" show-errors>
           <label for="description"> Kort om dig </label><br>
             Skriv här en introduktion om dig till de företag du önskat. Max 500 tecken per introduktion. <br>
@@ -160,6 +160,13 @@
         <div ng-show="vm.error" class="text-danger">
           <strong ng-bind="vm.error"></strong>
         </div> <br>
+
+
+        vm.application.times === undefined {{vm.application.times === undefined}}
+
+        vm.application.times.length === 0 {{vm.application.times.length === 0}}
+
+        vm.application.times {{vm.application.times}}
 
       </fieldset>
     </form>

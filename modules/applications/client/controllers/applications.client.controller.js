@@ -17,9 +17,6 @@
 
     vm.authentication = Authentication;
     vm.application = application;
-    vm.application.companies = [];
-    vm.application.times = [];
-    vm.application.resume = {};
     vm.error = null;
     vm.form = {};
     vm.remove = remove;
@@ -27,6 +24,7 @@
     vm.application.year = '';
     vm.application.times = [];
     vm.application.companies = [];
+    vm.application.resume = {};
     vm.createMode = !vm.application._id;
 
     //filuppladdning
@@ -307,8 +305,8 @@
       $scope.$apply();
     });
 
-    $('.times_select_box').on('change', function(evt, params) {
-      var element = $('.times_select_box');
+    $('.time_select_box').on('change', function(evt, params) {
+      var element = $('.time_select_box');
       if(params.selected){
         vm.application.times.push($scope.times[params.selected]);
       } else if(params.deselected) {
