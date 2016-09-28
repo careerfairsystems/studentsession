@@ -3,7 +3,7 @@
 
   // Submitted controller
   angular
-    .module('taskapplications')
+    .module('applications')
     .controller('SubmittedController', SubmittedController);
 
   SubmittedController.$inject = ['$stateParams', '$http', '$scope'];
@@ -14,7 +14,7 @@
     vm.name = $stateParams.name;
     vm.email = $stateParams.email;
     /*
-    $http.post('/api/taskapplications/confirmationmail', { name: vm.name, email: vm.email }).success(function (response) {
+    $http.post('/api/applications/confirmationmail', { name: vm.name, email: vm.email }).success(function (response) {
       // Show user success message 
       $scope.success = response.message;
     }).error(function (response) {
