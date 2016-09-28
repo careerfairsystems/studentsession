@@ -22,7 +22,7 @@
     vm.form = {};
     vm.remove = remove;
     vm.save = save;
-    vm.application.year = "";
+    vm.application.year = '';
     vm.application.times = [];
     vm.application.companies = [];
     vm.createMode = !vm.application._id;
@@ -53,7 +53,7 @@
     '17/11 11-12',
     '17/11 12-13',
     '17/11 13-14',
-    '17/11 14-15',];
+    '17/11 14-15'];
 
     //programs
     var allPrograms = ['Byggteknik med arkitektur / Civil Engineering - Architecture',
@@ -225,9 +225,9 @@
         return false;
       } else if (vm.application.resume === undefined || 
         (vm.application.resume.englishLink === undefined && vm.application.resume.swedishLink === undefined) ||
-        (vm.application.resume.englishLink === "" && vm.application.resume.swedishLink === undefined) ||
-        (vm.application.resume.englishLink === undefined && vm.application.resume.swedishLink === "") ||
-        (vm.application.resume.englishLink === "" && vm.application.resume.swedishLink === "")) {
+        (vm.application.resume.englishLink === '' && vm.application.resume.swedishLink === undefined) ||
+        (vm.application.resume.englishLink === undefined && vm.application.resume.swedishLink === '') ||
+        (vm.application.resume.englishLink === '' && vm.application.resume.swedishLink === '')) {
         vm.error = 'Du måste bifoga minst ett CV / You must attach at least one resume';
         return false;
       } else if (vm.application.companies === undefined || vm.application.companies.length === 0) {
@@ -271,21 +271,21 @@
     // Angular needs to complete rendering before applying 'chosen'
     $timeout(function () {
       // Chosen methods
-      $(".program_select_box").chosen({
-        no_results_text: "Oops, nothing found!",
-        width: "100%"
+      $('.program_select_box').chosen({
+        no_results_text: 'Oops, nothing found!',
+        width: '100%'
       });
-      $(".company_select_box").chosen({
-        no_results_text: "Oops, nothing found!",
-        width: "100%"
+      $('.company_select_box').chosen({
+        no_results_text: 'Oops, nothing found!',
+        width: '100%'
       });
-      $(".time_select_box").chosen({
-        no_results_text: "Oops, nothing found!",
-        width: "100%"
+      $('.time_select_box').chosen({
+        no_results_text: 'Oops, nothing found!',
+        width: '100%'
       });
-      $(".year_select_box").chosen({
-        no_results_text: "Oops, nothing found!",
-        width: "100%"
+      $('.year_select_box').chosen({
+        no_results_text: 'Oops, nothing found!',
+        width: '100%'
       });
     }, 0, false);
 
