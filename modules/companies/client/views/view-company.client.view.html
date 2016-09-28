@@ -11,6 +11,16 @@
       </div>
       <hr/>
       <div class="row">
+        <div class="col-md-3"><strong>Did you know?...</strong></div>
+        <div class="col-md-6" ng-bind="vm.company.didYouKnow"></div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-md-3"><strong>Why student session?...</strong></div>
+        <div class="col-md-6" ng-bind="vm.company.whyStudentSession"></div>
+      </div>
+      <hr/>
+      <div class="row">
         <div class="col-md-3"><strong>Description</strong></div>
         <div class="col-md-6" ng-bind="vm.company.description"></div>
       </div>
@@ -29,6 +39,16 @@
       <div class="row">
         <div class="col-md-3"><strong>Can offer the following</strong></div>
         <div class="col-md-6">{{vm.offerstring}}</div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-md-3"><strong>Desired Programme</strong></div>
+        <div class="col-md-6">{{vm.programmestring}}</div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-md-3"><strong>Active in branch</strong></div>
+        <div class="col-md-6">{{vm.branchstring}}</div>
       </div>
       <hr/>
       <div class="row">

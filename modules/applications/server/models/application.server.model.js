@@ -26,13 +26,14 @@ var ApplicationSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'User'
   },
-  companies: [{
-    name: String
-  }],
-  attachments: [{
-    language: String,
-    link: String
-  }],
+  companies: {
+    type: [String],
+    required: true
+  },
+  resume: {
+    swedishLink: String,
+    englishLink: String
+  },
   phone: {
     type: String,
     required: true
@@ -40,7 +41,6 @@ var ApplicationSchema = new Schema({
   email: {
     type: String,
     required: true
-    //hämta denna information från användaren?
   },
   times: [{
     time: String

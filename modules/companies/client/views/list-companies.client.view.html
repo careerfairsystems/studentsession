@@ -4,36 +4,139 @@
   </div>
   <!-- Companies -->
   <div class="row">
-    <h2 id="company">
-      Companies
-    </h2>
-    <!-- Selected Company -->
-    <div class="company list-group-item" >
-      <div ng-show="company">
-        <h4 class="list-group-item-heading" data-ng-bind="company.name"></h4>
-        <br>
-        <h5 class><strong>Description:</strong></h5>
-        <span data-ng-bind="company.description"></span>
-        <br></br>
-        <h5 class><strong>Requested CV Language:</strong></h5>
-        <span data-ng-if="company.language.length == 0">No language specified</span>
-        <span data-ng-if="company.language.length > 0" data ng-bind="company.language"></span>
-        <a class="btn btn-primary pull-right" data-ui-sref="companies.view({ companyId: company._id })">Read more</a>
-        
+    <div class="row">
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <span class="close">×</span>
+            <h2>{{ current.name }}</h2>
+            <button class="btn btn-primary pull-right" ng-click="vm.updateCompany()">Update</button>
+            <a class="btn btn-primary pull-right" href="/companies/{{current._id}}">Open</a>
+          </div>
+          <!-- Modal Body -->
+          <div class="modal-body">
+            <table class="table compact table-bordered nowrap">
+              <tr>
+                <td style="width: 125px"><strong>Active</strong></td>
+                <td>
+                  <input type="checkbox" value="true" ng-model="current.active"/> Is active
+                </td>
+                <td style="width: 125px"><strong>Website</strong></td>
+                <td>
+                  <input type="text" class="form-control" ng-model="current.website" placeholder="http://..." /> 
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Desired Programme</strong></td>
+                <td>
+                  <input type="text" ng-model="current.desiredProgramme" class="form-control" placeholder="Desired Programme (comma seperated)">
+                </td>
+                <td><strong>Branch</strong></td>
+                <td>
+                  <input type="text" ng-model="current.branch" class="form-control" placeholder="Branch (comma seperated)">
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Language</strong></td>
+                <td>
+                  <select name="language" ng-model="current.language">
+                    <option value='Swedish'>Swedish</option>
+                    <option value='English'>English</option>
+                    <option value='Swedish/English'>Swedish/English</option>
+                  </select>
+                </td>
+                <td><strong>Can Offer</strong></td>
+                <td>
+                  <input type="text" ng-model="current.weOffer" class="form-control" placeholder="Can Offer (comma seperated)">
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Did you know</strong></td>
+                <td>
+                  <textarea class="form-control" ng-model="current.didYouKnow" rows="4" cols="70"></textarea>
+                </td>
+                <td><strong>Why Student Session</strong></td>
+                <td>
+                  <textarea class="form-control" ng-model="current.whyStudentSession" rows="4" cols="70"></textarea>
+                </td>
+              </tr>
+            </table>
+            <table class="table compact table-bordered nowrap">
+              <tr>
+                <td><strong>Description</strong></td>
+                <td>
+                  <textarea class="form-control" ng-model="current.description" rows="8" cols="70"></textarea><br>
+                </td>
+              </tr>
+            </table>
+            <!-- Logo -->
+            <div class="form-group">
+              <label class="control-label" for="logo">Logo</label>
+              <br>
+              <img name="logo" ng-src="{{imageURL}}" alt="{{current.name}}" class="img-thumbnail user-profile-picture">
+              <div ng-hide="uploader.queue.length">
+                <span class="btn btn-default btn-file">
+                    Select Image <input type="file" nv-file-select uploader="uploader">
+                </span>
+              </div>
+              <div ng-show="uploader.queue.length">
+                <button type="button" class="btn btn-primary" ng-click="uploadProfilePicture();">Upload</button>
+                <button type="button" class="btn btn-default" ng-click="cancelUpload();">Cancel</button>
+              </div>
+              <div ng-show="success" class="text-center text-success">
+                <strong>Profile Picture Changed Successfully</strong>
+              </div>
+              <div ng-show="error" class="text-center text-danger">
+                <strong ng-bind="error"></strong>
+              </div>
+            </div>
+          </div>
+          <!-- Modal Footer -->
+          <div class="modal-footer">
+            <h3></h3>
+          </div>
+        </div>
       </div>
     </div>
-
-    <!-- CompaniesList -->
+    <!-- Company Datatable -->
     <div class="row">
-      <div class="companies list-group">
-        <a data-ng-repeat="company in vm.companies"
-           ng-click="viewCompany(company)"
-           class="list-group-item">
-          <h4 class="list-group-item-heading" data-ng-bind="company.name"></h4>
-        </a>
-      </div>
-      <div class="alert alert-warning text-center" data-ng-if="vm.companies.$resolved && !vm.companies.length">
-        No Companies yet, why don't you <a data-ui-sref="companies.create">create one</a>?
+      <div class="jumbotron">
+        <table id="companiesList" class="table table-striped compact table-bordered nowrap" >
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Active</th>
+              <th>Website</th>
+              <th>Branch</th>
+              <th>Desired Programme</th>
+              <th>Can Offer</th>
+              <th>Language</th>
+            </tr>
+            <tr>
+              <th>Name</th>
+              <th>Active</th>
+              <th>Website</th>
+              <th>Branch</th>
+              <th>Desired Programme</th>
+              <th>Can Offer</th>
+              <th>Language</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th>Name</th>
+              <th>Active</th>
+              <th>Website</th>
+              <th>Branch</th>
+              <th>Desired Programme</th>
+              <th>Can Offer</th>
+              <th>Language</th>
+            </tr>
+          </tfoot>
+        </table>
       </div>
     </div>
   </div>

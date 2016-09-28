@@ -23,6 +23,12 @@
           pageTitle: 'Applications List'
         }
       })
+      .state('applications.submitted', {
+        url: '/submitted/:name/:email',
+        templateUrl: 'modules/applications/client/views/submitted-application.client.view.html',
+        controller: 'SubmittedController',
+        controllerAs: 'vm',
+      })
       .state('applications.create', {
         url: '/create',
         templateUrl: 'modules/applications/client/views/form-application.client.view.html',

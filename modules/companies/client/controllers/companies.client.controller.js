@@ -22,6 +22,12 @@
     if(vm.company.weOffer){
       vm.offerstring = vm.company.weOffer.join(', ');
     }
+    if(vm.company.branch){
+      vm.branchstring = vm.company.branch.join(', ');
+    }
+    if(vm.company.desiredProgramme){
+      vm.programmestring = vm.company.desiredProgramme.join(', ');
+    }
 
     // Create file uploader instance
     $scope.uploader = new FileUploader({

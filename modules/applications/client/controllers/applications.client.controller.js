@@ -19,10 +19,15 @@
     vm.application = application;
     vm.application.companies = [];
     vm.application.times = [];
+    vm.application.resume = {};
     vm.error = null;
     vm.form = {};
     vm.remove = remove;
     vm.save = save;
+    vm.application.year = '';
+    vm.application.times = [];
+    vm.application.companies = [];
+    vm.createMode = !vm.application._id;
 
     //filuppladdning
     $scope.user = Authentication.user;
@@ -38,18 +43,19 @@
       });
     });
 
-    //placeholder for companies and their descriptions
-    //$scope.companyDescriptions
-
     //meeting times
-    $scope.times = ['16/11 8-10',
-    '16/11 10-12',
-    '16/11 13-15',
-    '16/11 15-17',
-    '17/11 8-10',
-    '17/11 10-12',
-    '17/11 13-15',
-    '17/11 15-17'];
+    $scope.times = ['16/11 10-11',
+    '16/11 11-12',
+    '16/11 12-13',
+    '16/11 13-14',
+    '16/11 14-15',
+    '16/11 15-16',
+    '17/11 9-10',
+    '17/11 10-11',
+    '17/11 11-12',
+    '17/11 12-13',
+    '17/11 13-14',
+    '17/11 14-15'];
 
     //programs
     var allPrograms = ['Byggteknik med arkitektur / Civil Engineering - Architecture',
@@ -94,16 +100,108 @@
                   'Maskinteknik / Mechanical Engineering',
                   'Medicin och teknik / Biomedical Engineering',
                   'Lantmäteri / Surveying'];
+
     var set = new Set(allPrograms);
     $scope.programs = Array.from(set);
 
     $scope.years = [1, 2, 3, 4, 5];
 
+
+    /*------------------------------ File Uploaders --------------------------------------------------------*/
+
+    // Creation of the file uploaders
+    $scope.swedishFileUploader = new FileUploader({ url: 'api/applications/resume', alias: 'newResume' });
+    $scope.englishFileUploader = new FileUploader({ url: 'api/applications/resume', alias: 'newResume' });
+
+    // Methods for an pdf uploader
+    var pdfFilter = {
+      name: 'pdfFilter',
+      fn: function (item, options) {
+        var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+        return '|pdf|'.indexOf(type) !== -1;
+      }        
+    };
+
+    // Connecting of file uploaders to their methods (filters etc.)
+    $scope.swedishFileUploader.filters.push(pdfFilter);
+
+    // Called after the user selected a file
+    $scope.swedishFileUploader.onAfterAddingFile = function(fileItem) {
+      if ($window.FileReader) {
+        var fileReader = new FileReader();
+        fileReader.readAsDataURL(fileItem._file);
+
+        fileReader.onload = function (fileReaderEvent) {
+          $timeout(function () {
+            //$scope.pdfURL = fileReaderEvent.target.result;
+          }, 0);
+        };
+      }
+    };
+
+    // Called after the user has successfully uploaded a new resume
+    $scope.swedishFileUploader.onSuccessItem = function(fileItem, response, status, headers) {
+      // URL to resume put into database
+      vm.application.resume.swedishLink = response; 
+      // Show success message
+      $scope.swedishUploadSuccess = true;
+      // Clear uploader queue
+      $scope.swedishFileUploader.clearQueue(); 
+      return;
+    };
+
+    // Resets the upload as unsuccessful
+    $scope.swedishUploadUnsuccess = function () {
+      $scope.swedishUploadSuccess = false;
+    };
+
+    $scope.englishFileUploader.filters.push(pdfFilter);
+    // Called after the user selected a file
+    $scope.englishFileUploader.onAfterAddingFile = function(fileItem) {
+      if ($window.FileReader) {
+        var fileReader = new FileReader();
+        fileReader.readAsDataURL(fileItem._file);
+
+        fileReader.onload = function (fileReaderEvent) {            
+          $timeout(function () {
+          //$scope.pdfURL = fileReaderEvent.target.result;
+          }, 0);
+        };
+      }
+    };
+
+    // Called after the user has successfully uploaded a new resume
+    $scope.englishFileUploader.onSuccessItem = function(fileItem, response, status, headers) {
+      // URL to resume put into database
+      $scope.vm.application.resume.englishLink = response; 
+      // Show success message
+      $scope.englishUploadSuccess = true;
+      // Clear uploader queue
+      $scope.englishFileUploader.clearQueue(); 
+      return;
+    };
+
+    // Resets the upload as unsuccessful
+    $scope.englishUploadUnsuccess = function () {
+      $scope.englishUploadSuccess = false;
+    };
     
-    //limit length of 'vm.application.description'
-    $scope.monitorLength = function (maxLength) {
-      if ($scope.vm.application.description.length > maxLength) {
-        $scope.vm.application.description = $scope.vm.application.description.substring(0, maxLength);
+    /*------------------------------ End of File Uploaders --------------------------------------------------------*/
+
+    $scope.removeSwedishResume = function() {
+      $scope.vm.application.resume.swedishLink = '';
+      $scope.swedishUploadSuccess = false;
+    };
+
+    $scope.removeEnglishResume = function() {
+      $scope.vm.application.resume.englishLink = '';
+      $scope.englishUploadSuccess = false;
+    };
+
+    //limit length of descriptions
+    $scope.monitorLength = function (maxLength, index) {
+      if (vm.application.descriptions[index].description > maxLength) {
+        vm.application.descriptions[index].description = vm.application.descriptions[index].description.substring(0, maxLength);
       }
     };
 
@@ -121,8 +219,23 @@
 
     // Save Application
     function save(isValid) {
+      vm.error = false;
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.applicationForm');
+        vm.error = 'Du har inte fyllt i alla fält / You need to fill all fields';
+        return false;
+      } else if (vm.application.resume === undefined || 
+        (vm.application.resume.englishLink === undefined && vm.application.resume.swedishLink === undefined) ||
+        (vm.application.resume.englishLink === '' && vm.application.resume.swedishLink === undefined) ||
+        (vm.application.resume.englishLink === undefined && vm.application.resume.swedishLink === '') ||
+        (vm.application.resume.englishLink === '' && vm.application.resume.swedishLink === '')) {
+        vm.error = 'Du måste bifoga minst ett CV / You must attach at least one resume';
+        return false;
+      } else if (vm.application.companies === undefined || vm.application.companies.length === 0) {
+        vm.error = 'Du måste välja minst ett företag / You must choose at least one company';
+        return false;
+      } else if (vm.application.times === undefined || vm.application.times.length === 0) {
+        vm.error = 'Du måste välja minst en tid / You must tell when you are available';
         return false;
       }
 
@@ -134,21 +247,17 @@
       }
 
       function successCallback(res) {
-        $state.go('applications.view', {
-          applicationId: res._id
-        });
+        if(vm.createMode){
+          $state.go('applications.submitted', { name: vm.application.name, email: vm.application.email });
+        } else {
+          $state.go('applications.view', { applicationId: res._id });
+        }
       }
 
       function errorCallback(res) {
         vm.error = res.data.message;
       }
     }
-
-    // Create file uploader instance
-    $scope.uploader = new FileUploader({
-      url: 'api/applications/resume/' + prettify($scope.user.displayName) + $scope.user._id + '_cv' + '.pdf', //osäker på om .pdf behövs
-      alias: 'newResume'
-    });
 
     function prettify(str) {
       return str.replace(/\s/g, '')
@@ -160,40 +269,6 @@
         .replace(/Ö/g, 'O');
     }
 
-     // Set file uploader pdf filter
-    $scope.uploader.filters.push({
-      name: 'pdfFilter',
-      fn: function (item, options) {
-        var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-        return '|pdf|'.indexOf(type) !== -1;
-      }
-    });
-
-     // Called after the user selected a file
-    $scope.uploader.onAfterAddingFile = function (fileItem) {
-      if ($window.FileReader) {
-        var fileReader = new FileReader();
-        fileReader.readAsDataURL(fileItem._file);
-
-        fileReader.onload = function (fileReaderEvent) {
-          $timeout(function () {
-            //$scope.pdfURL = fileReaderEvent.target.result;
-          }, 0);
-        };
-      }
-    };
-
-     // Called after the user has successfully uploaded a new resume
-    $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
-      // URL to resume put into database
-      vm.application.resume = response;
-      // Show success message
-      $scope.success = true;
-      // Clear uploader queue
-      $scope.uploader.clearQueue(); //?
-      return;
-    };
-
     // Angular needs to complete rendering before applying 'chosen'
     $timeout(function () {
       // Chosen methods
@@ -202,22 +277,23 @@
         width: '100%'
       });
       $('.company_select_box').chosen({
-       no_results_text: 'Oops, nothing found!',
-       width: '100%'
-     });
-    $('.times_select_box').chosen({
-       no_results_text: 'Oops, nothing found!',
-       width: '100%'
-     });
-    $('.year_select_box').chosen({
-       no_results_text: 'Oops, nothing found!',
-       width: '100%'
-     });
+        no_results_text: 'Oops, nothing found!',
+        width: '100%'
+      });
+      $('.time_select_box').chosen({
+        no_results_text: 'Oops, nothing found!',
+        width: '100%'
+      });
+      $('.year_select_box').chosen({
+        no_results_text: 'Oops, nothing found!',
+        width: '100%'
+      });
     }, 0, false);
 
 
     $('.program_select_box').on('change', function(evt, params) {
       vm.application.program = $scope.programs[params.selected];
+      $scope.$apply();
     });
 
     $('.company_select_box').on('change', function(evt, params) {
@@ -228,6 +304,7 @@
         var position = vm.application.companies.indexOf($scope.companyNames[params.deselected]);
         vm.application.companies.splice(position, 1);
       }
+      $scope.$apply();
     });
 
     $('.times_select_box').on('change', function(evt, params) {
@@ -238,12 +315,12 @@
         var position = vm.application.times.indexOf($scope.times[params.deselected]);
         vm.application.times.splice(position, 1);
       }
+      $scope.$apply();
     });
 
     $('.year_select_box').on('change', function(evt, params) {
-      vm.application.year = $scope.years[params.selected];
+      vm.application.year = parseInt(params.selected) + 1;
+      $scope.$apply();
     });
-
-    //slut
-    }
+  }
 })();
