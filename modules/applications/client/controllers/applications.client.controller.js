@@ -28,7 +28,7 @@
     vm.createMode = !vm.application._id;
 
     //filuppladdning
-    $scope.user = Authentication.user;
+    //$scope.user = Authentication.user;
     $scope.imgUrlBase = 'public/uploads/';
     $scope.pdfURL = $scope.imgUrlBase + vm.application._id + '.pdf';
     //slut

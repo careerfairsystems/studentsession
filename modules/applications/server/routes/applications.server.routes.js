@@ -8,9 +8,11 @@ var applicationsPolicy = require('../policies/applications.server.policy'),
 
 module.exports = function(app) {
   // Applications Routes
-  app.route('/api/applications').all(applicationsPolicy.isAllowed)
-    .get(applications.list)
+  app.route('/api/applications')
     .post(applications.create);
+
+  app.route('/api/applications').all(applicationsPolicy.isAllowed)
+    .get(applications.list);
 
   app.route('/api/applications/resume/:pdfName').all(applicationsPolicy.isAllowed)
     .get(applications.getResume);
