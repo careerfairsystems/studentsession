@@ -8,6 +8,9 @@ var applicationsPolicy = require('../policies/applications.server.policy'),
 
 module.exports = function(app) {
   // Applications Routes
+  app.route('/api/applications/confirmationmail')
+    .post(applications.confirmationMail);
+
   app.route('/api/applications')
     .post(applications.create);
 
