@@ -43,7 +43,6 @@ var CompanySchema = new Schema({
   },
   language: {
     type: String,
-    enum: ['Swedish', 'English', 'Swedish/English']
   },
   active: {
     type: Boolean,

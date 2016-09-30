@@ -9,19 +9,38 @@
   <!-- HtmlDescription -->
   <div ng-bind-html="vm.frontpagehtml"></div>
   <!-- Companies -->
-  <div class="row">
+  <div class="row jumbotron companygrid">
     <h2 id="company">
       Companies
     </h2>
     <!-- Selected Company -->
-    <div class="company list-group-item" >
+    <div class="company" >
       <div ng-show="company">
-
-        <img ng-src="{{company.profileImageURL}}" />
-        <h4 class="list-group-item-heading" data-ng-bind="company.name"></h4>
+        <h4 id="companyname" class="list-group-item-heading" data-ng-bind="company.name"></h4>
         <br>
         <h5 class><strong>Description:</strong></h5>
         <span data-ng-bind="company.description"></span>
+        <hr>
+        <h5 class><strong>Why do we want student session?</strong></h5>
+        <span data-ng-bind="company.whyStudentsession"></span>
+        <hr>
+        <h5 class><strong>Did you know:</strong></h5>
+        <span data-ng-bind="company.whyStudentsession"></span>
+        <hr>
+        <h5 class><strong>We offer:</strong></h5>
+        <span data-ng-bind="company.weOffer"></span>
+        <hr>
+        <h5 class><strong>We want to above all meet:</strong></h5>
+        <span data-ng-bind="company.desiredProgramme"></span>
+        <hr>
+        <h5 class><strong>Industry:</strong></h5>
+        <span data-ng-bind="company.branch"></span>
+        <hr>
+        <h5 class><strong>We want resumés in:</strong></h5>
+        <span data-ng-bind="company.language"></span>
+        <hr>
+        <h5 class><strong>Website:</strong></h5>
+        <span data-ng-bind="company.website"></span>
         <br></br>
         <h5 class><strong>Requested CV Language:</strong></h5>
         <span data-ng-if="company.language.length == 0">No language specified</span>
@@ -48,12 +67,9 @@
 
   </div>
   <div class="well">
-    <h2>ARKAD Systems</h2>
-    <p>
+    <p class="text-center">
       If you have any questions contact: <a href="mailto:kontaktsamtal.arkad@tlth.se">
 kontaktsamtal.arkad@tlth.se</a>
     </p>
   </div>
-  <br>Enjoy &amp; Keep Us Updated,
-  <br>The ARKAD Team.
 </section>
