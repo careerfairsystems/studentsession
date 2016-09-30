@@ -22,10 +22,10 @@
         <span data-ng-bind="company.description"></span>
         <hr>
         <h5 class><strong>Why do we want student session?</strong></h5>
-        <span data-ng-bind="company.whyStudentsession"></span>
+        <span data-ng-bind="company.whyStudentSession"></span>
         <hr>
         <h5 class><strong>Did you know:</strong></h5>
-        <span data-ng-bind="company.whyStudentsession"></span>
+        <span data-ng-bind="company.didYouKnow"></span>
         <hr>
         <h5 class><strong>We offer:</strong></h5>
         <span data-ng-bind="company.weOffer"></span>
@@ -37,14 +37,11 @@
         <span data-ng-bind="company.branch"></span>
         <hr>
         <h5 class><strong>We want resumés in:</strong></h5>
-        <span data-ng-bind="company.language"></span>
+        <span data-ng-if="!company.language">No language specified</span>
+        <span data-ng-if="company.language" data ng-bind="company.language"></span>
         <hr>
         <h5 class><strong>Website:</strong></h5>
         <span data-ng-bind="company.website"></span>
-        <br></br>
-        <h5 class><strong>Requested CV Language:</strong></h5>
-        <span data-ng-if="company.language.length == 0">No language specified</span>
-        <span data-ng-if="company.language.length > 0" data ng-bind="company.language"></span>
       </div>
     </div>
 
