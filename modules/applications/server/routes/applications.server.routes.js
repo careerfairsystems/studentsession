@@ -8,15 +8,10 @@ var applicationsPolicy = require('../policies/applications.server.policy'),
 
 module.exports = function(app) {
   // Applications Routes
-<<<<<<< HEAD
   app.route('/api/applications/confirmationmail')
     .post(applications.confirmationMail);
 
-  app.route('/api/applications')
-    .post(applications.create);
-=======
   app.route('/api/applications').post(applications.create);
->>>>>>> guestAllowedApplication
 
   app.route('/api/applications').all(applicationsPolicy.isAllowed)
     .get(applications.list);
