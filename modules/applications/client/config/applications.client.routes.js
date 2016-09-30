@@ -38,7 +38,6 @@
           applicationResolve: newApplication
         },
         data: {
-          roles: ['user', 'admin', 'guest'],
           pageTitle : 'Applications Create'
         }
       })
