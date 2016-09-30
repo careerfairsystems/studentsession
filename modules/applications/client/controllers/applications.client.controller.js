@@ -39,6 +39,13 @@
       angular.forEach(result, function(company) {
         $scope.companyNames.push(company.name);
       });
+      $timeout(function () {
+        // Chosen methods
+        $('.company_select_box').chosen({
+          no_results_text: 'Oops, nothing found!',
+          width: '100%'
+        });
+      }, 0, false);
     });
 
     //meeting times
@@ -272,10 +279,6 @@
     $timeout(function () {
       // Chosen methods
       $('.program_select_box').chosen({
-        no_results_text: 'Oops, nothing found!',
-        width: '100%'
-      });
-      $('.company_select_box').chosen({
         no_results_text: 'Oops, nothing found!',
         width: '100%'
       });
