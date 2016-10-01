@@ -52,7 +52,7 @@
 
 /* ARKAD design */
 body {
-  background: #002B64;
+  background: url("/modules/core/client/img/bakground-image.png");
   background-attachment: fixed; }
 
 @media screen and (max-width: 768px) {
@@ -129,5 +129,8 @@ a:hover .header-profile-image {
 
 .has-error .help-inline.error-text {
   display: inline; }
+
+a {
+  cursor: pointer; }
 
 /*# sourceMappingURL=core.css.map */

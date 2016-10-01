@@ -7,6 +7,8 @@ var path = require('path'),
   mongoose = require('mongoose'),
   Application = mongoose.model('Application'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+  nodemailer = require('nodemailer'),
+  async = require('async'),
   _ = require('lodash'),
   config = require(path.resolve('./config/config.js')),
   multer = require('multer');
@@ -17,6 +19,7 @@ var multerS3 = require('multer-s3');
 var AWS = require('aws-sdk');
 AWS.config.region = 'eu-west-1';
 var s3 = new AWS.S3({ params: { Bucket: config.s3bucket } });
+var smtpTransport = nodemailer.createTransport(config.mailer.options);
 
 /**
  * Create a Application
@@ -173,7 +176,7 @@ exports.addResumeAttachment = function (req, res) { //när körs denna?
           cb(null, pdfName);
         }
       })
-    }).single('newCompanyLogo');
+    }).single('newCompanyLogo'); //newResume???
   }
   var resumeFileFilter = require(path.resolve('./config/lib/multer')).resumeFileFilter;
   upload.fileFilter = resumeFileFilter;
@@ -185,6 +188,53 @@ exports.addResumeAttachment = function (req, res) { //när körs denna?
       });
     } else {
       return res.status(200).send(pdfName);
+    }
+  });
+};
+
+/**
+  * Send confirmation mail to applicant (POST)
+  */
+exports.confirmationMail = function (req, res, next) {
+  var name = req.body.name;
+  var email = req.body.email;
+  async.waterfall([
+    function (done) {
+      var httpTransport = 'http://';
+      if (config.secure && config.secure.ssl === true) {
+        httpTransport = 'https://';
+      }
+      res.render(path.resolve('modules/applications/server/templates/mailconfirmation'), {
+        name: name,
+        appName: config.app.title,
+      }, function (err, emailHTML) {
+        done(err, emailHTML);
+      });
+    },
+    // If valid email, send reset email using service
+    function (emailHTML, done) {
+      var mailOptions = {
+        to: email,
+        from: config.mailer.from,
+        subject: 'Bekräftelse Kontaktsamtalsansökan / Confirmation Student Session Application',
+        html: emailHTML
+      };
+      smtpTransport.sendMail(mailOptions, function (err) {
+        if (!err) {
+          res.send({
+            message: 'An email has been sent to the provided email with further instructions.'
+          });
+        } else {
+          return res.status(400).send({
+            message: 'Failure sending email: ' + err
+          });
+        }
+        done(err);
+      });
+    }
+  ], function (err) {
+    if (err) {
+      return next(err);
     }
   });
 };

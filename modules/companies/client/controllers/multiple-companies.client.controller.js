@@ -19,12 +19,13 @@
 
     $scope.fetchJson = function(){
       var file = $('input[type=file]')[0].files[0];
-
+      var fr = new FileReader();
+      
       function receivedText() {
         vm.fetchedCompanies = JSON.parse(fr.result);
         $scope.$apply();
       }
-      var fr = new FileReader();
+
       fr.onload = receivedText;
       fr.readAsText(file);
     };
@@ -53,7 +54,7 @@
       }).then(function successCallback(response) {
         console.log(response);
         vm.fetchedCompanies = response.data;
-        vm.msg = "Successfully loaded " + response.data.length + " companies";
+        vm.msg = 'Successfully loaded ' + response.data.length + ' companies';
       }, function errorCallback(response) {
         console.log(response);
         vm.error = response;
@@ -66,7 +67,7 @@
         var comp = new CompaniesService(c);
         comp.$delete();
       });
-      vm.msg = "Deleted ALL companies, hurray!";
+      vm.msg = 'Deleted ALL companies, hurray!';
     };
 
     // Be careful, quite strong method.
@@ -83,15 +84,24 @@
       }
       function errorCallback (response){
         console.log('Error!');
-        vm.msg = "Error occurred when saving companies, contact IT";
+        vm.msg = 'Error occurred when saving companies, contact IT';
       }
       vm.fetchedCompanies.forEach(function(fc){
         // Check that company doesnt already exist. Assumes unique name.
-        if(cName.indexOf(fc.name) < 0){
+        var pos = cName.indexOf(fc.name);
+        if(pos < 0){
           CompaniesService.post({ name: fc.name, description: fc.profile.aboutUs, website: fc.profile.urlWebsite, weOffer: fc.profile.weOffer, desiredProgramme: fc.profile.desiredProgramme }, successCallback);
+        } else {
+          var compToUpdate = vm.companies[pos];
+          compToUpdate.description = fc.profile.aboutUs;
+          compToUpdate.website = fc.profile.urlWebsite;
+          compToUpdate.weOffer = fc.profile.weOffer;
+          compToUpdate.desiredProgramme = fc.profile.desiredProgramme;
+          compToUpdate.branch = fc.profile.industry;
+          CompaniesService.update(compToUpdate, successCallback);
         }
       });
-      vm.msg = "Successfully saved all fetched companies";
+      vm.msg = 'Successfully saved all fetched companies';
     };
 
 

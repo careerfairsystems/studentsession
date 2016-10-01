@@ -66,8 +66,8 @@ $break-mobile: 768px;
 $menu-black: rgba(30,30,30,0.95);
 
 body {
-  background: #002B64;
-  //background: url("/modules/core/client/img/bakground-image.jpg");
+  //background: #002B64;
+  background: url("/modules/core/client/img/bakground-image.png");
   background-attachment: fixed;
 }
 
@@ -158,4 +158,7 @@ a:hover .header-profile-image {
 }
 .has-error .help-inline.error-text {
   display: inline;
+}
+a {
+  cursor: pointer;
 }

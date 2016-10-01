@@ -2,9 +2,15 @@
   <div class="page-header">
     <h1 data-ng-bind="vm.application.user.displayName"></h1>
     <hr>
-    <a class="btn btn-lg btn-primary" href="/api/applications/resume/{{ vm.application.resume }}" target="_blank" >Download CV</a>
+    <a class="btn btn-lg btn-primary" href="/api/applications/resume/{{ vm.application.resume.swedishLink }}" 
+    target="_blank">Download Swedish Resume from /api/applications/resume/{{vm.application.resume.swedishLink}}</a>
+    <a class="btn btn-lg btn-primary" href="/api/applications/resume/{{ vm.application.resume.englishLink }}" target="_blank">Download English Resume</a>
     <hr>
 
+    <h5>
+     Name
+    </h5>    
+     <p data-ng-bind="vm.application.name"></p>
     <h5>
       Email
     </h5>
@@ -18,10 +24,13 @@
     </h5>
     <p data-ng-bind="vm.application.program"></p>
     <h5>
+    Year
+    </h5>
+    <p data-ng-bind="vm.application.year"></p>
+    <h5>
       Presentation
     </h5>
     <p data-ng-bind="vm.application.description"></p>
-
     <h5>
       Companies chosen
     </h5>
@@ -38,7 +47,6 @@
        {{ time }}
       </li>
     </ul>
-
   </div>
   <div class="pull-right"
        data-ng-show="vm.application.isCurrentUserOwner">

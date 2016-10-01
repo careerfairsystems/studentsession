@@ -15,11 +15,11 @@
     <button class="btn btn-primary" ng-click="fetchCompanies()">
       Fetch companies from url
     </button>
-    <button class="btn btn-warning" ng-click="deleteCompanies()">
+    <button title="how about no." class="btn btn-warning disabled" >
       Delete old companies
     </button>
     <button class="btn btn-primary" ng-click="saveFetchedCompanies()">
-      Add new companies
+      Update companies
     </button>
     <div class="row">
       <div class="alert alert-info text-center" data-ng-if="vm.msg" data-ng-bind="vm.msg"></div>

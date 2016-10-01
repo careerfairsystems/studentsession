@@ -24,30 +24,42 @@ exports.invokeRolesPolicies = function () {
       }, {
         resources: '/api/applications/resume/:pdfName',
         permissions: ['get', 'post']
+      }, {
+        resources: '/api/applications/resume/',
+        permissions: ['post']
       }]
     }, {
       roles: ['user'],
       allows: [{
         resources: '/api/applications',
-        permissions: ['get', 'post']
+        permissions: ['post']
       }, {
         resources: '/api/applications/:applicationId',
-        permissions: ['get']
+        permissions: ['post']
       }, {
         resources: '/api/applications/resume/:pdfName',
+        permissions: ['post']
+      }, {
+        resources: '/api/applications/resume/',
         permissions: ['post']
       }]
     }, {
       roles: ['guest'],
       allows: [{
         resources: '/api/applications',
-        permissions: ['get']
+        permissions: ['post'] //vilka behövs? ev get
       }, {
         resources: '/api/applications/:applicationId',
-        permissions: ['get']
+        permissions: ['post']
       }, {
         resources: '/api/applications/resume/:pdfName',
-        permissions: []
+        permissions: ['post']
+      }, {
+        resources: '/api/applications/resume/',
+        permissions: ['post']
+      }, {
+        resources: '/api/applications',
+        permissions: ['']
       }]
     }
   ]);

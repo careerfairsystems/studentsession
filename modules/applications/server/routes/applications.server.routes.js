@@ -8,18 +8,24 @@ var applicationsPolicy = require('../policies/applications.server.policy'),
 
 module.exports = function(app) {
   // Applications Routes
+  app.route('/api/applications/confirmationmail')
+    .post(applications.confirmationMail);
+
+  app.route('/api/applications').post(applications.create);
+
   app.route('/api/applications').all(applicationsPolicy.isAllowed)
-    .get(applications.list)
-    .post(applications.create);
+    .get(applications.list);
+
+  app.route('/api/applications/resume/:pdfName').all(applicationsPolicy.isAllowed)
+    .get(applications.getResume);
+
+  app.route('/api/applications/resume/').all(applicationsPolicy.isAllowed)
+    .post(applications.addResumeAttachment);
 
   app.route('/api/applications/:applicationId').all(applicationsPolicy.isAllowed)
     .get(applications.read)
     .put(applications.update)
     .delete(applications.delete);
-
-  app.route('/api/applications/resume/:pdfName').all(applicationsPolicy.isAllowed)
-     .get(applications.getResume)
-     .post(applications.addResumeAttachment);
 
   // Finish by binding the Application middleware
   app.param('applicationId', applications.applicationByID);
