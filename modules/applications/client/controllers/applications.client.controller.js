@@ -17,7 +17,6 @@
 
     vm.authentication = Authentication;
     vm.application = application;
-    vm.application.resume = {};
     vm.error = null;
     vm.form = {};
     vm.remove = remove;
@@ -25,6 +24,7 @@
     vm.application.year = '';
     vm.application.times = [];
     vm.application.companies = [];
+    vm.application.resume = {};
     vm.createMode = !vm.application._id;
 
     //filuppladdning
@@ -35,33 +35,53 @@
 
     //fetches the company names from the database
     $scope.companyNames = [];
+    $scope.chosenCompanies = [];
     CompaniesService.query().$promise.then(function(result) {
       angular.forEach(result, function(company) {
-        $scope.companyNames.push(company.name);
+        if(company.active){
+          $scope.companyNames.push(company.name);
+        }
       });
-      $timeout(function () {
-        // Chosen methods
-        $('.company_select_box').chosen({
-          no_results_text: 'Oops, nothing found!',
-          width: '100%'
-        });
-      }, 0, false);
+      $scope.companyNames.sort();
     });
 
-    //meeting times
-    $scope.times = ['16/11 10-11',
-    '16/11 11-12',
-    '16/11 12-13',
-    '16/11 13-14',
-    '16/11 14-15',
-    '16/11 15-16',
-    '17/11 9-10',
-    '17/11 10-11',
-    '17/11 11-12',
-    '17/11 12-13',
-    '17/11 13-14',
-    '17/11 14-15'];
+    $scope.selectCompany = function (){
+      var selection = $('#selectcompanies').find(":selected").text();
+      if (!selection)
+        return;
+      var index = $('#selectcompanies').val();
+      $scope.companyNames.splice(index, 1);
+      $scope.chosenCompanies.push({ name: selection, motivation: '', edit: true });
+    };
+    $scope.deleteCompany = function (index){
+      $scope.companyNames.push($scope.chosenCompanies[index].name);
+      $scope.companyNames.sort();
+      $scope.chosenCompanies.splice(index, 1);
+    }; 
 
+    $scope.choiceOn = false;
+    $('#selectcompanies').on('change', function() {
+      $scope.choiceOn = true;
+    });
+  
+
+    //meeting times
+    $scope.wed = [ 
+      { time: 10, available: false }, 
+      { time: 11, available: false }, 
+      { time: 12, available: false }, 
+      { time: 13, available: false }, 
+      { time: 14, available: false }, 
+      { time: 15, available: false }, 
+    ];
+    $scope.thur = [ 
+      { time: 9, available: false }, 
+      { time: 10, available: false }, 
+      { time: 11, available: false }, 
+      { time: 12, available: false }, 
+      { time: 13, available: false }, 
+      { time: 14, available: false }, 
+    ];
     //programs
     var allPrograms = ['Byggteknik med arkitektur / Civil Engineering - Architecture',
                   'Arkitekt / Architect',
@@ -136,6 +156,8 @@
         var fileReader = new FileReader();
         fileReader.readAsDataURL(fileItem._file);
 
+        $scope.sweFileName = fileItem.file.name;
+
         fileReader.onload = function (fileReaderEvent) {
           $timeout(function () {
             //$scope.pdfURL = fileReaderEvent.target.result;
@@ -160,13 +182,14 @@
       $scope.swedishUploadSuccess = false;
     };
 
-    
     $scope.englishFileUploader.filters.push(pdfFilter);
     // Called after the user selected a file
     $scope.englishFileUploader.onAfterAddingFile = function(fileItem) {
       if ($window.FileReader) {
         var fileReader = new FileReader();
         fileReader.readAsDataURL(fileItem._file);
+
+        $scope.engFileName = fileItem.file.name;
 
         fileReader.onload = function (fileReaderEvent) {            
           $timeout(function () {
@@ -204,10 +227,10 @@
       $scope.englishUploadSuccess = false;
     };
 
-    //limit length of 'vm.application.description'
-    $scope.monitorLength = function (maxLength) {
-      if ($scope.vm.application.description.length > maxLength) {
-        $scope.vm.application.description = $scope.vm.application.description.substring(0, maxLength);
+    //limit length of descriptions
+    $scope.monitorLength = function (maxLength, index) {
+      if (vm.application.descriptions[index].description > maxLength) {
+        vm.application.descriptions[index].description = vm.application.descriptions[index].description.substring(0, maxLength);
       }
     };
 
@@ -235,15 +258,37 @@
         (vm.application.resume.englishLink === '' && vm.application.resume.swedishLink === undefined) ||
         (vm.application.resume.englishLink === undefined && vm.application.resume.swedishLink === '') ||
         (vm.application.resume.englishLink === '' && vm.application.resume.swedishLink === '')) {
-        vm.error = 'Du måste bifoga minst ett CV / You must attach at least one resume';
+        vm.error = 'Du måste bifoga minst ett cv / You must attach at least one resume';
         return false;
       } else if (vm.application.companies === undefined || vm.application.companies.length === 0) {
         vm.error = 'Du måste välja minst ett företag / You must choose at least one company';
         return false;
-      } else if (vm.application.times === undefined || vm.application.times.length === 0) {
+      } else if ($scope.wed === undefined || $scope.wed.length === 0 || $scope.thur === undefined || $scope.thur.length === 0) {
         vm.error = 'Du måste välja minst en tid / You must tell when you are available';
         return false;
       }
+
+      //check that descriptions have been given for all chosen companies
+      for(var i = 0; i < $scope.chosenCompanies.length; i++) {
+        if($scope.chosenCompanies[i].motivation === '') {
+          vm.error = 'Du måste skriva en motivering för varje företag du valt. / You must write a motivation for each company you have chosen.';
+          return false;
+        }
+      }
+
+      vm.application.companies = $scope.chosenCompanies;
+
+      function isAvailable (t){
+        return t.available;
+      }
+      var availableWed = $scope.wed.filter(isAvailable);
+      var availableThur = $scope.thur.filter(isAvailable);
+      function toTime (t){
+        return t.time;
+      }
+      var wedTime = availableWed.map(toTime);
+      var thurTime = availableThur.map(toTime);
+      vm.application.times = [ { day: "wed", hour: wedTime }, { day: "thur", hour: thurTime } ];
 
       // TODO: move create/update logic to service
       if (vm.application._id) {
@@ -274,55 +319,5 @@
         .replace(/ö/g, 'o')
         .replace(/Ö/g, 'O');
     }
-
-    // Angular needs to complete rendering before applying 'chosen'
-    $timeout(function () {
-      // Chosen methods
-      $('.program_select_box').chosen({
-        no_results_text: 'Oops, nothing found!',
-        width: '100%'
-      });
-      $('.time_select_box').chosen({
-        no_results_text: 'Oops, nothing found!',
-        width: '100%'
-      });
-      $('.year_select_box').chosen({
-        no_results_text: 'Oops, nothing found!',
-        width: '100%'
-      });
-    }, 0, false);
-
-
-    $('.program_select_box').on('change', function(evt, params) {
-      vm.application.program = $scope.programs[params.selected];
-      $scope.$apply();
-    });
-
-    $('.company_select_box').on('change', function(evt, params) {
-      var element = $('.company_select_box');
-      if(params.selected){
-        vm.application.companies.push($scope.companyNames[params.selected]);
-      } else if(params.deselected) {
-        var position = vm.application.companies.indexOf($scope.companyNames[params.deselected]);
-        vm.application.companies.splice(position, 1);
-      }
-      $scope.$apply();
-    });
-
-    $('.time_select_box').on('change', function(evt, params) {
-      var element = $('.time_select_box');
-      if(params.selected){
-        vm.application.times.push($scope.times[params.selected]);
-      } else if(params.deselected) {
-        var position = vm.application.times.indexOf($scope.times[params.deselected]);
-        vm.application.times.splice(position, 1);
-      }
-      $scope.$apply();
-    });
-
-    $('.year_select_box').on('change', function(evt, params) {
-      vm.application.year = parseInt(params.selected) + 1;
-      $scope.$apply();
-    });
   }
 })();

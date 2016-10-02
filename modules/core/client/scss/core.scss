@@ -10,35 +10,41 @@
   }
 }
 
-.companies {
-  padding: 25px;
+.companygrid {
+  background: white;
+  border-radius: 3px;
 
-  .companybox {
-    cursor: pointer;
-    position:relative;
-    float: left;
-    width: 200px;
-    height: 200px;
+  .companies {
+    padding: 25px;
 
-    .helper{
-      display: inline-block;
-      height: 100%;
-      vertical-align: middle;
-    }
-
-    h4{
+    .companybox {
+      cursor: pointer;
       position:relative;
-      display: inline-block;
-      text-align: center;
-      width: 194px;
-    }
-    img {
-      position:relative;
-      display: inline-block;
-      vertical-align: middle;
-      margin: auto;
-      max-width: 175px;
-      left: 12px;
+      float: left;
+      width: 200px;
+      height: 200px;
+
+      .helper{
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+      }
+
+      h4{
+        position:relative;
+        display: inline-block;
+        text-align: center;
+        width: 194px;
+      }
+      img {
+        position:relative;
+        display: inline-block;
+        vertical-align: middle;
+        margin: auto;
+        max-width: 175px;
+        max-width: 125px;
+        left: 12px;
+      }
     }
   }
 }

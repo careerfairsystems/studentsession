@@ -29,7 +29,7 @@
         <!-- Email -->
         <div class="form-group" show-errors>
           <label class="control-label" for="email">Email / Email</label>
-          <input name="email" type="text" ng-model="vm.application.email" id="email" class="form-control" placeholder="Email" required>
+          <input name="email" type="email" ng-model="vm.application.email" id="email" class="form-control" placeholder="Email" required>
           <div ng-messages="vm.form.applicationForm.email.$error" role="alert">
             <p class="help-block error-text" ng-message="required">Email is required.</p>
           </div>
@@ -37,7 +37,7 @@
         <!-- Program -->
         <div class="form-group" show-errors>
           <label class="control-label" for="program">Program / Education</label>
-          <select name="program" ng-model="vm.application.program" ng-options="program for program in programs" class="program_select_box" required>
+          <select class="form-control" name="program" ng-model="vm.application.program" ng-options="program for program in programs" required>
             <option disabled></option>
           </select>
           <div ng-messages="vm.form.applicationForm.program.$error" role="alert">
@@ -47,7 +47,7 @@
         <!-- Year -->
         <div class="form-group" show-errors>
           <label class="control-label" for="program">År / Year</label>
-          <select name="program" ng-model="vm.application.year" ng-options="year for year in years" class="year_select_box" required>
+          <select class="form-control" name="program" ng-model="vm.application.year" ng-options="year for year in years" required>
             <option disabled></option>
           </select>
           <div ng-messages="vm.form.applicationForm.program.$error" role="alert">
@@ -55,46 +55,98 @@
           </div>
         </div>
         <!-- Companies -->
-        <div class="form-group">
+        <div class="form-group form-inline">
           <label for="selectcompanies"> Företag / Companies</label>
-          <br>
+          <p>
           Välj de företag du skulle vilja träffa. / Choose the companies you would like to meet.
-          <br>
-            <select name="selectcompanies" id="selectcompanies" ng-model="vm.application.companies" ng-options='string for string in companyNames' class="company_select_box" multiple> 
-            </select><br>
+          </p>
+          <select class="form-control" name="selectcompanies" id="selectcompanies" ng-model="vm.application.companies" ng-options='string for string in companyNames'> 
+          </select>
+          <button type="button" class="btn btn-primary btn-sm" ng-click="selectCompany()" ng-class="{ disabled: !choiceOn}">Lägg till Företag / Add Company</button>
+          <table class="table table-bordered table-condensed" ng-show="chosenCompanies.length > 0">
+            <tr class="active">
+              <th style="width: 25%;">
+                Företag / Company
+              </th>
+              <th>
+                Motivation
+              </th>
+              <th style="width: 5%;">
+              </th>
+            </tr>
+            <tr class="active" ng-repeat="c in chosenCompanies track by $index">
+              <td>
+                {{ c.name}}
+              </td>
+              <td>
+                <div ng-show="!c.edit">
+                  {{ c.motivation }}
+                </div>
+                <div ng-show="c.edit">
+                  <textarea class="form-control" ng-model="c.motivation"></textarea>
+                </div>
+              </td>
+              <td style="white-space: nowrap">
+                <div class="buttons" ng-show="c.edit">
+                  <button type="button" class="btn btn-sm btn-primary" ng-click="c.edit = false"><i class="glyphicon glyphicon-ok"></i></button>
+                  <button type="button" class="btn btn-sm btn-danger" ng-click="deleteCompany($index)"><i class="glyphicon glyphicon-trash"></i></button>
+                </div>  
+                <div class="buttons" ng-show="!c.edit">
+                  <button type="button" class="btn btn-primary" ng-click="c.edit = true;"><i class="glyphicon glyphicon-edit"></i></a>
+                </div>  
+              </td>
+            </tr>
+          </table>
         </div>
         <!-- Times -->
         <div class="form-group">
           <label for="selectTimes"> Tider / Available </label><br>
-          Vänligen ange de tider du kan. / Please apply when you are available for meetings.
-          <br>
-          <select name="selectTimes" id="selectTimes" ng-model="vm.application.times" multiple ng-options='string for string in times' class="time_select_box">
-            </select><br>
+          Välj fler tider för större chans att få träffa ditt företag. Vissa företag har bara kontaktsamtal en dag. / Choose multiple times for increased chance to meet with your company. Some companies only have student sessions one day.
+          <table class="table table-bordered table-condensed">
+            <tr class="active">
+              <td></td>
+              <td> <strong> 09-10 </strong> </td>
+              <td> <strong> 10-11 </strong> </td>
+              <td> <strong> 11-12 </strong> </td>
+              <td> <strong> 12-13 </strong> </td>
+              <td> <strong> 13-14 </strong> </td>
+              <td> <strong> 14-15 </strong> </td>
+              <td> <strong> 15-16 </strong> </td>
+            </tr>
+            <tr class="active">
+              <td><strong>Onsdag / Wednesday</strong></td>
+              <td>  </td>
+              <td> <input type="checkbox" ng-model="wed[0].available"> </td>
+              <td> <input type="checkbox" ng-model="wed[1].available"> </td>
+              <td> <input type="checkbox" ng-model="wed[2].available"> </td>
+              <td> <input type="checkbox" ng-model="wed[3].available"> </td>
+              <td> <input type="checkbox" ng-model="wed[4].available"> </td>
+              <td> <input type="checkbox" ng-model="wed[5].available"> </td>
+            </tr>
+            <tr class="active">
+              <td><strong>Torsdag / Thursday</strong></td>
+              <td> <input type="checkbox" ng-model="thur[0].available"> </td>
+              <td> <input type="checkbox" ng-model="thur[1].available"> </td>
+              <td> <input type="checkbox" ng-model="thur[2].available"> </td>
+              <td> <input type="checkbox" ng-model="thur[3].available"> </td>
+              <td> <input type="checkbox" ng-model="thur[4].available"> </td>
+              <td> <input type="checkbox" ng-model="thur[5].available"> </td>
+              <td> </td>
+            </tr>
+          </table>
         </div>
-
-       <div class="form-group" show-errors>
-            <label for="description"> Kort om dig / Short description of yourself</label><br>
-            Max 500 tecken. / Max of 500 characters. <br>
-             <textarea name="description" ng-model="vm.application.description" 
-             rows="4" cols="70" ng-change="monitorLength(500)"></textarea><br>
-
-            <div ng-messages="vm.form.applicationForm.description.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Description is required.</p>
-          </div>
-        </div>
-
         <!--Resume upload -->
         <div class="form-group">
-          <h3>Uppladdning av CV</h3>
+          <label for="">Uppladdning av cv (pdf endast) / Upload of Resume (pdf only)</label>
           <p> Kontrollera i företagsbeskrivningen för de företag du sökt till vilket eller vilka språk de tar emot cv på. / 
               Please double check in the company descriptions for the companies you want to meet what languages they accept resumes on.
           </p>
 
            <!-- CV svenska -->
-           <h4> Svenska / Swedish </h4>
+           <label> Svenska / Swedish </label>
             <div ng-hide="swedishFileUploader.queue.length">
              <span class="btn btn-default btn-file">
-                 Välj CV på svenska / Pick a Swedish resume <input name="newResume" type="file" nv-file-select uploader="swedishFileUploader">
+                 Välj cv på svenska / Pick a Swedish resume <input name="newResume" type="file" nv-file-select uploader="swedishFileUploader">
              </span>
            </div>
 
@@ -103,6 +155,8 @@
           </div>
 
            <div ng-show="swedishFileUploader.queue.length">  
+             <p class="lead">{{ sweFileName }}
+             </p>
              <button type="button" class="btn btn-default" ng-click="swedishFileUploader.clearQueue(); swedishUploadUnsuccess();">Ångra / Cancel</button> 
            </div>
 
@@ -120,10 +174,10 @@
 
             <br>
             <!-- CV engelska -->
-            <h4> Engelska / English </h4>
+            <label> Engelska / English </label>
             <div ng-hide="englishFileUploader.queue.length">
              <span class="btn btn-default btn-file">
-                 Välj CV på engelska / Pick an English resume <input name="newResume" type="file" nv-file-select uploader="englishFileUploader">
+                 Välj cv på engelska / Pick an English resume <input name="newResume" type="file" nv-file-select uploader="englishFileUploader">
              </span>
            </div>
 
@@ -132,6 +186,8 @@
             </div>
 
            <div ng-show="englishFileUploader.queue.length">  
+             <p class="lead">{{ engFileName }}
+             </p>
              <button type="button" class="btn btn-default" ng-click="englishFileUploader.clearQueue(); englishUploadUnsuccess();">Ångra / Cancel</button> 
            </div>
 
@@ -147,13 +203,13 @@
              <strong ng-bind="error"></strong>
             </div> 
         </div>
+        <hr>
         <div class="form-group">
-          <button type="submit" class="btn btn-default">{{vm.application._id ? 'Update' : 'Skicka'}}</button>
+          <button type="submit" class="btn btn-primary center-block btn-lg ">{{vm.application._id ? 'Update' : 'Skicka / Submit'}}</button>
         </div>
         <div ng-show="vm.error" class="text-danger">
           <strong ng-bind="vm.error"></strong>
         </div> <br>
-
       </fieldset>
     </form>
   </div>
