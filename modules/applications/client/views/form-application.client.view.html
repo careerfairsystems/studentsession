@@ -164,6 +164,8 @@
           </div>
 
            <div ng-show="swedishFileUploader.queue.length">  
+             <p class="lead">{{ sweFileName }}
+             </p>
              <button type="button" class="btn btn-default" ng-click="swedishFileUploader.clearQueue(); swedishUploadUnsuccess();">Ångra / Cancel</button> 
            </div>
 
@@ -193,6 +195,8 @@
             </div>
 
            <div ng-show="englishFileUploader.queue.length">  
+             <p class="lead">{{ engFileName }}
+             </p>
              <button type="button" class="btn btn-default" ng-click="englishFileUploader.clearQueue(); englishUploadUnsuccess();">Ångra / Cancel</button> 
            </div>
 

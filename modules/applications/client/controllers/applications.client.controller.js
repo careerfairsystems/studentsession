@@ -156,6 +156,8 @@
         var fileReader = new FileReader();
         fileReader.readAsDataURL(fileItem._file);
 
+        $scope.sweFileName = fileItem.file.name;
+
         fileReader.onload = function (fileReaderEvent) {
           $timeout(function () {
             //$scope.pdfURL = fileReaderEvent.target.result;
@@ -186,6 +188,8 @@
       if ($window.FileReader) {
         var fileReader = new FileReader();
         fileReader.readAsDataURL(fileItem._file);
+
+        $scope.engFileName = fileItem.file.name;
 
         fileReader.onload = function (fileReaderEvent) {            
           $timeout(function () {
