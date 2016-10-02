@@ -17,6 +17,7 @@
     $http.post('/api/applications/confirmationmail', { name: vm.name, email: vm.email }).success(function (response) {
       // Show user success message 
       $scope.success = response.message;
+      $scope.error = response.message;
     }).error(function (response) {
       // Show user error message 
       $scope.error = response.message;
