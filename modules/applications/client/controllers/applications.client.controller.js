@@ -249,7 +249,13 @@
     // Save Application
     function save(isValid) {
       vm.error = false;
-      if (!isValid) {
+
+      console.log("email", vm.application.email);
+
+      if (vm.form.applicationForm.email.$error.email === true && vm.form.applicationForm.email.$viewValue !== undefined) {
+        vm.error = 'Du har angett email på fel format / Email is not on the correct form';
+        return false;
+      } else if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.applicationForm');
         vm.error = 'Du har inte fyllt i alla fält / You need to fill all fields';
         return false;
