@@ -41,7 +41,11 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       method: 'GET',
       url: '/api/companies/active'
     }).then(function successCallback(response) {
+      function sortByName (c1, c2) {
+        return c1.name > c2.name ? 1 : -1;
+      }
       vm.companies = response.data;
+      vm.companies.sort(sortByName);
     }, function errorCallback(response) {
       console.log('ERROR: ' + response);
     });
