@@ -280,7 +280,7 @@
       }
       var wedTime = availableWed.map(toTime);
       var thurTime = availableThur.map(toTime);
-      vm.application.times = [ { day: "wed", hour: wedTime}, { day: "thur", hour: thurTime }];
+      vm.application.times = [ { day: "wed", hour: wedTime }, { day: "thur", hour: thurTime } ];
 
       // TODO: move create/update logic to service
       if (vm.application._id) {
