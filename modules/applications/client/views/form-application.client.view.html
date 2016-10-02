@@ -29,7 +29,7 @@
         <!-- Email -->
         <div class="form-group" show-errors>
           <label class="control-label" for="email">Email / Email</label>
-          <input name="email" type="text" ng-model="vm.application.email" id="email" class="form-control" placeholder="Email" required>
+          <input name="email" type="email" ng-model="vm.application.email" id="email" class="form-control" placeholder="Email" required>
           <div ng-messages="vm.form.applicationForm.email.$error" role="alert">
             <p class="help-block error-text" ng-message="required">Email is required.</p>
           </div>
@@ -101,7 +101,7 @@
         <!-- Times -->
         <div class="form-group">
           <label for="selectTimes"> Tider / Available </label><br>
-          Vänligen ange de tider du kan. / Please apply when you are available for meetings.
+          Välj fler tider för större chans att få träffa ditt företag. Vissa företag har bara kontaktsamtal en dag. / Choose multiple times for increased chans to meet with your company. Some companies only have student sessions one day.
           <table class="table table-bordered table-condensed">
             <tr class="active">
               <td></td>
@@ -135,15 +135,6 @@
             </tr>
           </table>
         </div>
-        <!-- Times 
-        <div class="form-group">
-          <label for="selectTimes"> Tider / Available </label><br>
-          Vänligen ange de tider du kan. / Please apply when you are available for meetings.
-          <br>
-          <select name="selectTimes" id="selectTimes" ng-model="vm.application.times" multiple ng-options='string for string in times' class="time_select_box">
-            </select><br>
-        </div>
--->
         <!--Resume upload -->
         <div class="form-group">
           <h3>Uppladdning av CV</h3>
@@ -218,14 +209,6 @@
         <div ng-show="vm.error" class="text-danger">
           <strong ng-bind="vm.error"></strong>
         </div> <br>
-
-
-        vm.application.times === undefined {{vm.application.times === undefined}}
-
-        vm.application.times.length === 0 {{vm.application.times.length === 0}}
-
-        vm.application.times {{vm.application.times}}
-
       </fieldset>
     </form>
   </div>
