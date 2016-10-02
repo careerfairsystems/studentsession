@@ -60,7 +60,7 @@
           <p>
           Välj de företag du skulle vilja träffa. / Choose the companies you would like to meet.
           </p>
-          <select class="form-control" name="selectcompanies" id="selectcompanies" ng-model="vm.application.companies" ng-options='string for string in companyNames'> 
+          <select class="form-control" name="selectcompanies" id="selectcompanies" ng-model="vm.application.companies" ng-options='string for string in companyNames'>
           </select>
           <button type="button" class="btn btn-primary btn-sm" ng-click="selectCompany()" ng-class="{ disabled: !choiceOn}">Lägg till Företag / Add Company</button>
           <table class="table table-bordered table-condensed" ng-show="chosenCompanies.length > 0">
@@ -80,7 +80,7 @@
               </td>
               <td>
                 <div ng-show="!c.edit">
-                  {{ c.motivation }}
+                  <pre>{{ c.motivation}}</pre>
                 </div>
                 <div ng-show="c.edit">
                   <textarea class="form-control" ng-model="c.motivation"></textarea>
@@ -90,10 +90,10 @@
                 <div class="buttons" ng-show="c.edit">
                   <button type="button" class="btn btn-sm btn-primary" ng-click="c.edit = false"><i class="glyphicon glyphicon-ok"></i></button>
                   <button type="button" class="btn btn-sm btn-danger" ng-click="deleteCompany($index)"><i class="glyphicon glyphicon-trash"></i></button>
-                </div>  
+                </div>
                 <div class="buttons" ng-show="!c.edit">
                   <button type="button" class="btn btn-primary" ng-click="c.edit = true;"><i class="glyphicon glyphicon-edit"></i></a>
-                </div>  
+                </div>
               </td>
             </tr>
           </table>
@@ -138,7 +138,7 @@
         <!--Resume upload -->
         <div class="form-group">
           <label for="">Uppladdning av cv (pdf endast) / Upload of Resume (pdf only)</label>
-          <p> Kontrollera i företagsbeskrivningen för de företag du sökt till vilket eller vilka språk de tar emot cv på. / 
+          <p> Kontrollera i företagsbeskrivningen för de företag du sökt till vilket eller vilka språk de tar emot cv på. /
               Please double check in the company descriptions for the companies you want to meet what languages they accept resumes on.
           </p>
 
@@ -146,7 +146,7 @@
            <label> Svenska / Swedish </label>
             <div ng-hide="swedishFileUploader.queue.length">
              <span class="btn btn-default btn-file">
-                 Välj cv på svenska / Pick a Swedish resume <input name="newResume" type="file" nv-file-select uploader="swedishFileUploader">
+                 Välj cv på svenska / Pick a Swedish resume <input name="newResume" accept=".pdf" type="file" nv-file-select uploader="swedishFileUploader">
              </span>
            </div>
 
@@ -154,10 +154,10 @@
              <button type="button" class="btn btn-primary" ng-click="swedishFileUploader.uploadAll();">Skicka in cv / Submit resume</button>
           </div>
 
-           <div ng-show="swedishFileUploader.queue.length">  
+           <div ng-show="swedishFileUploader.queue.length">
              <p class="lead">{{ sweFileName }}
              </p>
-             <button type="button" class="btn btn-default" ng-click="swedishFileUploader.clearQueue(); swedishUploadUnsuccess();">Ångra / Cancel</button> 
+             <button type="button" class="btn btn-default" ng-click="swedishFileUploader.clearQueue(); swedishUploadUnsuccess();">Ångra / Cancel</button>
            </div>
 
            <div ng-show="swedishUploadSuccess && !swedishFileUploader.queue.length" class="text-success">
@@ -170,14 +170,14 @@
 
            <div ng-show="error" class="text-center text-danger">
              <strong ng-bind="error"></strong>
-            </div> 
+            </div>
 
             <br>
             <!-- CV engelska -->
             <label> Engelska / English </label>
             <div ng-hide="englishFileUploader.queue.length">
              <span class="btn btn-default btn-file">
-                 Välj cv på engelska / Pick an English resume <input name="newResume" type="file" nv-file-select uploader="englishFileUploader">
+                 Välj cv på engelska / Pick an English resume <input name="newResume" accept=".pdf" type="file" nv-file-select uploader="englishFileUploader">
              </span>
            </div>
 
@@ -185,10 +185,10 @@
              <button type="button" class="btn btn-primary" ng-click="englishFileUploader.uploadAll();">Skicka in cv / Submit resume</button>
             </div>
 
-           <div ng-show="englishFileUploader.queue.length">  
+           <div ng-show="englishFileUploader.queue.length">
              <p class="lead">{{ engFileName }}
              </p>
-             <button type="button" class="btn btn-default" ng-click="englishFileUploader.clearQueue(); englishUploadUnsuccess();">Ångra / Cancel</button> 
+             <button type="button" class="btn btn-default" ng-click="englishFileUploader.clearQueue(); englishUploadUnsuccess();">Ångra / Cancel</button>
            </div>
 
            <div ng-show="englishUploadSuccess && !englishFileUploader.queue.length" class="text-success">
@@ -201,7 +201,7 @@
 
            <div ng-show="error" class="text-center text-danger">
              <strong ng-bind="error"></strong>
-            </div> 
+            </div>
         </div>
         <hr>
         <div class="form-group">

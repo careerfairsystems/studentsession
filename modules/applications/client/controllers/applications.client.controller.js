@@ -11,7 +11,7 @@
   'applicationResolve', 'CompaniesService'];
 
 
-  function ApplicationsController ($scope, $state, $timeout, $window, Authentication, FileUploader, 
+  function ApplicationsController ($scope, $state, $timeout, $window, Authentication, FileUploader,
     application, CompaniesService) {
     var vm = this;
 
@@ -57,30 +57,30 @@
       $scope.companyNames.push($scope.chosenCompanies[index].name);
       $scope.companyNames.sort();
       $scope.chosenCompanies.splice(index, 1);
-    }; 
+    };
 
     $scope.choiceOn = false;
     $('#selectcompanies').on('change', function() {
       $scope.choiceOn = true;
     });
-  
+
 
     //meeting times
-    $scope.wed = [ 
-      { time: 10, available: false }, 
-      { time: 11, available: false }, 
-      { time: 12, available: false }, 
-      { time: 13, available: false }, 
-      { time: 14, available: false }, 
-      { time: 15, available: false }, 
+    $scope.wed = [
+      { time: 10, available: false },
+      { time: 11, available: false },
+      { time: 12, available: false },
+      { time: 13, available: false },
+      { time: 14, available: false },
+      { time: 15, available: false },
     ];
-    $scope.thur = [ 
-      { time: 9, available: false }, 
-      { time: 10, available: false }, 
-      { time: 11, available: false }, 
-      { time: 12, available: false }, 
-      { time: 13, available: false }, 
-      { time: 14, available: false }, 
+    $scope.thur = [
+      { time: 9, available: false },
+      { time: 10, available: false },
+      { time: 11, available: false },
+      { time: 12, available: false },
+      { time: 13, available: false },
+      { time: 14, available: false },
     ];
     //programs
     var allPrograms = ['Byggteknik med arkitektur / Civil Engineering - Architecture',
@@ -88,7 +88,7 @@
                   'Arkitekt / Architect',
                   'Medicin och teknik / Biomedical Engineering',
                   'Bioteknik / Biotechnology',
-                  'Bioteknik / Biotechnology',                  
+                  'Bioteknik / Biotechnology',
                   'Kemiteknik / Chemical Engineering',
                   'Kemiteknik / Chemical Engineering',
                   'Brandingenjörsutbildning / Fire Protection Engineering',
@@ -144,7 +144,7 @@
       fn: function (item, options) {
         var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
         return '|pdf|'.indexOf(type) !== -1;
-      }        
+      }
     };
 
     // Connecting of file uploaders to their methods (filters etc.)
@@ -169,11 +169,11 @@
     // Called after the user has successfully uploaded a new resume
     $scope.swedishFileUploader.onSuccessItem = function(fileItem, response, status, headers) {
       // URL to resume put into database
-      vm.application.resume.swedishLink = response; 
+      vm.application.resume.swedishLink = response;
       // Show success message
       $scope.swedishUploadSuccess = true;
       // Clear uploader queue
-      $scope.swedishFileUploader.clearQueue(); 
+      $scope.swedishFileUploader.clearQueue();
       return;
     };
 
@@ -191,7 +191,7 @@
 
         $scope.engFileName = fileItem.file.name;
 
-        fileReader.onload = function (fileReaderEvent) {            
+        fileReader.onload = function (fileReaderEvent) {
           $timeout(function () {
           //$scope.pdfURL = fileReaderEvent.target.result;
           }, 0);
@@ -202,11 +202,11 @@
     // Called after the user has successfully uploaded a new resume
     $scope.englishFileUploader.onSuccessItem = function(fileItem, response, status, headers) {
       // URL to resume put into database
-      $scope.vm.application.resume.englishLink = response; 
+      $scope.vm.application.resume.englishLink = response;
       // Show success message
       $scope.englishUploadSuccess = true;
       // Clear uploader queue
-      $scope.englishFileUploader.clearQueue(); 
+      $scope.englishFileUploader.clearQueue();
       return;
     };
 
@@ -214,7 +214,7 @@
     $scope.englishUploadUnsuccess = function () {
       $scope.englishUploadSuccess = false;
     };
-    
+
     /*------------------------------ End of File Uploaders --------------------------------------------------------*/
 
     $scope.removeSwedishResume = function() {
@@ -259,7 +259,7 @@
         $scope.$broadcast('show-errors-check-validity', 'vm.form.applicationForm');
         vm.error = 'Du har inte fyllt i alla fält / You need to fill all fields';
         return false;
-      } else if (vm.application.resume === undefined || 
+      } else if (vm.application.resume === undefined ||
         (vm.application.resume.englishLink === undefined && vm.application.resume.swedishLink === undefined) ||
         (vm.application.resume.englishLink === '' && vm.application.resume.swedishLink === undefined) ||
         (vm.application.resume.englishLink === undefined && vm.application.resume.swedishLink === '') ||
