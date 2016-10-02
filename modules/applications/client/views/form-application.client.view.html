@@ -37,7 +37,7 @@
         <!-- Program -->
         <div class="form-group" show-errors>
           <label class="control-label" for="program">Program / Education</label>
-          <select name="program" ng-model="vm.application.program" ng-options="program for program in programs" class="program_select_box" required>
+          <select class="form-control" name="program" ng-model="vm.application.program" ng-options="program for program in programs" required>
             <option disabled></option>
           </select>
           <div ng-messages="vm.form.applicationForm.program.$error" role="alert">
@@ -47,7 +47,7 @@
         <!-- Year -->
         <div class="form-group" show-errors>
           <label class="control-label" for="program">År / Year</label>
-          <select name="program" ng-model="vm.application.year" ng-options="year for year in years" class="year_select_box" required>
+          <select class="form-control" name="program" ng-model="vm.application.year" ng-options="year for year in years" required>
             <option disabled></option>
           </select>
           <div ng-messages="vm.form.applicationForm.program.$error" role="alert">
@@ -102,11 +102,48 @@
         <div class="form-group">
           <label for="selectTimes"> Tider / Available </label><br>
           Vänligen ange de tider du kan. / Please apply when you are available for meetings.
+          <table class="table table-bordered table-condensed">
+            <tr class="active">
+              <td></td>
+              <td> <strong> 09-10 </strong> </td>
+              <td> <strong> 10-11 </strong> </td>
+              <td> <strong> 11-12 </strong> </td>
+              <td> <strong> 12-13 </strong> </td>
+              <td> <strong> 13-14 </strong> </td>
+              <td> <strong> 14-15 </strong> </td>
+              <td> <strong> 15-16 </strong> </td>
+            </tr>
+            <tr class="active">
+              <td><strong>Onsdag / Wednesday</strong></td>
+              <td>  </td>
+              <td> <input type="checkbox" ng-model="wed[0].available"> </td>
+              <td> <input type="checkbox" ng-model="wed[1].available"> </td>
+              <td> <input type="checkbox" ng-model="wed[2].available"> </td>
+              <td> <input type="checkbox" ng-model="wed[3].available"> </td>
+              <td> <input type="checkbox" ng-model="wed[4].available"> </td>
+              <td> <input type="checkbox" ng-model="wed[5].available"> </td>
+            </tr>
+            <tr class="active">
+              <td><strong>Torsdag / Thursday</strong></td>
+              <td> <input type="checkbox" ng-model="thur[0].available"> </td>
+              <td> <input type="checkbox" ng-model="thur[1].available"> </td>
+              <td> <input type="checkbox" ng-model="thur[2].available"> </td>
+              <td> <input type="checkbox" ng-model="thur[3].available"> </td>
+              <td> <input type="checkbox" ng-model="thur[4].available"> </td>
+              <td> <input type="checkbox" ng-model="thur[5].available"> </td>
+              <td> </td>
+            </tr>
+          </table>
+        </div>
+        <!-- Times 
+        <div class="form-group">
+          <label for="selectTimes"> Tider / Available </label><br>
+          Vänligen ange de tider du kan. / Please apply when you are available for meetings.
           <br>
           <select name="selectTimes" id="selectTimes" ng-model="vm.application.times" multiple ng-options='string for string in times' class="time_select_box">
             </select><br>
         </div>
-
+-->
         <!--Resume upload -->
         <div class="form-group">
           <h3>Uppladdning av CV</h3>

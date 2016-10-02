@@ -42,10 +42,7 @@ var ApplicationSchema = new Schema({
     type: String,
     required: true
   },
-  times: {
-    type: [String],
-    required: true
-  },
+  times: [{ day: String, hour: [ Number ] }],
   program: {
     type: String,
     required: true
