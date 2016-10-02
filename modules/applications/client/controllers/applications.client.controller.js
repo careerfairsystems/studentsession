@@ -179,7 +179,30 @@
 
     // Resets the upload as unsuccessful
     $scope.swedishUploadUnsuccess = function () {
+      $scope.swedishFileTooLarge = false;
       $scope.swedishUploadSuccess = false;
+    };
+
+    $scope.swedishFileTooLarge = false;
+
+    // Upload Swedish file
+    $scope.swedishFileUpload = function () {
+      var upload = $scope.swedishFileUploader.uploadAll();
+
+      if(!upload) {
+        $scope.swedishFileTooLarge = true;
+      }
+    };
+
+    $scope.englishFileTooLarge = false;
+
+    // Upload English file
+    $scope.englishFileUpload = function () {
+      var upload = $scope.englishFileUploader.uploadAll();
+
+      if(!upload) {
+        $scope.englishFileTooLarge = true;
+      }
     };
 
     $scope.englishFileUploader.filters.push(pdfFilter);
@@ -212,6 +235,7 @@
 
     // Resets the upload as unsuccessful
     $scope.englishUploadUnsuccess = function () {
+      $scope.englishFileTooLarge = false;
       $scope.englishUploadSuccess = false;
     };
     

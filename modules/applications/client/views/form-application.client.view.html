@@ -151,7 +151,11 @@
            </div>
 
            <div ng-show="swedishFileUploader.queue.length">
-             <button type="button" class="btn btn-primary" ng-click="swedishFileUploader.uploadAll();">Skicka in cv / Submit resume</button>
+             <button type="button" class="btn btn-primary" ng-click="swedishFileUpload();">Skicka in cv / Submit resume</button>
+          </div>
+
+          <div ng-show="swedishFileTooLarge">
+            <strong> Filen du valt är för stor / The file you picked is too large </strong>
           </div>
 
            <div ng-show="swedishFileUploader.queue.length">  
@@ -182,8 +186,12 @@
            </div>
 
            <div ng-show="englishFileUploader.queue.length">
-             <button type="button" class="btn btn-primary" ng-click="englishFileUploader.uploadAll();">Skicka in cv / Submit resume</button>
+             <button type="button" class="btn btn-primary" ng-click="englishFileUpload();">Skicka in cv / Submit resume</button>
             </div>
+
+          <div ng-show="englishFileTooLarge">
+            <strong> Filen du valt är för stor / The file you picked is too large </strong>
+          </div>
 
            <div ng-show="englishFileUploader.queue.length">  
              <p class="lead">{{ engFileName }}
