@@ -258,7 +258,7 @@
         (vm.application.resume.englishLink === '' && vm.application.resume.swedishLink === undefined) ||
         (vm.application.resume.englishLink === undefined && vm.application.resume.swedishLink === '') ||
         (vm.application.resume.englishLink === '' && vm.application.resume.swedishLink === '')) {
-        vm.error = 'Du måste bifoga minst ett CV / You must attach at least one resume';
+        vm.error = 'Du måste bifoga minst ett cv / You must attach at least one resume';
         return false;
       } else if (vm.application.companies === undefined || vm.application.companies.length === 0) {
         vm.error = 'Du måste välja minst ett företag / You must choose at least one company';
@@ -266,6 +266,14 @@
       } else if ($scope.wed === undefined || $scope.wed.length === 0 || $scope.thur === undefined || $scope.thur.length === 0) {
         vm.error = 'Du måste välja minst en tid / You must tell when you are available';
         return false;
+      }
+
+      //check that descriptions have been given for all chosen companies
+      for(var i = 0; i < $scope.chosenCompanies.length; i++) {
+        if($scope.chosenCompanies[i].motivation === '') {
+          vm.error = 'Du måste skriva en motivering för varje företag du valt. / You must write a motivation for each company you have chosen.';
+          return false;
+        }
       }
 
       vm.application.companies = $scope.chosenCompanies;
