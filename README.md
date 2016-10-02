@@ -11,6 +11,19 @@ The system has two main types of user; the one responsible for student sessions
 here called **coordinator**, and the users applying for student sessions here
 called **students**.
 
+## Config variables
+
+To run this project in production there needs to be some config variables to 
+allow all functions. These are:
+
+
+### Mailing variables
+- MAILER_SERVICE_PROVIDER
+- MAILER_FROM
+- MAILER_EMAIL_ID
+- MAILER_PASSWORD
+
+
 ## Workflow
 
 ### Coordinator
