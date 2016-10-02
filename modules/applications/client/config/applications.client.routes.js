@@ -38,7 +38,6 @@
           applicationResolve: newApplication
         },
         data: {
-          roles: ['user', 'admin'],
           pageTitle : 'Applications Create'
         }
       })
@@ -51,7 +50,7 @@
           applicationResolve: getApplication
         },
         data: {
-          roles: ['user', 'admin'],
+          roles: [/*'user', */'admin'],
           pageTitle: 'Edit Application {{ applicationResolve.name }}'
         }
       })

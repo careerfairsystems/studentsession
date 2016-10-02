@@ -28,7 +28,7 @@
     vm.createMode = !vm.application._id;
 
     //filuppladdning
-    $scope.user = Authentication.user;
+    //$scope.user = Authentication.user;
     $scope.imgUrlBase = 'public/uploads/';
     $scope.pdfURL = $scope.imgUrlBase + vm.application._id + '.pdf';
     //slut
@@ -311,44 +311,5 @@
         .replace(/ö/g, 'o')
         .replace(/Ö/g, 'O');
     }
-
-    // Angular needs to complete rendering before applying 'chosen'
-    $timeout(function () {
-      // Chosen methods
-      $('.program_select_box').chosen({
-        no_results_text: 'Oops, nothing found!',
-        width: '100%'
-      });
-      $('.time_select_box').chosen({
-        no_results_text: 'Oops, nothing found!',
-        width: '100%'
-      });
-      $('.year_select_box').chosen({
-        no_results_text: 'Oops, nothing found!',
-        width: '100%'
-      });
-    }, 0, false);
-
-
-    $('.program_select_box').on('change', function(evt, params) {
-      vm.application.program = $scope.programs[params.selected];
-      $scope.$apply();
-    });
-
-    $('.time_select_box').on('change', function(evt, params) {
-      var element = $('.time_select_box');
-      if(params.selected){
-        vm.application.times.push($scope.times[params.selected]);
-      } else if(params.deselected) {
-        var position = vm.application.times.indexOf($scope.times[params.deselected]);
-        vm.application.times.splice(position, 1);
-      }
-      $scope.$apply();
-    });
-
-    $('.year_select_box').on('change', function(evt, params) {
-      vm.application.year = parseInt(params.selected) + 1;
-      $scope.$apply();
-    });
   }
 })();

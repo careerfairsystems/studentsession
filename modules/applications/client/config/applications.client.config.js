@@ -14,7 +14,7 @@
       state: 'applications',
       type: 'dropdown',
       roles: ['admin']
-    }); // vart kommer man med denna?
+    }); 
 
     Menus.addSubMenuItem('topbar', 'applications', {
       title: 'Received applications',

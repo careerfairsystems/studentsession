@@ -6,30 +6,34 @@
     display: inline-block;
     max-height: 150px; }
 
-.companies {
-  padding: 25px; }
-  .companies .companybox {
-    cursor: pointer;
-    position: relative;
-    float: left;
-    width: 200px;
-    height: 200px; }
-    .companies .companybox .helper {
-      display: inline-block;
-      height: 100%;
-      vertical-align: middle; }
-    .companies .companybox h4 {
+.companygrid {
+  background: white;
+  border-radius: 3px; }
+  .companygrid .companies {
+    padding: 25px; }
+    .companygrid .companies .companybox {
+      cursor: pointer;
       position: relative;
-      display: inline-block;
-      text-align: center;
-      width: 194px; }
-    .companies .companybox img {
-      position: relative;
-      display: inline-block;
-      vertical-align: middle;
-      margin: auto;
-      max-width: 175px;
-      left: 12px; }
+      float: left;
+      width: 200px;
+      height: 200px; }
+      .companygrid .companies .companybox .helper {
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle; }
+      .companygrid .companies .companybox h4 {
+        position: relative;
+        display: inline-block;
+        text-align: center;
+        width: 194px; }
+      .companygrid .companies .companybox img {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        margin: auto;
+        max-width: 175px;
+        max-width: 125px;
+        left: 12px; }
 
 /* Grayscale shit */
 .grayscale {

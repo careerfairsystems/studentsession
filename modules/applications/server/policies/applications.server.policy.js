@@ -32,7 +32,7 @@ exports.invokeRolesPolicies = function () {
       roles: ['user'],
       allows: [{
         resources: '/api/applications',
-        permissions: ['']
+        permissions: ['post']
       }, {
         resources: '/api/applications/:applicationId',
         permissions: ['post']
@@ -47,13 +47,19 @@ exports.invokeRolesPolicies = function () {
       roles: ['guest'],
       allows: [{
         resources: '/api/applications',
-        permissions: ['']
+        permissions: ['post'] //vilka behövs? ev get
       }, {
         resources: '/api/applications/:applicationId',
         permissions: ['post']
       }, {
         resources: '/api/applications/resume/:pdfName',
         permissions: ['post']
+      }, {
+        resources: '/api/applications/resume/',
+        permissions: ['post']
+      }, {
+        resources: '/api/applications',
+        permissions: ['']
       }]
     }
   ]);
