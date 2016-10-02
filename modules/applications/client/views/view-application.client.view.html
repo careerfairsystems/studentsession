@@ -2,41 +2,32 @@
   <div class="page-header">
     <h1 data-ng-bind="vm.application.user.displayName"></h1>
     <hr>
-    <a class="btn btn-lg btn-primary" href="/api/applications/resume/{{ vm.application.resume.swedishLink }}" 
+    <a class="btn btn-lg btn-primary" href="/api/applications/resume/{{ vm.application.resume.swedishLink }}"
     target="_blank">Download Swedish Resume from /api/applications/resume/{{vm.application.resume.swedishLink}}</a>
     <a class="btn btn-lg btn-primary" href="/api/applications/resume/{{ vm.application.resume.englishLink }}" target="_blank">Download English Resume</a>
     <hr>
 
-    <h5>
-     Name
-    </h5>    
+    <h5> <strong>Name </strong></h5>
      <p data-ng-bind="vm.application.name"></p>
-    <h5>
-      Email
-    </h5>
+
+    <h5><strong>Email</strong></h5>
     <p data-ng-bind="vm.application.email"></p>
-    <h5>
-      Telephone
-    </h5>
+
+    <h5><strong>Telephone</strong></h5>
     <p data-ng-bind="vm.application.phone"></p>
-    <h5>
-      Education
-    </h5>
+
+    <h5><strong>Education</strong></h5>
     <p data-ng-bind="vm.application.program"></p>
-    <h5>
-    Year
-    </h5>
+
+    <h5><strong>Year</strong></h5>
     <p data-ng-bind="vm.application.year"></p>
-    <h5>
-      Presentation
-    </h5>
-    <p data-ng-bind="vm.application.description"></p>
-    <h5>
-      Companies chosen
-    </h5>
+
+    <h5><strong>Companies chosen</strong></h5>
     <ul>
       <li ng-repeat="company in vm.application.companies">
-       {{ company }}
+       <strong>{{ company.name }}</strong>
+       <br>
+       <pre>{{company.motivation}}</pre>
       </li>
     </ul>
     <h5>
@@ -44,7 +35,11 @@
     </h5>
     <ul>
       <li ng-repeat="time in vm.application.times">
-       {{ time }}
+       <strong>{{ time.day }}</strong>
+       <br>
+       <div ng-repeat="hour in time.hour">
+         <span>{{hour}}<span>
+       </div>
       </li>
     </ul>
   </div>

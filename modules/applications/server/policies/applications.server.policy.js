@@ -26,7 +26,7 @@ exports.invokeRolesPolicies = function () {
         permissions: ['get', 'post']
       }, {
         resources: '/api/applications/resume/',
-        permissions: ['post']
+        permissions: ['get', 'post']
       }]
     }, {
       roles: ['user'],

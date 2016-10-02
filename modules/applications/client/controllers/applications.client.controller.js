@@ -16,15 +16,18 @@
     var vm = this;
 
     vm.authentication = Authentication;
-    vm.application = application;
     vm.error = null;
     vm.form = {};
     vm.remove = remove;
     vm.save = save;
+
+    vm.application = application;
+
     vm.application.year = '';
     vm.application.times = [];
     vm.application.companies = [];
     vm.application.resume = {};
+
     vm.createMode = !vm.application._id;
 
     //filuppladdning

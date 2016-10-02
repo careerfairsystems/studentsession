@@ -14,7 +14,7 @@
       state: 'applications',
       type: 'dropdown',
       roles: ['admin']
-    }); 
+    });
 
     Menus.addSubMenuItem('topbar', 'applications', {
       title: 'Received applications',
@@ -22,11 +22,11 @@
       roles: ['admin']
     });
 
-    Menus.addSubMenuItem('topbar', 'applications', {
-      title: 'F.A.Q',
-      state: 'applications.info',
-      roles: ['admin']
-    });
+//    Menus.addSubMenuItem('topbar', 'applications', {
+//      title: 'F.A.Q',
+//      state: 'applications.info',
+//      roles: ['admin']
+//    });
 
     // Add the dropdown create item
     Menus.addSubMenuItem('topbar', 'applications', {
