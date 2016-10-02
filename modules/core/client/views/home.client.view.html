@@ -10,41 +10,43 @@
   <div ng-bind-html="vm.frontpagehtml"></div>
   <!-- Companies -->
   <div class="row jumbotron companygrid">
-    <h2 id="company">
+    <h3 id="company">
       Companies
-    </h2>
-    <!-- Selected Company -->
+    </h3>
     <div class="company" >
-      <div ng-show="company">
-        <h4 id="companyname" class="list-group-item-heading" data-ng-bind="company.name"></h4>
-        <br>
-        <h5 class><strong>Description:</strong></h5>
-        <div ng-bind-html="description"></div>
-        <hr>
-        <h5 class><strong>Why do we want student session?</strong></h5>
-        <div ng-bind-html="whyStudentSession"></div>
-        <hr>
-        <h5 class><strong>Did you know:</strong></h5>
-        <div ng-bind-html="didYouKnow"></div>
-        <hr>
-        <h5 class><strong>We offer:</strong></h5>
-        <span data-ng-bind="company.weOffer"></span>
-        <hr>
-        <h5 class><strong>We want to above all meet:</strong></h5>
-        <span data-ng-bind="company.desiredProgramme"></span>
-        <hr>
-        <h5 class><strong>Industry:</strong></h5>
-        <span data-ng-bind="company.branch"></span>
-        <hr>
-        <h5 class><strong>We want resumés in:</strong></h5>
-        <span data-ng-if="!company.language">No language specified</span>
-        <span data-ng-if="company.language" data ng-bind="company.language"></span>
-        <hr>
-        <h5 class><strong>Website:</strong></h5>
-        <span data-ng-bind="company.website"></span>
+      <div ng-show="company" class="row">
+        <div class="col-sm-6">
+          <img data-ng-show="company.profileImageURL"
+          class="" ng-src="/api/companies/logo/{{company.profileImageURL}}" />
+          <hr />
+          <h5 class><strong>We offer:</strong></h5>
+          <span ng-repeat="offer in company.weOffer" class="tag">{{ offer }}</span>
+          <hr>
+          <h5 class><strong>We want to above all meet:</strong></h5>
+          <span ng-repeat="program in company.desiredProgramme" class="tag">{{ program }}</span>
+          <hr>
+          <h5 class><strong>Industry:</strong></h5>
+          <span ng-repeat="branch in company.branch" class="tag">{{ branch }}</span>
+          <hr>
+          <h5 class><strong>We want resumés in:</strong></h5>
+          <span data-ng-if="!company.language">No language specified</span>
+          <span data-ng-if="company.language" data ng-bind="company.language"></span>
+          <hr>
+          <h5 class><strong>Website:</strong></h5>
+          <a href="{{ company.website }}">{{ company.website }}</a>
+        </div>
+        <div class="col-sm-6">
+          <h5 class><strong>Description:</strong></h5>
+          <div ng-bind-html="description"></div>
+          <hr>
+          <h5 class><strong>Why do we want student session?</strong></h5>
+          <div ng-bind-html="whyStudentSession"></div>
+          <hr>
+          <h5 class><strong>Did you know:</strong></h5>
+          <div ng-bind-html="didYouKnow"></div>
+        </div>
       </div>
     </div>
-
     <!-- CompaniesList -->
     <div class="row">
       <div class="companies">

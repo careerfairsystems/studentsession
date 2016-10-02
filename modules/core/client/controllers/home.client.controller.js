@@ -9,7 +9,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
     $scope.gotoSelected = function() {
       // set the location.hash to the id of
       // the element you wish to scroll to.
-      $location.hash('companyname');
+      $location.hash('company');
 
       // call $anchorScroll()
       $anchorScroll();

@@ -5,9 +5,21 @@
 
   img {
     position: relative;
-    display: inline-block;
-    max-height: 150px;
+    display: block;
+    margin: auto;
+    max-height: 200px;
   }
+}
+
+.tag {
+  position: relative;
+  display: inline-block;
+  margin: 3px 2px;
+  padding: 3px 5px;
+  border: 1px solid #eee;
+  background: #eee;
+  border-radius: 5px;
+  cursor: default;
 }
 
 .companygrid {
