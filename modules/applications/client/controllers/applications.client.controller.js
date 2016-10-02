@@ -35,11 +35,35 @@
 
     //fetches the company names from the database
     $scope.companyNames = [];
+    $scope.chosenCompanies = [];
     CompaniesService.query().$promise.then(function(result) {
       angular.forEach(result, function(company) {
-        $scope.companyNames.push(company.name);
+        if(company.active){
+          $scope.companyNames.push(company.name);
+        }
       });
+      $scope.companyNames.sort();
     });
+
+    $scope.selectCompany = function (){
+      var selection = $('#selectcompanies').find(":selected").text();
+      if (!selection)
+        return;
+      var index = $('#selectcompanies').val();
+      $scope.companyNames.splice(index, 1);
+      $scope.chosenCompanies.push({ name: selection, motivation: '', edit: true });
+    };
+    $scope.deleteCompany = function (index){
+      $scope.companyNames.push($scope.chosenCompanies[index].name);
+      $scope.companyNames.sort();
+      $scope.chosenCompanies.splice(index, 1);
+    }; 
+
+    $scope.choiceOn = false;
+    $('#selectcompanies').on('change', function() {
+      $scope.choiceOn = true;
+    });
+  
 
     //meeting times
     $scope.times = ['16/11 10-11',
@@ -237,6 +261,8 @@
         return false;
       }
 
+      vm.application.companies = $scope.chosenCompanies;
+
       // TODO: move create/update logic to service
       if (vm.application._id) {
         vm.application.$update(successCallback, errorCallback);
@@ -274,10 +300,6 @@
         no_results_text: 'Oops, nothing found!',
         width: '100%'
       });
-      $('.company_select_box').chosen({
-        no_results_text: 'Oops, nothing found!',
-        width: '100%'
-      });
       $('.time_select_box').chosen({
         no_results_text: 'Oops, nothing found!',
         width: '100%'
@@ -291,17 +313,6 @@
 
     $('.program_select_box').on('change', function(evt, params) {
       vm.application.program = $scope.programs[params.selected];
-      $scope.$apply();
-    });
-
-    $('.company_select_box').on('change', function(evt, params) {
-      var element = $('.company_select_box');
-      if(params.selected){
-        vm.application.companies.push($scope.companyNames[params.selected]);
-      } else if(params.deselected) {
-        var position = vm.application.companies.indexOf($scope.companyNames[params.deselected]);
-        vm.application.companies.splice(position, 1);
-      }
       $scope.$apply();
     });
 

@@ -26,10 +26,10 @@ var ApplicationSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'User'
   },
-  companies: {
-    type: [String],
-    required: true
-  },
+  companies: [{
+    name: String,
+    motivation: String
+  }],
   resume: {
     swedishLink: String,
     englishLink: String
@@ -50,10 +50,6 @@ var ApplicationSchema = new Schema({
     type: String,
     required: true
   },
-  descriptions: [{
-    companyName: String,
-    description: String
-  }]
 });
 
 mongoose.model('Application', ApplicationSchema);

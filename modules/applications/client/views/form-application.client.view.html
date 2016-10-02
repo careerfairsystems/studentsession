@@ -55,13 +55,48 @@
           </div>
         </div>
         <!-- Companies -->
-        <div class="form-group">
+        <div class="form-group form-inline">
           <label for="selectcompanies"> Företag / Companies</label>
-          <br>
+          <p>
           Välj de företag du skulle vilja träffa. / Choose the companies you would like to meet.
-          <br>
-            <select name="selectcompanies" id="selectcompanies" ng-model="vm.application.companies" ng-options='string for string in companyNames' class="company_select_box" multiple> 
-            </select><br>
+          </p>
+          <select class="form-control" name="selectcompanies" id="selectcompanies" ng-model="vm.application.companies" ng-options='string for string in companyNames'> 
+          </select>
+          <button type="button" class="btn btn-primary btn-sm" ng-click="selectCompany()" ng-class="{ disabled: !choiceOn}">Lägg till Företag / Add Company</button>
+          <table class="table table-bordered table-condensed" ng-show="chosenCompanies.length > 0">
+            <tr class="active">
+              <th style="width: 25%;">
+                Företag / Company
+              </th>
+              <th>
+                Motivation
+              </th>
+              <th style="width: 5%;">
+              </th>
+            </tr>
+            <tr class="active" ng-repeat="c in chosenCompanies track by $index">
+              <td>
+                {{ c.name}}
+              </td>
+              <td>
+                <div ng-show="!c.edit">
+                  {{ c.motivation }}
+                </div>
+                <div ng-show="c.edit">
+                  <textarea class="form-control" ng-model="c.motivation"></textarea>
+                </div>
+              </td>
+              <td style="white-space: nowrap">
+                <div class="buttons" ng-show="c.edit">
+                  <button type="button" class="btn btn-sm btn-primary" ng-click="c.edit = false"><i class="glyphicon glyphicon-ok"></i></button>
+                  <button type="button" class="btn btn-sm btn-danger" ng-click="deleteCompany($index)"><i class="glyphicon glyphicon-trash"></i></button>
+                </div>  
+                <div class="buttons" ng-show="!c.edit">
+                  <button type="button" class="btn btn-primary" ng-click="c.edit = true;"><i class="glyphicon glyphicon-edit"></i></a>
+                </div>  
+              </td>
+            </tr>
+          </table>
         </div>
         <!-- Times -->
         <div class="form-group">
@@ -70,24 +105,6 @@
           <br>
           <select name="selectTimes" id="selectTimes" ng-model="vm.application.times" multiple ng-options='string for string in times' class="time_select_box">
             </select><br>
-        </div>
-        <!-- Descriptions -->
-       <div class="form-group" show-errors>
-          <label for="description"> Kort om dig </label><br>
-            Skriv här en introduktion om dig till de företag du önskat. Max 500 tecken per introduktion. <br>
-            Companies: {{vm.application.companies}}
-            <div name="noCompanies" ng-show="vm.application.companies.length === 0">
-              <br> 
-              Du har inte valt några företag.
-            </div>
-
-             <div ng-repeat="company in vm.application.companies track by $index">
-              <b>{{company}}</b>
-              description company: {{vm.application.descriptions[$index].description}}
-              <br>
-               <textarea name="description$index" ng-model="vm.application.descriptions[$index].description" 
-               rows="4" cols="70" ng-change="monitorLength(500, $index)"></textarea><br>
-             </div>
         </div>
 
         <!--Resume upload -->
