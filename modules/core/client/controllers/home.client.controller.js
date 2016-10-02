@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$sce', '$http', 'ApplicationsettingsService', 'CompaniesService', '$location', '$anchorScroll',
+angular.module('core').controller('HomeController', ['$scope', 'Authentication', '$sce', '$http', 'ApplicationsettingsService', 'CompaniesService', '$location', '$anchorScroll', '$sce',
   function ($scope, Authentication, $sce, $http, ApplicationsettingsService, CompaniesService, $location, $anchorScroll) {
     // This provides Authentication context.
     $scope.authentication = Authentication;
@@ -15,7 +15,13 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       $anchorScroll();
     };
 
+    function makeHtml(str) {
+      str = $sce.trustAsHtml(str);
+    }
     $scope.viewCompany = function(company) {
+      $scope.description = $sce.trustAsHtml(company.description);
+      $scope.whyStudentSession = $sce.trustAsHtml(company.whyStudentSession);
+      $scope.didYouKnow = $sce.trustAsHtml(company.didYouKnow);
       $scope.company = company; // Company is the selected one.
       $scope.gotoSelected();
     };

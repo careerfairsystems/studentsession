@@ -19,13 +19,13 @@
         <h4 id="companyname" class="list-group-item-heading" data-ng-bind="company.name"></h4>
         <br>
         <h5 class><strong>Description:</strong></h5>
-        <span data-ng-bind="company.description"></span>
+        <div ng-bind-html="description"></div>
         <hr>
         <h5 class><strong>Why do we want student session?</strong></h5>
-        <span data-ng-bind="company.whyStudentSession"></span>
+        <div ng-bind-html="whyStudentSession"></div>
         <hr>
         <h5 class><strong>Did you know:</strong></h5>
-        <span data-ng-bind="company.didYouKnow"></span>
+        <div ng-bind-html="didYouKnow"></div>
         <hr>
         <h5 class><strong>We offer:</strong></h5>
         <span data-ng-bind="company.weOffer"></span>

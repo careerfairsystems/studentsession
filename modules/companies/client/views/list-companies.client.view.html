@@ -4,24 +4,6 @@
   </div>
   <!-- Companies -->
   <div class="row">
-  <!--
-    <h2 id="company">
-      Companies
-    </h2>
-    <div class="company list-group-item" >
-      <div ng-show="company">
-        <h4 class="list-group-item-heading" data-ng-bind="company.name"></h4>
-        <br>
-        <h5 class><strong>Description:</strong></h5>
-        <span data-ng-bind="company.description"></span>
-        <br></br>
-        <h5 class><strong>Requested CV Language:</strong></h5>
-        <span data-ng-if="company.language.length == 0">No language specified</span>
-        <span data-ng-if="company.language.length > 0" data ng-bind="company.language"></span>
-        <h5 class><strong>Active status:</strong></h5>
-        <span data-ng-bind="company.active"></span>
-        <a class="btn btn-primary pull-right" data-ui-sref="companies.view({ companyId: company._id })">Read more</a>
-  <-->
     <div class="row">
       <!-- The Modal -->
       <div id="myModal" class="modal">
@@ -117,20 +99,10 @@
             <h3></h3>
           </div>
         </div>
->>>>>>> 947986dc5c1f616f27fab290f8a72da4456cba58
       </div>
     </div>
     <!-- Company Datatable -->
     <div class="row">
-      <div class="companies list-group">
-        <a data-ng-repeat="company in vm.companies"
-           ng-click="viewCompany(company)"
-           class="list-group-item">
-          <h4 class="list-group-item-heading">{{company.name}} <small class="pull-right"> is active: {{company.active}}</small></h4>
-        </a>
-      </div>
-      <div class="alert alert-warning text-center" data-ng-if="vm.companies.$resolved && !vm.companies.length">
-        No Companies yet, why don't you <a data-ui-sref="companies.create">create one</a>?
       <div class="jumbotron">
         <table id="companiesList" class="table table-striped compact table-bordered nowrap" >
           <thead>
