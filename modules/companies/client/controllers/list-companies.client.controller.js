@@ -110,7 +110,14 @@
     };
     vm.updateCompany = function(){
       // Update DB.
-      CompaniesService.update(vm.companies[vm.currentIndex]);
+      CompaniesService.update(vm.companies[vm.currentIndex], function (response) {
+       //success function
+        alert("Save successfull");
+      }, function (response) {
+        //error function
+        alert("Save NOT successfull.");
+      });
+
       // Recreate datatable
       vm.table.destroy();
       vm.createDatatable(vm.companies);
