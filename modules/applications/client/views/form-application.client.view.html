@@ -71,6 +71,9 @@
               <th>
                 Motivation
               </th>
+              <th style="width: 150px">
+                Språk på CV / Resume Language
+              </th>
               <th style="width: 5%;">
               </th>
             </tr>
@@ -84,6 +87,17 @@
                 </div>
                 <div ng-show="c.edit">
                   <textarea class="form-control" ng-model="c.motivation"></textarea>
+                </div>
+              </td>
+              <td>
+                <div ng-show="!c.edit">
+                  <span>{{ c.resumeLanguage}}</span>
+                </div>
+                <div ng-show="c.edit">
+                  <select class="form-control" ng-model="c.resumeLanguage">
+                    <option value="Svenska">Svenska</option>
+                    <option value="English">English</option>
+                  </select>
                 </div>
               </td>
               <td style="white-space: nowrap">
