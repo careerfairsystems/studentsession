@@ -62,12 +62,13 @@
       .state('applications.view', {
         url: '/:applicationId',
         templateUrl: 'modules/applications/client/views/view-application.client.view.html',
-        controller: 'ViewApplicationController',
+        controller: 'ApplicationsController',
         controllerAs: 'vm',
         resolve: {
           applicationResolve: getApplication
         },
         data:{
+          roles: ['admin'],
           pageTitle: 'Application {{ articleResolve.name }}'
         }
       })
