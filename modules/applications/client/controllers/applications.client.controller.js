@@ -23,10 +23,10 @@
 
     vm.application = application;
 
-    vm.application.year = '';
-    vm.application.times = [];
-    vm.application.companies = [];
-    vm.application.resume = {};
+    vm.application.year = vm.application.year || '';
+    vm.application.times = vm.application.times || [];
+    vm.application.companies = vm.application.companies || [];
+    vm.application.resume = vm.application.resume || {};
 
     vm.createMode = !vm.application._id;
 

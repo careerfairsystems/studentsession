@@ -26,6 +26,7 @@
     <ul>
       <li ng-repeat="company in vm.application.companies">
        <strong>{{ company.name }}</strong>
+       <span>{{ company.resumeLanguage }}</span>
        <br>
        <pre>{{company.motivation}}</pre>
       </li>
