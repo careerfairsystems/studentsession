@@ -269,7 +269,7 @@
         (vm.application.resume.englishLink === '' && vm.application.resume.swedishLink === '')) {
         vm.error = 'Du måste bifoga minst ett cv / You must attach at least one resume';
         return false;
-      } else if (vm.application.companies === undefined || vm.application.companies.length === 0) {
+      } else if ($scope.chosenCompanies === undefined || $scope.chosenCompanies.length === 0) {
         vm.error = 'Du måste välja minst ett företag / You must choose at least one company';
         return false;
       } else if ($scope.wed === undefined || $scope.wed.length === 0 || $scope.thur === undefined || $scope.thur.length === 0) {

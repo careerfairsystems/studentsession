@@ -2,8 +2,13 @@
   <div class="jumbotron text-center">
     <div class="row jumbotron">
         <h1>Student Session</h1>
-        <p>Have a exclusive meeting with your favorite Company!</p>
-        <a class="btn btn-primary btn-lg" target="_blank" data-ui-sref="applications.create">Apply now</a>
+        <p>Have a exclusive meeting with your favorite Company!
+          <br />
+          Want to find out more about the companies of this years student sessions? 
+          <br />
+          Scroll down on this page and press logos for the companies you want to read more about.</p>
+        <button class="btn btn-warning btn-sm" ng-click="gotoSelected()">Read about the companies</button>
+        <a class="btn btn-primary btn-sm" target="_blank" data-ui-sref="applications.create">Apply now</a>
     </div>
   </div>
   <!-- HtmlDescription -->
@@ -13,6 +18,7 @@
     <h3 id="company">
       Companies
     </h3>
+    <small>Click the logo of the company you're interested in to get more information about them.</small>
     <div class="company" >
       <div ng-show="company" class="row">
         <div class="col-sm-6">

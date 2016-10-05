@@ -58,11 +58,14 @@
         <div class="form-group form-inline">
           <label for="selectcompanies"> Företag / Companies</label>
           <p>
-          Välj de företag du skulle vilja träffa. / Choose the companies you would like to meet.
+          Välj och lägg till de företag du skulle vilja träffa för att kunna skriva en motivering per företag. / Choose and add the companies you would like to meet so you can write a motivation to each of them.
           </p>
           <select class="form-control" name="selectcompanies" id="selectcompanies" ng-model="vm.application.companies" ng-options='string for string in companyNames'>
           </select>
           <button type="button" class="btn btn-primary btn-sm" ng-click="selectCompany()" ng-class="{ disabled: !choiceOn}">Lägg till Företag / Add Company</button>
+          <br />
+          <br />
+          <label ng-show="chosenCompanies.length > 0"> Mina valda företag / My chosen companies</label>
           <table class="table table-bordered table-condensed" ng-show="chosenCompanies.length > 0">
             <tr class="active">
               <th style="width: 25%;">
