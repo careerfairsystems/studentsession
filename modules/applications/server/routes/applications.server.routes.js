@@ -11,6 +11,9 @@ module.exports = function(app) {
   app.route('/api/applications/confirmationmail')
     .post(applications.confirmationMail);
 
+  app.route('/api/applications/generatepdf/:applicationId')
+    .get(applications.createApplicationPdf);
+
   app.route('/api/applications').post(applications.create);
 
   app.route('/api/applications').all(applicationsPolicy.isAllowed)

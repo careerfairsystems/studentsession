@@ -29,6 +29,12 @@
         controller: 'SubmittedController',
         controllerAs: 'vm',
       })
+      .state('applications.pdfgenerator', {
+        url: '/pdfgenerator',
+        templateUrl: 'modules/applications/client/views/pdf-generator-applications.client.view.html',
+        controller: 'PDFGeneratorController',
+        controllerAs: 'vm',
+      })
       .state('applications.create', {
         url: '/create',
         templateUrl: 'modules/applications/client/views/form-application.client.view.html',

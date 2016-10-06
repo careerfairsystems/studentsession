@@ -9,6 +9,10 @@ var path = require('path'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   nodemailer = require('nodemailer'),
   async = require('async'),
+  htmlpdf = require('html-pdf'),
+  http = require('http'),
+  fs = require("fs"),
+  Zip = require("node-zip"),
   _ = require('lodash'),
   config = require(path.resolve('./config/config.js')),
   multer = require('multer');
@@ -261,3 +265,118 @@ exports.confirmationMail = function (req, res, next) {
     }
   });
 };
+/**
+  * Create and merge a complete application PDF.
+  */
+exports.createApplicationPdf = function (req, res, next) {
+  var id = req.params.applicationId;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).send({
+      message: 'Application is invalid'
+    });
+  }
+  var pdfList = [];
+  function getApplication(done) {
+    Application.findById(id).populate('user', 'displayName').exec(function (err, application) {
+      if (err) {
+        return next(err);
+      } else if (!application) {
+        return res.status(404).send({
+          message: 'No Application with that identifier has been found'
+        });
+      }
+      done(err, application);
+    });
+  }
+  function renderPdfHtml(application, done) {
+    // TODO: Get data from application
+
+    // TODO: Render html from data
+    res.render(path.resolve('modules/applications/server/templates/applicationpdf'), {
+      name: application.name,
+      appName: config.app.title,
+    }, function (err, pdfHTML) {
+      done(err, pdfHTML, application);
+    });
+  }
+  function generatePdfFromHtml(pdfHTML, application, done) {
+    console.log("Create pdfHTML");
+    var options = { format: 'Letter' };
+    application.name = application.name.replace(/[ÅÄÖåäö ]/g, '');
+    var pdfName = application.name + ".pdf";
+    var path = "./public/uploads/temp/";
+
+    htmlpdf.create(pdfHTML, options).toFile(path + pdfName, function(err, res) {
+      console.log("pdf created: " + pdfName); 
+      if (err) {
+        console.log("Error: " + err);
+      }
+      fs.readFile(res.filename, function read(err, result) {
+        pdfList.push({ name: application.name + ".pdf", file: result });
+        done(err, pdfList, application);
+      });
+    });  
+  }
+  function getPdf(newfilename, path, pdfList, application, done) {
+    console.log("Get:" + newfilename);
+    if(path) {
+      var url, filename = path;
+      if(process.env.NODE_ENV !== 'production'){
+        url = 'http://' + req.headers.host + '/uploads/' + filename;
+      } else {
+        url = s3.getSignedUrl('getObject', { Bucket: config.s3bucket, Key: filename });
+      }
+      http.get(url, function(response) {
+        var chunks = [];
+        response.on('data', function(chunk) {
+          chunks.push(chunk);
+        });
+        response.on("end", function() {
+          console.log('downloaded');
+          var jsfile = new Buffer.concat(chunks);
+          pdfList.push({ name: newfilename, file: jsfile });
+          done(null, pdfList, application);
+        });
+      }).on("error", function() {
+        res.status(400).send({
+          message: 'Failure getting EngPdf'
+        });
+      });  
+    } else {
+      done(null, pdfList, application);
+    }
+  }
+  function getSwePdf(pdfList, application, done) {
+    getPdf(application.name + "_resume_swe.pdf", application.resume.swedishLink, pdfList, application, done);
+  }
+  function getEngPdf(pdfList, application, done) {
+    getPdf(application.name + "_resume_eng.pdf", application.resume.englistLink, pdfList, application, done);
+  }
+  function zipPdfs(pdfList, application, done) {
+    console.log("Merge PDFs");
+    var zip = new Zip();
+
+    function addToZip(pdf){
+      zip.file(pdf.name, pdf.file);
+    }
+    pdfList.forEach(addToZip);
+    var data = zip.generate({ base64:false,compression:'DEFLATE' });
+    fs.writeFileSync('./public/uploads/temp/' + application.name + ".zip", data, 'binary');
+    done(null);
+  }
+  async.waterfall([
+    getApplication,
+    renderPdfHtml,
+    generatePdfFromHtml,
+    getSwePdf,
+    getEngPdf,
+    zipPdfs,
+  ], function (err) {
+    console.log("Error... " + err);
+    if (err) {
+      return next(err);
+    }
+    res.send(200);
+  });
+};
+
