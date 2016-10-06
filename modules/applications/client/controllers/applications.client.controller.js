@@ -308,7 +308,7 @@
 
       function successCallback(res) {
         if(vm.createMode){
-          $state.go('applications.submitted', { name: vm.application.name, email: vm.application.email });
+          $state.go('applications.submitted', { appid: vm.application._id });
         } else {
           $state.go('applications.view', { applicationId: res._id });
         }

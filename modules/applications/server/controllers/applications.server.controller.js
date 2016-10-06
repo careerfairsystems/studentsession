@@ -196,25 +196,48 @@ exports.addResumeAttachment = function (req, res) { //när körs denna?
   * Send confirmation mail to applicant (POST)
   */
 exports.confirmationMail = function (req, res, next) {
-  var name = req.body.name;
-  var email = req.body.email;
+  var id = req.body.applicationId;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).send({
+      message: 'Application is invalid'
+    });
+  }
   async.waterfall([
     function (done) {
+      Application.findById(id).populate('user', 'displayName').exec(function (err, application) {
+        if (err) {
+          return next(err);
+        } else if (!application) {
+          return res.status(404).send({
+            message: 'No Application with that identifier has been found'
+          });
+        }
+        done(err, application);
+      });
+    },
+    function (application, done) {
       var httpTransport = 'http://';
       if (config.secure && config.secure.ssl === true) {
         httpTransport = 'https://';
       }
+      function companyToString (c){
+        return c.name;
+      }
+      var comps = application.companies.map(companyToString);
+      var joinedComps = comps.join(", ");
+      console.log("hej: " + comps);
       res.render(path.resolve('modules/applications/server/templates/mailconfirmation'), {
-        name: name,
+        name: application.name,
         appName: config.app.title,
+        companies: joinedComps,
       }, function (err, emailHTML) {
-        done(err, emailHTML);
+        done(err, emailHTML, application);
       });
     },
     // If valid email, send reset email using service
-    function (emailHTML, done) {
+    function (emailHTML, application, done) {
       var mailOptions = {
-        to: email,
+        to: application.email,
         from: config.mailer.from,
         subject: 'Bekräftelse Kontaktsamtalsansökan / Confirmation Student Session Application',
         html: emailHTML

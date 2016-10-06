@@ -24,7 +24,7 @@
         }
       })
       .state('applications.submitted', {
-        url: '/submitted/:name/:email',
+        url: '/submitted/:appid',
         templateUrl: 'modules/applications/client/views/submitted-application.client.view.html',
         controller: 'SubmittedController',
         controllerAs: 'vm',

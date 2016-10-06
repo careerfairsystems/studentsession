@@ -11,10 +11,9 @@
   function SubmittedController ($stateParams, $http, $scope) {
     var vm = this;
 
-    vm.name = $stateParams.name;
-    vm.email = $stateParams.email;
+    vm.appid = $stateParams.appid;
     
-    $http.post('/api/applications/confirmationmail', { name: vm.name, email: vm.email }).success(function (response) {
+    $http.post('/api/applications/confirmationmail', { applicationId: vm.appid }).success(function (response) {
       // Show user success message 
       $scope.success = response.message;
       $scope.error = response.message;
