@@ -275,108 +275,139 @@ exports.createApplicationPdf = function (req, res, next) {
       message: 'Application is invalid'
     });
   }
-  var pdfList = [];
-  function getApplication(done) {
-    Application.findById(id).populate('user', 'displayName').exec(function (err, application) {
-      if (err) {
-        return next(err);
-      } else if (!application) {
-        return res.status(404).send({
-          message: 'No Application with that identifier has been found'
-        });
-      }
-      done(err, application);
-    });
-  }
-  function renderPdfHtml(application, done) {
-    // TODO: Get data from application
-
-    // TODO: Render html from data
-    res.render(path.resolve('modules/applications/server/templates/applicationpdf'), {
-      name: application.name,
-      appName: config.app.title,
-    }, function (err, pdfHTML) {
-      done(err, pdfHTML, application);
-    });
-  }
-  function generatePdfFromHtml(pdfHTML, application, done) {
-    console.log("Create pdfHTML");
-    var options = { format: 'Letter' };
-    application.name = application.name.replace(/[ÅÄÖåäö ]/g, '');
-    var pdfName = application.name + ".pdf";
-    var path = "./public/uploads/temp/";
-
-    htmlpdf.create(pdfHTML, options).toFile(path + pdfName, function(err, res) {
-      console.log("pdf created: " + pdfName); 
-      if (err) {
-        console.log("Error: " + err);
-      }
-      fs.readFile(res.filename, function read(err, result) {
-        pdfList.push({ name: application.name + ".pdf", file: result });
-        done(err, pdfList, application);
-      });
-    });  
-  }
-  function getPdf(newfilename, path, pdfList, application, done) {
-    console.log("Get:" + newfilename);
-    if(path) {
-      var url, filename = path;
-      if(process.env.NODE_ENV !== 'production'){
-        url = 'http://' + req.headers.host + '/uploads/' + filename;
-      } else {
-        url = s3.getSignedUrl('getObject', { Bucket: config.s3bucket, Key: filename });
-      }
-      http.get(url, function(response) {
-        var chunks = [];
-        response.on('data', function(chunk) {
-          chunks.push(chunk);
-        });
-        response.on("end", function() {
-          console.log('downloaded');
-          var jsfile = new Buffer.concat(chunks);
-          pdfList.push({ name: newfilename, file: jsfile });
-          done(null, pdfList, application);
-        });
-      }).on("error", function() {
-        res.status(400).send({
-          message: 'Failure getting EngPdf'
-        });
-      });  
-    } else {
-      done(null, pdfList, application);
-    }
-  }
-  function getSwePdf(pdfList, application, done) {
-    getPdf(application.name + "_resume_swe.pdf", application.resume.swedishLink, pdfList, application, done);
-  }
-  function getEngPdf(pdfList, application, done) {
-    getPdf(application.name + "_resume_eng.pdf", application.resume.englistLink, pdfList, application, done);
-  }
-  function zipPdfs(pdfList, application, done) {
-    console.log("Merge PDFs");
-    var zip = new Zip();
-
-    function addToZip(pdf){
-      zip.file(pdf.name, pdf.file);
-    }
-    pdfList.forEach(addToZip);
-    var data = zip.generate({ base64:false,compression:'DEFLATE' });
-    fs.writeFileSync('./public/uploads/temp/' + application.name + ".zip", data, 'binary');
-    done(null);
-  }
-  async.waterfall([
-    getApplication,
-    renderPdfHtml,
-    generatePdfFromHtml,
-    getSwePdf,
-    getEngPdf,
-    zipPdfs,
-  ], function (err) {
-    console.log("Error... " + err);
+  Application.findById(id).populate('user', 'displayName').exec(function (err, application) {
     if (err) {
       return next(err);
+    } else if (!application) {
+      return res.status(404).send({
+        message: 'No Application with that identifier has been found'
+      });
     }
-    res.send(200);
+    getApplicationZip(application);
   });
+  function getApplicationZip(application){
+    console.log("Get Application Zip");
+    var zip = new Zip();
+    function zipDone(companyName){
+      var aname = application.name.replace(/[ÅÄÖåäö ]/g, '');
+      var data = zip.generate({ base64:false,compression:'DEFLATE' });
+      res.set('Content-Type', 'application/zip');
+      res.set('Content-Disposition', 'attachment; filename=' + aname + '.zip');
+      res.set('Content-Length', data.length);
+      res.end(data, 'binary');
+      res.status(200).send();
+    }
+    var counter = 0;
+    function getCompanyZipFolder(company){
+      var zipFolder = zip.folder(company.name); 
+      getApplicationPdfs(application, company.name, function(pdfList){
+        console.log("Merge PDFs");
+        function addToZipFolder(pdf){
+          zipFolder.file(pdf.name, pdf.file);
+        }
+        pdfList.forEach(addToZipFolder);
+        counter++;
+        if(counter === application.companies.length){
+          zipDone(company.name);
+        }
+      });
+    }
+    application.companies.forEach(getCompanyZipFolder);
+  }  
+
+  function getApplicationPdfs(application, companyName, pdfListDone) {
+    console.log("Get ApplicationPdfs");
+    var pdfList = [];
+    
+    function isSelectedCompany(c){
+      return c.name === companyName; 
+    }
+    var selectedCompanies = application.companies.filter(isSelectedCompany);
+    if(selectedCompanies.length < 1){
+      console.log("Not selected this company");
+      pdfListDone(pdfList);
+      return;
+    }
+    var selectedCompany = selectedCompanies[0];
+    
+    function renderPdfHtml(done) {
+      console.log("Render HTML of pdf");
+      res.render(path.resolve('modules/applications/server/templates/applicationpdf'), {
+        application: application,
+        appName: config.app.title,
+        company: selectedCompany,
+      }, function (err, pdfHTML) {
+        done(err, pdfHTML);
+      });
+    }
+    function generatePdfFromHtml(pdfHTML, done) {
+      console.log("Create pdfHTML");
+      var options = { format: 'Letter' };
+      application.name = application.name.replace(/[ÅÄÖåäö ]/g, '');
+      var cname = selectedCompany.name.replace(/[ÅÄÖåäö ]/g, '');
+      var pdfName = application.name + "_" + cname + ".pdf";
+      var path = "./public/uploads/temp/";
+
+      htmlpdf.create(pdfHTML, options).toFile(path + pdfName, function(err, res) {
+        console.log("pdf created: " + pdfName); 
+        if (err) {
+          console.log("Error: " + err);
+        }
+        fs.readFile(res.filename, function read(err, result) {
+          pdfList.push({ name: application.name + "_" + cname + ".pdf", file: result });
+          done(err);
+        });
+      });  
+    }
+    function getPdf(newfilename, path, done) {
+      console.log("Get:" + newfilename);
+      if(path) {
+        var url, filename = path;
+        if(process.env.NODE_ENV !== 'production'){
+          url = 'http://' + req.headers.host + '/uploads/' + filename;
+        } else {
+          url = s3.getSignedUrl('getObject', { Bucket: config.s3bucket, Key: filename });
+        }
+        http.get(url, function(response) {
+          var chunks = [];
+          response.on('data', function(chunk) {
+            chunks.push(chunk);
+          });
+          response.on("end", function() {
+            console.log('downloaded');
+            var jsfile = new Buffer.concat(chunks);
+            pdfList.push({ name: newfilename, file: jsfile });
+            done(null);
+          });
+        }).on("error", function() {
+          res.status(400).send({
+            message: 'Failure getting EngPdf'
+          });
+        });  
+      } else {
+        done(null);
+      }
+    }
+    function getSwePdf(done) {
+      getPdf(application.name + "_resume_swe.pdf", application.resume.swedishLink, done);
+    }
+    function getEngPdf(done) {
+      getPdf(application.name + "_resume_eng.pdf", application.resume.englistLink, done);
+    }
+    var zipFile = {};
+
+    async.waterfall([
+      renderPdfHtml,
+      generatePdfFromHtml,
+      getSwePdf,
+      getEngPdf,
+    ], function (err) {
+      if (err) {
+        console.log("Error... " + err);
+        return next(err);
+      }
+      pdfListDone(pdfList);
+    });
+  }
 };
 
