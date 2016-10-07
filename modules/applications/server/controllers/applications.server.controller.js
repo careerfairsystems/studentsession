@@ -393,7 +393,7 @@ exports.createApplicationPdf = function (req, res, next) {
         done(null);
       }
     }
-    var engpath = application.resume.swedishLink;
+    var engpath = application.resume.englishLink;
     var swepath = application.resume.swedishLink;
     function getSwePdf(done) {
       if(!selectedCompany.lang || selectedCompany.lang === 'Svenska' || !engpath){
