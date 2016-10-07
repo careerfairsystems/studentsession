@@ -13,6 +13,7 @@
           <div class="modal-header">
             <span class="close">×</span>
             <h2>{{ current.name }}</h2>
+            <a class="btn btn-small pull-right btn-warning" href="/api/companies/applicantszip/{{ current.name }}" target="_blank">Get all applicants-pdfs </a>
             <button class="btn btn-primary pull-right" ng-click="vm.updateCompany()">Update</button>
             <a class="btn btn-primary pull-right" href="/companies/{{current._id}}">Open</a>
           </div>
