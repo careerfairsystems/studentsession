@@ -3,7 +3,7 @@
     <h1 data-ng-bind="vm.application.user.displayName"></h1>
     <hr>
     <a class="btn btn-lg btn-primary" ng-class="{ disabled: !vm.application.resume.swedishLink}" href="/api/applications/resume/{{ vm.application.resume.swedishLink }}"
-    target="_blank">Download Swedish Resume from /api/applications/resume/{{vm.application.resume.swedishLink}}</a>
+    target="_blank">Download Swedish Resume</a>
     <a class="btn btn-lg btn-primary" ng-class="{ disabled: !vm.application.resume.englishLink}" href="/api/applications/resume/{{ vm.application.resume.englishLink }}" target="_blank">Download English Resume</a>
     <a class="btn btn-lg btn-default" href="/api/applications/generatepdf/{{ vm.application._id }}" target="_blank">Get all pdfs from application</a>
     <hr>
