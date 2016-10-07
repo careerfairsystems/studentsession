@@ -265,6 +265,11 @@ exports.confirmationMail = function (req, res, next) {
     }
   });
 };
+
+function prettify(str){
+  return str.replace(/[ÅÄÖåäö ]/g, '');
+}
+
 /**
   * Create and merge a complete application PDF.
   */
@@ -288,8 +293,8 @@ exports.createApplicationPdf = function (req, res, next) {
   function getApplicationZip(application){
     console.log("Get Application Zip");
     var zip = new Zip();
+    var aname = prettify(application.name);
     function zipDone(companyName){
-      var aname = application.name.replace(/[ÅÄÖåäö ]/g, '');
       var data = zip.generate({ base64:false,compression:'DEFLATE' });
       res.set('Content-Type', 'application/zip');
       res.set('Content-Disposition', 'attachment; filename=' + aname + '.zip');
@@ -299,7 +304,7 @@ exports.createApplicationPdf = function (req, res, next) {
     }
     var counter = 0;
     function getCompanyZipFolder(company){
-      var zipFolder = zip.folder(company.name); 
+      var zipFolder = zip.folder(aname + "_" + prettify(company.name)); 
       getApplicationPdfs(application, company.name, function(pdfList){
         console.log("Merge PDFs");
         function addToZipFolder(pdf){
@@ -343,8 +348,8 @@ exports.createApplicationPdf = function (req, res, next) {
     function generatePdfFromHtml(pdfHTML, done) {
       console.log("Create pdfHTML");
       var options = { format: 'Letter' };
-      application.name = application.name.replace(/[ÅÄÖåäö ]/g, '');
-      var cname = selectedCompany.name.replace(/[ÅÄÖåäö ]/g, '');
+      application.name = prettify(application.name);
+      var cname = prettify(selectedCompany.name);
       var pdfName = application.name + "_" + cname + ".pdf";
       var path = "./public/uploads/temp/";
 
