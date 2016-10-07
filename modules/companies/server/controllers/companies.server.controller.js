@@ -11,8 +11,8 @@ var path = require('path'),
   async = require('async'),
   htmlpdf = require('html-pdf'),
   http = require('http'),
-  fs = require("fs"),
-  Zip = require("node-zip"),
+  fs = require('fs'),
+  Zip = require('node-zip'),
   _ = require('lodash'),
   multer = require('multer'),
   config = require(path.resolve('./config/config'));
@@ -152,7 +152,7 @@ exports.read = function(req, res) {
   // convert mongoose document to JSON
   var company = req.company ? req.company.toJSON() : {};
 
-  // Add a custom field to the Article, for determining if the current User is the "owner".
+  // Add a custom field to the Article, for determining if the current User is the 'owner'.
   // NOTE: This field is NOT persisted to the database, since it doesn't exist in the Article model.
   company.isCurrentUserOwner = req.user && company.user && company.user._id.toString() === req.user._id.toString() ? true : false;
 
@@ -244,7 +244,7 @@ function prettify(str){
 exports.getAllApplicationsPdfs = function (req, res, next) {
   var companyName = req.params.companyName;
   var zip = new Zip();
-  Application.find({'companies': {$elemMatch: {name: companyName}}}).exec(function (err, applications) {
+  Application.find({ 'companies': { $elemMatch: { name: companyName } } }).exec(function (err, applications) {
     if (err) {
       return next(err);
     } else if (!applications) {
@@ -252,14 +252,14 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
         message: 'No Application with that identifier has been found'
       });
     }
-    console.log("hej: " + applications.length);
-    if(applications.length === 0 ){
-      res.send("No applications were found.");
+    console.log('hej: ' + applications.length);
+    if(applications.length === 0){
+      res.send('No applications were found.');
     }
     
     var applicationcounter = 0;
     applications.forEach(function(application) {
-        getApplicationZip(application, function(zipFiles){
+      getApplicationZip(application, function(zipFiles){
         function addZipFile (zipfile){
           zip.file(zipfile.name, zipfile.file);
         }
@@ -280,13 +280,13 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
     }
   });
   function getApplicationZip(application, zipDone){
-    console.log("Get Application Zip");
+    console.log('Get Application Zip');
     var aname = prettify(application.name);
     var counter = 0;
     function getCompanyZipList(company){
       var zipList = [];
       getApplicationPdfs(application, company.name, function(pdfList){
-        console.log("Zip PDFs");
+        console.log('Zip PDFs');
         function addToZipFolder(pdf){
           zipList.push({ name: pdf.name, file: pdf.file });
         }
@@ -301,7 +301,7 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
   }  
 
   function getApplicationPdfs(application, companyName, pdfListDone) {
-    console.log("Get ApplicationPdfs");
+    console.log('Get ApplicationPdfs');
     var pdfList = [];
     
     function isSelectedCompany(c){
@@ -309,14 +309,14 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
     }
     var selectedCompanies = application.companies.filter(isSelectedCompany);
     if(selectedCompanies.length < 1){
-      console.log("Not selected this company");
+      console.log('Not selected this company');
       pdfListDone(pdfList);
       return;
     }
     var selectedCompany = selectedCompanies[0];
     
     function renderPdfHtml(done) {
-      console.log("Render HTML of pdf");
+      console.log('Render HTML of pdf');
       res.render(path.resolve('modules/applications/server/templates/applicationpdf'), {
         application: application,
         appName: config.app.title,
@@ -326,26 +326,26 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
       });
     }
     function generatePdfFromHtml(pdfHTML, done) {
-      console.log("Create pdfHTML");
+      console.log('Create pdfHTML');
       var options = { format: 'Letter' };
       application.name = prettify(application.name);
       var cname = prettify(selectedCompany.name);
-      var pdfName = application.name + "_" + cname + ".pdf";
-      var path = "./public/uploads/temp/";
+      var pdfName = application.name + '_' + cname + '.pdf';
+      var path = './public/uploads/temp/';
 
       htmlpdf.create(pdfHTML, options).toFile(path + pdfName, function(err, res) {
-        console.log("pdf created: " + pdfName); 
+        console.log('pdf created: ' + pdfName); 
         if (err) {
-          console.log("Error: " + err);
+          console.log('Error: ' + err);
         }
         fs.readFile(res.filename, function read(err, result) {
-          pdfList.push({ name: application.name + "_" + cname + ".pdf", file: result });
+          pdfList.push({ name: application.name + '_' + cname + '.pdf', file: result });
           done(err);
         });
       });  
     }
     function getPdf(newfilename, path, done) {
-      console.log("Get:" + newfilename);
+      console.log('Get:' + newfilename);
       if(path) {
         var url, filename = path;
         if(process.env.NODE_ENV !== 'production'){
@@ -358,13 +358,13 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
           response.on('data', function(chunk) {
             chunks.push(chunk);
           });
-          response.on("end", function() {
+          response.on('end', function() {
             console.log('downloaded');
             var jsfile = new Buffer.concat(chunks);
             pdfList.push({ name: newfilename, file: jsfile });
             done(null);
           });
-        }).on("error", function() {
+        }).on('error', function() {
           res.status(400).send({
             message: 'Failure getting EngPdf'
           });
@@ -377,14 +377,14 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
     var swepath = application.resume.swedishLink;
     function getSwePdf(done) {
       if(!selectedCompany.lang || selectedCompany.lang === 'Svenska' || !engpath){
-        getPdf(application.name + "_resume_swe.pdf", swepath, done);
+        getPdf(application.name + '_resume_swe.pdf', swepath, done);
       } else {
         done(null);
       }
     }
     function getEngPdf(done) {
       if(!selectedCompany.lang || selectedCompany.lang === 'English' || !swepath){
-        getPdf(application.name + "_resume_eng.pdf", engpath, done);
+        getPdf(application.name + '_resume_eng.pdf', engpath, done);
       } else {
         done(null);
       }
@@ -398,7 +398,7 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
       getEngPdf,
     ], function (err) {
       if (err) {
-        console.log("Error... " + err);
+        console.log('Error... ' + err);
         return next(err);
       }
       pdfListDone(pdfList);

@@ -49,7 +49,7 @@
     });
 
     $scope.selectCompany = function (){
-      var selection = $('#selectcompanies').find(":selected").text();
+      var selection = $('#selectcompanies').find(':selected').text();
       if (!selection)
         return;
       var index = $('#selectcompanies').val();
@@ -253,7 +253,7 @@
     function save(isValid) {
       vm.error = false;
 
-      console.log("email", vm.application.email);
+      console.log('email', vm.application.email);
 
       if (vm.form.applicationForm.email.$error.email === true && vm.form.applicationForm.email.$viewValue !== undefined) {
         vm.error = 'Du har angett email på fel format / Email is not on the correct form';
@@ -297,7 +297,7 @@
       }
       var wedTime = availableWed.map(toTime);
       var thurTime = availableThur.map(toTime);
-      vm.application.times = [ { day: "wed", hour: wedTime }, { day: "thur", hour: thurTime } ];
+      vm.application.times = [ { day: 'wed', hour: wedTime }, { day: 'thur', hour: thurTime } ];
 
       // TODO: move create/update logic to service
       if (vm.application._id) {

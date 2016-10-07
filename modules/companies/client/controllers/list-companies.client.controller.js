@@ -22,7 +22,7 @@
       $('#companiesList thead tr:first th').each(function (index) {
         var title = $(this).text();
         var pos = index ;
-        $(this).html('<input class="form-control" id="col-search-'+pos+'" type="text" placeholder="Search '+title+'" />');
+        $(this).html('<input class"form-control" id="col-search-'+pos+'" type="text" placeholder="Search '+title+'" />');
       });  
       vm.createDatatable(data);
     });
@@ -112,10 +112,10 @@
       // Update DB.
       CompaniesService.update(vm.companies[vm.currentIndex], function (response) {
        //success function
-        alert("Save successfull");
+        alert('Save successfull');
       }, function (response) {
         //error function
-        alert("Save NOT successfull.");
+        alert('Save NOT successfull.');
       });
 
       // Recreate datatable

@@ -28,10 +28,10 @@
 
     $timeout(function () {
         // Chosen methods
-      $(".facility_select_box").chosen({
-        no_results_text: "Oops, nothing found!",
+      $('.facility_select_box').chosen({
+        no_results_text: 'Oops, nothing found!',
         max_selected_options: 5,
-        width: "100%"
+        width: '100%'
       });
     }, 0, false);
 

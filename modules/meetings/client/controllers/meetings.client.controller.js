@@ -39,20 +39,20 @@
     // Angular needs to complete rendering before applying 'chosen'
     $timeout(function () {
         // Chosen method
-      $(".company_select_box").chosen({
-        no_results_text: "Oops, nothing found!",
+      $('.company_select_box').chosen({
+        no_results_text: 'Oops, nothing found!',
         max_selected_options: 5,
-        width: "100%"
+        width: '100%'
       });
-      $(".student_select_box").chosen({
-        no_results_text: "Oops, nothing found!",
+      $('.student_select_box').chosen({
+        no_results_text: 'Oops, nothing found!',
         max_selected_options: 5,
-        width: "100%"
+        width: '100%'
       });
-      $(".facility_select_box").chosen({
-        no_results_text: "Oops, nothing found!",
+      $('.facility_select_box').chosen({
+        no_results_text: 'Oops, nothing found!',
         max_selected_options: 5,
-        width: "100%"
+        width: '100%'
       });
     }, 0, false);
 
