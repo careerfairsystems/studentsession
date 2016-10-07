@@ -11,6 +11,7 @@ var path = require('path'),
   async = require('async'),
   htmlpdf = require('html-pdf'),
   http = require('http'),
+  https = require('https'),
   fs = require('fs'),
   Zip = require('node-zip'),
   _ = require('lodash'),
@@ -370,25 +371,41 @@ exports.createApplicationPdf = function (req, res, next) {
         var url, filename = path;
         if(process.env.NODE_ENV !== 'production'){
           url = 'http://' + req.headers.host + '/uploads/' + filename;
+          http.get(url, function(response) {
+            var chunks = [];
+            response.on('data', function(chunk) {
+              chunks.push(chunk);
+            });
+            response.on('end', function() {
+              console.log('downloaded');
+              var jsfile = new Buffer.concat(chunks);
+              pdfList.push({ name: newfilename, file: jsfile });
+              done(null);
+            });
+          }).on('error', function() {
+            res.status(400).send({
+              message: 'Failure getting EngPdf'
+            });
+          });  
         } else {
           url = s3.getSignedUrl('getObject', { Bucket: config.s3bucket, Key: filename });
+          https.get(url, function(response) {
+            var chunks = [];
+            response.on('data', function(chunk) {
+              chunks.push(chunk);
+            });
+            response.on('end', function() {
+              console.log('downloaded');
+              var jsfile = new Buffer.concat(chunks);
+              pdfList.push({ name: newfilename, file: jsfile });
+              done(null);
+            });
+          }).on('error', function() {
+            res.status(400).send({
+              message: 'Failure getting EngPdf'
+            });
+          });  
         }
-        http.get(url, function(response) {
-          var chunks = [];
-          response.on('data', function(chunk) {
-            chunks.push(chunk);
-          });
-          response.on('end', function() {
-            console.log('downloaded');
-            var jsfile = new Buffer.concat(chunks);
-            pdfList.push({ name: newfilename, file: jsfile });
-            done(null);
-          });
-        }).on('error', function() {
-          res.status(400).send({
-            message: 'Failure getting EngPdf'
-          });
-        });  
       } else {
         done(null);
       }
