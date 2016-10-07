@@ -388,11 +388,21 @@ exports.createApplicationPdf = function (req, res, next) {
         done(null);
       }
     }
+    var engpath = application.resume.swedishLink;
+    var swepath = application.resume.swedishLink;
     function getSwePdf(done) {
-      getPdf(application.name + "_resume_swe.pdf", application.resume.swedishLink, done);
+      if(!selectedCompany.lang || selectedCompany.lang === 'Svenska' || !engpath){
+        getPdf(application.name + "_resume_swe.pdf", swepath, done);
+      } else {
+        done(null);
+      }
     }
     function getEngPdf(done) {
-      getPdf(application.name + "_resume_eng.pdf", application.resume.englistLink, done);
+      if(!selectedCompany.lang || selectedCompany.lang === 'English' || !swepath){
+        getPdf(application.name + "_resume_eng.pdf", engpath, done);
+      } else {
+        done(null);
+      }
     }
     var zipFile = {};
 
