@@ -12,6 +12,9 @@ module.exports = function(app) {
   app.route('/api/companies/active')
     .get(companies.getActive);
 
+  app.route('/api/companies/applicantszip/:companyName').all(companiesPolicy.isAllowed)
+    .get(companies.getAllApplicationsPdfs);
+
   app.route('/api/companies').all(companiesPolicy.isAllowed)
     .get(companies.list)
     .post(companies.create);

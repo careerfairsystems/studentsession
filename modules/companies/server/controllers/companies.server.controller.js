@@ -6,7 +6,13 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   Company = mongoose.model('Company'),
+  Application = mongoose.model('Application'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+  async = require('async'),
+  htmlpdf = require('html-pdf'),
+  http = require('http'),
+  fs = require("fs"),
+  Zip = require("node-zip"),
   _ = require('lodash'),
   multer = require('multer'),
   config = require(path.resolve('./config/config'));
@@ -227,3 +233,176 @@ exports.companyByID = function(req, res, next, id) {
     next();
   });
 };
+
+function prettify(str){
+  return str.replace(/[ÅÄÖåäö ]/g, '');
+}
+
+/**
+  * Create and merge a complete application PDF.
+  */
+exports.getAllApplicationsPdfs = function (req, res, next) {
+  var companyName = req.params.companyName;
+  var zip = new Zip();
+  Application.find({'companies': {$elemMatch: {name: companyName}}}).exec(function (err, applications) {
+    if (err) {
+      return next(err);
+    } else if (!applications) {
+      return res.status(404).send({
+        message: 'No Application with that identifier has been found'
+      });
+    }
+    console.log("hej: " + applications.length);
+    if(applications.length === 0 ){
+      res.send("No applications were found.");
+    }
+    
+    var applicationcounter = 0;
+    applications.forEach(function(application) {
+        getApplicationZip(application, function(zipFiles){
+        function addZipFile (zipfile){
+          zip.file(zipfile.name, zipfile.file);
+        }
+        zipFiles.forEach(addZipFile);
+        applicationcounter++;
+        if(applicationcounter === applications.length){
+          zipDone();
+        }
+      });
+    });
+    function zipDone(){
+      var data = zip.generate({ base64:false,compression:'DEFLATE' });
+      res.set('Content-Type', 'application/zip');
+      res.set('Content-Disposition', 'attachment; filename=' + companyName + '.zip');
+      res.set('Content-Length', data.length);
+      res.end(data, 'binary');
+      res.status(200).send();
+    }
+  });
+  function getApplicationZip(application, zipDone){
+    console.log("Get Application Zip");
+    var aname = prettify(application.name);
+    var counter = 0;
+    function getCompanyZipList(company){
+      var zipList = [];
+      getApplicationPdfs(application, company.name, function(pdfList){
+        console.log("Zip PDFs");
+        function addToZipFolder(pdf){
+          zipList.push({ name: pdf.name, file: pdf.file });
+        }
+        pdfList.forEach(addToZipFolder);
+        counter++;
+        if(counter === application.companies.length){
+          zipDone(zipList);
+        }
+      });
+    }
+    application.companies.forEach(getCompanyZipList);
+  }  
+
+  function getApplicationPdfs(application, companyName, pdfListDone) {
+    console.log("Get ApplicationPdfs");
+    var pdfList = [];
+    
+    function isSelectedCompany(c){
+      return c.name === companyName; 
+    }
+    var selectedCompanies = application.companies.filter(isSelectedCompany);
+    if(selectedCompanies.length < 1){
+      console.log("Not selected this company");
+      pdfListDone(pdfList);
+      return;
+    }
+    var selectedCompany = selectedCompanies[0];
+    
+    function renderPdfHtml(done) {
+      console.log("Render HTML of pdf");
+      res.render(path.resolve('modules/applications/server/templates/applicationpdf'), {
+        application: application,
+        appName: config.app.title,
+        company: selectedCompany,
+      }, function (err, pdfHTML) {
+        done(err, pdfHTML);
+      });
+    }
+    function generatePdfFromHtml(pdfHTML, done) {
+      console.log("Create pdfHTML");
+      var options = { format: 'Letter' };
+      application.name = prettify(application.name);
+      var cname = prettify(selectedCompany.name);
+      var pdfName = application.name + "_" + cname + ".pdf";
+      var path = "./public/uploads/temp/";
+
+      htmlpdf.create(pdfHTML, options).toFile(path + pdfName, function(err, res) {
+        console.log("pdf created: " + pdfName); 
+        if (err) {
+          console.log("Error: " + err);
+        }
+        fs.readFile(res.filename, function read(err, result) {
+          pdfList.push({ name: application.name + "_" + cname + ".pdf", file: result });
+          done(err);
+        });
+      });  
+    }
+    function getPdf(newfilename, path, done) {
+      console.log("Get:" + newfilename);
+      if(path) {
+        var url, filename = path;
+        if(process.env.NODE_ENV !== 'production'){
+          url = 'http://' + req.headers.host + '/uploads/' + filename;
+        } else {
+          url = s3.getSignedUrl('getObject', { Bucket: config.s3bucket, Key: filename });
+        }
+        http.get(url, function(response) {
+          var chunks = [];
+          response.on('data', function(chunk) {
+            chunks.push(chunk);
+          });
+          response.on("end", function() {
+            console.log('downloaded');
+            var jsfile = new Buffer.concat(chunks);
+            pdfList.push({ name: newfilename, file: jsfile });
+            done(null);
+          });
+        }).on("error", function() {
+          res.status(400).send({
+            message: 'Failure getting EngPdf'
+          });
+        });  
+      } else {
+        done(null);
+      }
+    }
+    var engpath = application.resume.swedishLink;
+    var swepath = application.resume.swedishLink;
+    function getSwePdf(done) {
+      if(!selectedCompany.lang || selectedCompany.lang === 'Svenska' || !engpath){
+        getPdf(application.name + "_resume_swe.pdf", swepath, done);
+      } else {
+        done(null);
+      }
+    }
+    function getEngPdf(done) {
+      if(!selectedCompany.lang || selectedCompany.lang === 'English' || !swepath){
+        getPdf(application.name + "_resume_eng.pdf", engpath, done);
+      } else {
+        done(null);
+      }
+    }
+    var zipFile = {};
+
+    async.waterfall([
+      renderPdfHtml,
+      generatePdfFromHtml,
+      getSwePdf,
+      getEngPdf,
+    ], function (err) {
+      if (err) {
+        console.log("Error... " + err);
+        return next(err);
+      }
+      pdfListDone(pdfList);
+    });
+  }
+};
+

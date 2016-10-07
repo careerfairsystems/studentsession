@@ -20,6 +20,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/companies/:companyId',
       permissions: '*'
+    }, {
+      resources: '/api/companies/applicantszip/:companyName',
+      permissions: 'get'
     }]
   }, {
     roles: ['user'],
