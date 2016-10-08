@@ -35,5 +35,12 @@
       state: 'companies.create',
       roles: ['admin']
     });
+  
+    // Add the dropdown create item
+    Menus.addSubMenuItem('topbar', 'companies', {
+      title: 'Companies Student Selection',
+      state: 'companies.selectedstudents',
+      roles: ['admin']
+    });
   }
 })();

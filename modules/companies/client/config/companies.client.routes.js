@@ -23,6 +23,15 @@
           pageTitle: 'Companies List'
         }
       })
+      .state('companies.selectedstudents', {
+        url: '/selectedstudents',
+        templateUrl: 'modules/companies/client/views/selectedstudents-companies.client.view.html',
+        controller: 'CompaniesSelectedStudentsController',
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'Companies Selected Students'
+        }
+      })
       .state('companies.multiple', {
         url: '/multiple',
         templateUrl: 'modules/companies/client/views/multiple-companies.client.view.html',
