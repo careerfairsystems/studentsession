@@ -50,10 +50,18 @@
             <h3>Lunchbreak</h3>
             <table class="table table-condensed compact table-bordered nowrap">
               <tr>
+                <td> Have lunchbreak? </td>
+                <td> 
+                  <label>
+                    <input type="checkbox"  ng-model="vm.hasLunchbreak" value="true"> Yes
+                  </label>
+                </td>
+              </tr>
+              <tr ng-show="vm.hasLunchbreak">
                 <td> From </td>
                 <td> <input type="time" class="form-control" ng-model="vm.lunchStart"placeholder="HH:mm:ss" /> </td>
               </tr>
-              <tr>
+              <tr ng-show="vm.hasLunchbreak">
                 <td> To </td>
                 <td> <input type="time" class="form-control" ng-model="vm.lunchEnd" placeholder="HH:mm" /> </td>
               </tr>
