@@ -110,13 +110,13 @@
     };
     vm.updateCompany = function(){
       // Update DB.
-      CompaniesService.update(vm.companies[vm.currentIndex], function (response) {
-       //success function
-        alert('Save successfull');
-      }, function (response) {
-        //error function
-        alert('Save NOT successfull.');
-      });
+      function saveCompany(company){
+        var comp = CompaniesService.get({ companyId: company._id }, function() {
+          comp = company;
+          comp.$save();
+        });
+      }
+      saveCompany(vm.companies[vm.currentIndex]);
 
       // Recreate datatable
       vm.table.destroy();
