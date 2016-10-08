@@ -3,25 +3,30 @@
     <h1>Companies Selected Students</h1>
   </div>
   <div class="row">
-
-    <div class="col-sm-3">
+    <div class="col-sm-6 col-sm-push-3">
+      <div ng-show="companySelected">
+        <h3>
+          {{ company.name }}
+        </h3>
+        <hr>
+        <label style="display: inline-block;">
+          Applicants
+        </label>
+        <button class="list-group-item" ng-click="selectStudent($index)" ng-repeat="applicants in vm.currentApplicants track by $index"> {{ applicants.name }}
+        </button>
+        <hr>
+        <label style="display: inline-block;">
+          Selected Students
+        </label>
+        <button class="list-group-item" ng-click="unselectStudent($index)" ng-repeat="applicants in vm.currentSelectedStudents track by $index"> {{ applicants.name }}
+        </button>
+        <hr />
+      </div>
+    </div>
+    <div class="col-sm-3 col-sm-pull-6">
       <button ng-repeat="company in vm.companies track by $index" ng-click="viewCompany($index)" class="list-group-item" style="padding: 5px 20px;">
         {{ company.name }}
       </button>
     </div>
-
-    <div class="col-sm-6">
-      <h3>
-        Applicants
-      </h3>
-      <button class="list-group-item" ng-click="selectStudent($index)" ng-repeat="applicants in vm.currentApplicants track by $index"> {{ applicants.name }}
-      </button>
-      <h3>
-        Selected Students
-      </h3>
-      <button class="list-group-item" ng-click="unselectStudent($index)" ng-repeat="applicants in vm.currentSelectedStudents track by $index"> {{ applicants.name }}
-      </button>
-    </div>
-
   </div>
 </section>

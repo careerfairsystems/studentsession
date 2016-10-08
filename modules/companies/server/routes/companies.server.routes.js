@@ -28,6 +28,7 @@ module.exports = function(app) {
   app.route('/api/companies/:companyId').all(companiesPolicy.isAllowed)
     .get(companies.read)
     .put(companies.update)
+    .post(companies.update)
     .delete(companies.delete);
 
   // Finish by binding the Company middleware

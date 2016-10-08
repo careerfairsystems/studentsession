@@ -23,6 +23,7 @@
     });
     $scope.viewCompany = function(index) {
       $scope.company = vm.companies[index]; // Company is the selected one.
+      $scope.companySelected = true;
       updateList();
     };
     function updateList(){
@@ -74,7 +75,7 @@
       saveCompany($scope.company);
     };
     $scope.unselectStudent = function (index){
-      var student = vm.currentApplicants[index];
+      var student = vm.currentSelectedStudents[index];
       var pos = $scope.company.chosenStudents.indexOf(student._id);
       $scope.company.chosenStudents.splice(pos, 1);
       
@@ -84,11 +85,9 @@
     };
 
     function saveCompany(company){
-      CompaniesService.update(company, function (response) {
-        alert('Save successfull');
-      }, function (response) {
-        alert('Save NOT successfull.');
-        console.log(response);
+      var comp = CompaniesService.get({ companyId: company._id }, function() {
+        comp.chosenStudents = company.chosenStudents;
+        comp.$save();
       });
     }
 
