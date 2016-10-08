@@ -35,5 +35,12 @@
       state: 'meetings.multiplecreate', 
       roles: ['admin']
     });
+    
+    // Add the dropdown create multiple meetings
+    Menus.addSubMenuItem('topbar', 'meetings', {
+      title: 'Generate Schedule',
+      state: 'meetings.generateschedule', 
+      roles: ['admin']
+    });
   }
 })();

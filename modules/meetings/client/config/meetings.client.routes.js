@@ -23,6 +23,22 @@
           pageTitle: 'Meetings List'
         }
       })
+      .state('meetings.generateschedule', {
+        url: '/generateschedule',
+        templateUrl: 'modules/meetings/client/views/generate-schedule-meetings.client.view.html',
+        controller: 'GenerateScheduleController',
+        controllerAs: 'vm',
+        resolve: {
+          meetingResolve: newMeeting,
+          listFacilitiesResolve: getFacilities,
+          listApplicationsResolve: getApplications,
+          listCompaniesResolve: getCompanies
+        },
+        data: {
+          roles: ['user', 'admin'],
+          pageTitle : 'Meetings Create'
+        }
+      })
       .state('meetings.multiplecreate', {
         url: '/multiplecreate',
         templateUrl: 'modules/meetings/client/views/form-multiple-meetings.client.view.html',
