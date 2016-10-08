@@ -44,6 +44,14 @@ var CompanySchema = new Schema({
   language: {
     type: String,
   },
+  wednesday: {
+    type: Boolean,
+    default: false
+  },
+  thursday: {
+    type: Boolean,
+    default: false
+  },
   chosenStudents: [{
     type: Schema.ObjectId,
     ref: 'Application'
