@@ -81,7 +81,46 @@
 
 
     $scope.generateSchedule = function(){
-     //TODO: Implement 
+      //TODO: Implement 
+
+
+
+      /*
+// Ta bort studentens valda företag som inte vill träffa studenten.
+// För varje gång ett företag bokat möte med studenten, ta bort företaget
+// från studentens lista. När ett möte är bokat och studenten inte har fler
+// företag att träffa, ta bort studenten från applicationsList.
+
+
+      // Gör om alla tider till antal minuter sen kl 00:00... 
+Gör om studentens tillgängliga tider till perioder. Ex: 9-12 istället för 9,10,
+11,12. Och helst då i minuter (ex: 540 - 720)
+
+Ha en funktion för att dela upp en period i två, där man anger början och slut
+av "pausen"
+
+Skriv en funktion där man om man anger: application, tid i minut och dag
+så ska man få ut antal minuter kvar studenter är tillgänglig den dagen. (alltså
+från tid i minut till dagens slut.)
+
+
+Börja med företagen för dag ett. Iterera igenom dem, där företag som enbart
+har kontaktsamtal dag ett är först i listan, annars random, eller kanske
+först de företag som har längst möten? Så att de små sedan kan fylla i hålen?. 
+
+Efter varje iteration,
+ta bort företag som inte har studenter kvar de vill träffa, iterera tills 
+listan av företag är tom.
+ForEach företag:
+  Bland studenterFöretagetVillTräffa sortera efter studenter med minst antal minuter
+  som den är tillgänglig den dagen. Ta första studenten som är tillgänglig att
+  ses på currentTime. Boka in den studenten på ett möte från currentTime till
+  currentTime + företagets meetingLength. Efter det addera meetingLength på
+  currentTime.
+
+
+
+      */
 
 
 
