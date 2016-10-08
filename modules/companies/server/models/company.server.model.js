@@ -52,6 +52,10 @@ var CompanySchema = new Schema({
     type: Boolean,
     default: false
   },
+  meetingLength: {
+    type: Number,
+    default: 0
+  },
   chosenStudents: [{
     type: Schema.ObjectId,
     ref: 'Application'
