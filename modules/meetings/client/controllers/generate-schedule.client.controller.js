@@ -20,7 +20,7 @@
       endHours: 0
     }, {
       name: 'thur',
-      date: '' 
+      date: '',
       startHours: 0,
       endHours: 0
     }];
@@ -361,91 +361,5 @@ listan av företag är tom.
     }
     $scope.generateSchedule = generateBothSchedule;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    $scope.createMeetings = function() {
-      if(!!vm.startDate && !!vm.endDate && !!vm.startHours && !!vm.endHours && !!vm.lunchStart && !!vm.lunchEnd && vm.chosenFacilities !== 'undefined' && vm.meetingTimeLength !== '' && vm.chosenFacilities.length !== 0) {
-        console.log('Alla fält är ifyllda');
-
-        var meetingDate = new Date(vm.startDate.getFullYear(), vm.startDate.getMonth(), vm.startDate.getDate(), vm.startHours.getHours(), vm.startHours.getMinutes());
-        var meetingEnd = new Date(meetingDate.getFullYear(), meetingDate.getMonth(), meetingDate.getDate(), meetingDate.getHours(), meetingDate.getMinutes() + vm.meetingTimeLength);
-
-        while(startBeforeOrAtEndDate(meetingDate, vm.endDate)){
-
-          while(startBeforeOrAtEndTime(meetingEnd, vm.endHours)){
-
-            if(!(startBeforeOrAtEndTime(meetingEnd, vm.lunchStart) ||
-              startAfterOrAtEndTime(meetingDate, vm.lunchEnd))) {
-              meetingDate.setHours(vm.lunchEnd.getHours());
-              meetingDate.setMinutes(vm.lunchEnd.getMinutes());
-
-              meetingEnd.setHours(vm.lunchEnd.getHours());
-              meetingEnd.setMinutes(vm.lunchEnd.getMinutes() + vm.meetingTimeLength);
-            }
-
-            for (var i=0; i < vm.chosenFacilities.length; i++){
-              createMeeting(vm.chosenFacilities[i], meetingDate, meetingEnd);
-            }
-
-            //updating the time to the next meeting time
-            meetingDate.setMinutes(meetingDate.getMinutes() + vm.meetingTimeLength);
-            meetingEnd.setMinutes(meetingDate.getMinutes() + vm.meetingTimeLength);
-          }
-
-          //updating the date to the next day
-          meetingDate.setDate(meetingDate.getDate() + 1);
-          //reseting the time of the next day
-          meetingDate.setHours(vm.startHours.getHours());
-          meetingDate.setMinutes(vm.startHours.getMinutes());
-
-          //meeting end
-          meetingEnd = new Date(meetingDate.getFullYear(), meetingDate.getMonth(), meetingDate.getDate(), meetingDate.getHours(), meetingDate.getMinutes() + vm.meetingTimeLength);
-        }
-
-      } else {
-        console.log('Alla fält är inte ifyllda!');
-      }
-    };
   }
 })();
