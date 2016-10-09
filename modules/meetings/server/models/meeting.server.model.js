@@ -17,21 +17,28 @@ var MeetingSchema = new Schema({
     required: 'true',
   },
   company: {
-    type: String,
-    default: ''
+    id: {
+      type: Schema.ObjectId,
+      ref: 'Company'
+    },
+    name: {
+      type: String,
+      default: ''
+    }
   },
   student: {
-    type: String,
-    default: ''
+    id: {
+      type: Schema.ObjectId,
+      ref: 'Application'
+    },
+    name: {
+      type: String,
+      default: ''
+    }
   },
-  date: {
-    type: Date,
-    required: true,
-  },
-  endDate: {
-    type: Date,
-    required: true,
-  },
+  startTime: String,
+  endTime: String,
+  day: String,
   created: {
     type: Date,
     default: Date.now
