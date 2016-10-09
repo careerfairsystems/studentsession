@@ -11,10 +11,6 @@
   function GenerateScheduleController($scope, MeetingsService, meeting, facilities, applications, companies, Authentication, $timeout) {
     var vm = this;
 
-    //vm.meetings = MeetingsService.query();
-    vm.facilities = facilities;
-    vm.applications = applications;
-    vm.companies = companies;
 
     // Examples of variables that are useful;
     vm.startDate = new Date('----', '--', '--', '--', '--', '--');
@@ -79,20 +75,232 @@
       }
     };
 
+    // Fix lists.
+    //vm.meetings = MeetingsService.query();
+    vm.facilities = facilities;
+    vm.applications = applications;
+    vm.companies = companies;
 
-    $scope.generateSchedule = function(){
-      //TODO: Implement 
+    // Get active Companies
+    function isActive(c){ return c.active;  }
+    vm.activeCompanies = vm.companies.filter(isActive);
+
+    // Get Companies that have student session on wednesdays, sorted by first 
+    // those with only wednesday, then by longest meetingLength
+    function isWed(c) { return c.wednesday; }
+    vm.wedCompanies = vm.activeCompanies.filter(isWed);
+    function onlyWedFirstThenMeetingLength(c1, c2) { 
+      return (c2.wednesday + c2.thursday) - (c1.wednesday + c1.thursday) || c1.meetingLength - c2.meetingLength; 
+    }
+    vm.wedCompanies = vm.wedCompanies.sort(onlyWedFirstThenMeetingLength);
+
+    // Get Companies that have student session on thursday, sorted by first 
+    // those with only thursday
+    function isThur(c) { return c.thursday; }
+    vm.thurCompanies = vm.activeCompanies.filter(isThur);
+    function onlyThurFirstThenMeetingLength(c1, c2) { 
+      return (c2.wednesday + c2.thursday) - (c1.wednesday + c1.thursday) || c1.meetingLength - c2.meetingLength; 
+    }
+    vm.thurCompanies = vm.thurCompanies.sort(onlyThurFirstThenMeetingLength);
 
 
+    // Create periodList on each Application.
+    // Sort PeriodList timewise
+    function sortByStart(period1, period2){ return period1.start > period2.start; }
 
-      /*
+    // Merge colliding periods in list
+    function mergePeriodList(periodList){
+      periodList = periodList.sort(sortByStart);
+      var newList = [];
+      // Check if endtime <= any other starttime
+      function endTimeCollidesWithStartTime(period1, index1){
+        // Get all periods that collide
+        function filterStartBeforeTime(period){ return period.start <= period1.end; }
+        var collidingPeriods = periodList.filter(filterStartBeforeTime);
+        // Nbr colliding periods
+        var nbrCollidingPeriods = collidingPeriods.length;
+        if(nbrCollidingPeriods > 0){ // Merge periods in a new one
+          newList.push({ start: period1.start, end: collidingPeriods[nbrCollidingPeriods-1].end });
+        } else { // No collision, just push.
+          newList.push(period1);
+        }
+      }
+      periodList.forEach(endTimeCollidesWithStartTime);
+      // Update periodlist with merged.
+      return newList;
+    }
+    // Create a period (in minutes) from a time-object.
+    function timesToPeriodList(times) {
+      var start = times.hour * 60;
+      return { start: start, end: start + 60 };
+    }
+    function isTimesWed(t) { return t.day === 'wed'; }
+    function isTimesThur(t) { return t.day === 'thur'; }
+    function splitTimesToDayPeriodLists(application){
+      application.wedPeriodList = application.times.filter(isTimesWed).map(timesToPeriodList);
+      application.thurPeriodList = application.times.filter(isTimesThur).map(timesToPeriodList);
+
+      // Merge periods that collide. (ex: 540-600 & 600-660 minutes);
+      application.wedPeriodList = mergePeriodList(application.wedPeriodList);
+      application.thurPeriodList = mergePeriodList(application.thurPeriodList);
+    }
+    vm.applications.forEach(splitTimesToDayPeriodLists);
+
+    
+    // Calculate time left the student is available 
+    // from currentTime and forward.
+    function timeLeftToday(application, currentTime, day){
+      // Reduce function, checks against currentTime.
+      function sumTimeLeft(previousValue, period){
+        var diff = period.end - Math.max(period.start, currentTime);
+        return previousValue + Math.max(0, diff);
+      }
+      if(day === 'wed'){
+        return application.wedPeriodList.reduce(sumTimeLeft, 0);
+      } else {
+        return application.thurPeriodList.reduce(sumTimeLeft, 0);
+      }
+    }
+    function timeLeftAvailableWednesday(application, currentTime){
+      return timeLeftToday(application, currentTime, 'wed');
+    }
+    function timeLeftAvailableThursday(application, currentTime){
+      return timeLeftToday(application, currentTime, 'thur');
+    }
+
+    // Remove students choice of company if choice not mutual.
+    function removeNonMutualChoice(application){
+      function companiesWhomLikeMe(company){
+        // Get company by Name
+        function filterOnCompanyName(c){ return c.name === company.name; } 
+        var comp1 = vm.companies.filter(filterOnCompanyName)[0];
+        // Has company selected this application? 
+        function likesMe(student){ return student === application._id; }
+        return comp1.chosenStudents.filter(likesMe).length > 0;
+      }
+      application.companies = application.companies.filter(companiesWhomLikeMe);
+    }
+    vm.applications.forEach(removeNonMutualChoice);
+
+    // Check if periodList contains given period.
+    function isAvailable(periodList, start, end){
+      function isStartEndWithinPeriod(period){
+        return period.start <= start && period.end >= end ? 1 : -1;
+      } 
+      return periodList.filter(isStartEndWithinPeriod).length > 0;
+    }
+
+
+    // Iterate periodList and add pause to colliding period
+    function addPause(periodList, start, end){
+      function addPauseToPeriod(period){
+        if(period.start <= start && period.end >= end){
+          var newPeriod1 = { start: period.start, end: start};
+          var newPeriod2 = { start: end, end: period.end};
+          if(newPeriod1.start !== newPeriod1.end){
+            period = newPeriod1;
+          }
+          if(newPeriod2.start !== newPeriod2.end){
+            periodList.push(newPeriod2);
+            periodList = periodList.sort(sortByStart);
+          }
+        }
+      } 
+      periodList.forEach(addPauseToPeriod);
+    }
+
+    function bookMeeting(student, company, start, end){
+      // Create meeting-object.
+      // TODO: Implement
+
+      // Remove period from Student.
+      function bookPeriod(a){
+        if(a._id === student._id){
+          // TODO: Implement
+          addPause(a.periodList, start, end);
+        }
+      }
+      vm.applications.forEach(removeCompany);
+
+      // Remove company from the students list.
+      function removeCompany(a){
+        function filterIsNotCompany(c){ return c._id !== company._id; }
+        if(a._id === student._id){
+          a.companies = a.companies.filter(filterIsNotCompany);
+        }
+      }
+      vm.applications.forEach(removeCompany);
+
+      // Remove student from the companies list.
+      function notBooked(s){ return s._id === student._id; }
+      company.chosenStudents = company.chosenStudents.filter(notBooked);
+    }
+
+
+    function generateSchedule(companies, applications, startTime, timeLeftAvailableToday){
+      if(companies.length === 0){
+        return; // Do nothing
+      }
+
+      // Add startTime as currentTime to all companies.
+      function addStartTime(company){ company.currTime = startTime; }
+      companies.forEach(addStartTime);
+
+      // For each company, book a student from applications.
+      function bookStudent(company){
+        // Get latest application data from applicationList
+        function mapIdToApplication(id){
+          function idMatch (a) { return a._id === id; }
+          var appl =  applications.filter(idMatch)[0];
+          // Set timeleft available today.
+          appl.timeLeft = timeLeftAvailableToday(appl, company.currTime);
+        }
+        company.students = company.chosenStudents.map(mapIdToApplication);
+
+        // Sort company.students by timeLeft
+        function sortByTimeLeft(a1, a2){
+          return a1.timeLeft < a2.timeLeft;
+        }
+        company.students.sort(sortByTimeLeft);
+
+        function bookIfAvailable(students, start, end){
+          if(students.length === 0){
+            return null; // Do nothing.
+          }
+          var isFree = isAvailable(students[0].periodList, start, end);
+          if(isFree){
+            bookMeeting(students[0], company, start, end);
+            return students[0];
+          } else {
+            return bookIfAvailable(students.slice(1), start, end);
+          }
+        }
+        var start = company.currentTime;
+        var end = start + company.meetingLength;
+        var bookedStudent = bookIfAvailable(company.students, start, end);
+        
+      }
+      companies.forEach(bookStudent);
+    }
+
+    /*
+ForEach företag:
+  Bland studenterFöretagetVillTräffa sortera efter studenter med minst antal minuter
+  som den är tillgänglig den dagen. Ta första studenten som är tillgänglig att
+  ses på currentTime. Boka in den studenten på ett möte från currentTime till
+  currentTime + företagets meetingLength. Efter det addera meetingLength på
+  currentTime.
+Efter varje iteration,
+ta bort företag som inte har studenter kvar de vill träffa, iterera tills 
+listan av företag är tom.
+
 // Ta bort studentens valda företag som inte vill träffa studenten.
 // För varje gång ett företag bokat möte med studenten, ta bort företaget
 // från studentens lista. När ett möte är bokat och studenten inte har fler
 // företag att träffa, ta bort studenten från applicationsList.
 
 
-      // Gör om alla tider till antal minuter sen kl 00:00... 
+    // Gör om alla tider till antal minuter sen kl 00:00... 
 Gör om studentens tillgängliga tider till perioder. Ex: 9-12 istället för 9,10,
 11,12. Och helst då i minuter (ex: 540 - 720)
 
@@ -108,24 +316,25 @@ Börja med företagen för dag ett. Iterera igenom dem, där företag som enbart
 har kontaktsamtal dag ett är först i listan, annars random, eller kanske
 först de företag som har längst möten? Så att de små sedan kan fylla i hålen?. 
 
-Efter varje iteration,
-ta bort företag som inte har studenter kvar de vill träffa, iterera tills 
-listan av företag är tom.
-ForEach företag:
-  Bland studenterFöretagetVillTräffa sortera efter studenter med minst antal minuter
-  som den är tillgänglig den dagen. Ta första studenten som är tillgänglig att
-  ses på currentTime. Boka in den studenten på ett möte från currentTime till
-  currentTime + företagets meetingLength. Efter det addera meetingLength på
-  currentTime.
+
+    */
+    function generateWednesdaySchedule(){
+      // TODO: implement
+      var wedApplications = vm.applications.;
+      generateSchedule(vm.wedCompanies, vm.applications, 9 * 60, timeLeftAvailableWednesday); // Get time from setting?
+    }
+    function generateThursdaySchedule(){
+      generateSchedule(vm.thurCompanies, vm.applications, 10 * 60, timeLeftAvailableThursday); // Get time from setting?
+    }
+
+    function generateBothSchedule(){
+      generateWednesdaySchedule();
+      generateThursdaySchedule();
+    }
+    $scope.generateSchedule = generateBothSchedule;
 
 
 
-      */
-
-
-
-
-    };
 
 
 
