@@ -6,9 +6,9 @@
     .module('companies')
     .controller('CompaniesListController', CompaniesListController);
 
-  CompaniesListController.$inject = ['CompaniesService', '$scope','$location', '$anchorScroll', '$compile', '$window', '$timeout', 'FileUploader'];
+  CompaniesListController.$inject = ['CompaniesService', '$scope','$location', '$anchorScroll', '$compile', '$window', '$timeout', 'FileUploader', 'ApplicationsService'];
 
-  function CompaniesListController(CompaniesService, $scope, $location, $anchorScroll, $compile, $window, $timeout, FileUploader) {
+  function CompaniesListController(CompaniesService, $scope, $location, $anchorScroll, $compile, $window, $timeout, FileUploader, ApplicationsService) {
     var vm = this;
 
     vm.companies = CompaniesService.query(function(data) {
@@ -17,6 +17,7 @@
         company.weOffer = company.weOffer || '';
         company.language = company.language || '';
       });
+      getPopularity();
       // Datatable code
       // Setup - add a text input to each first header row cell
       $('#companiesList thead tr:first th').each(function (index) {
@@ -26,6 +27,24 @@
       });  
       vm.createDatatable(data);
     });
+
+    function getPopularity(){
+      ApplicationsService.query(function (data){
+        vm.applications = data;
+        
+        function calcPopularity(c){
+          function selectedThisCompany(a){ 
+            return a.companies.filter(function(comp){ return comp.name === c.name; }).length > 0;
+          }
+          var popularity = vm.applications.filter(selectedThisCompany).length;
+          return { name: c.name, nbr: popularity };
+        }
+        function isActive(d){ return d.active; }
+        vm.popular = vm.companies.filter(isActive).map(calcPopularity);
+        function leastFirst(c1, c2){ return c1.nbr > c2.nbr; }
+        vm.popular = vm.popular.sort(leastFirst);
+      });
+    }
 
 
     $scope.gotoSelected = function() {

@@ -124,6 +124,18 @@
     <!-- Company Datatable -->
     <div class="row">
       <div class="jumbotron">
+        <!-- Popularity -->
+        <button class="btn btn-warning btn-sm" ng-click="showPopular = !showPopular">Toggle Popular list</button>
+        <div class="row" ng-show="showPopular">
+          <h3> Popularity </h3>
+          <table class="table table-condensed">
+            <tr ng-repeat="c in vm.popular">
+              <td>{{ c.name }}</td>
+              <td>{{ c.nbr }}</td>
+            </tr>
+          </table>
+        </div>
+        <hr>
         <table id="companiesList" class="table table-striped compact table-bordered nowrap" >
           <thead>
             <tr>
