@@ -41,7 +41,7 @@
       vm.companies = vm.rawCompanies;
 
       // Get active Companies
-      function isActive(c){ return c.active;  }
+      function isActive(c){ return c.active; }
       vm.activeCompanies = vm.companies.filter(isActive);
 
       // Get Companies that have student session on wednesdays, sorted by first 
@@ -167,8 +167,8 @@
     function addPause(periodList, start, end){
       function addPauseToPeriod(period){
         if(period.start <= start && period.end >= end){
-          var newPeriod1 = { start: period.start, end: start};
-          var newPeriod2 = { start: end, end: period.end};
+          var newPeriod1 = { start: period.start, end: start };
+          var newPeriod2 = { start: end, end: period.end };
           if(newPeriod1.start !== newPeriod1.end){
             period = newPeriod1;
           }
@@ -184,8 +184,8 @@
     // Book meeting
     function bookMeeting(student, company, start, end, day){
       // Create meeting-object.
-      var startTime = Math.floor(start / 60) + ":" + start % 60;
-      var endTime = Math.floor(end / 60) + ":" + end % 60;
+      var startTime = Math.floor(start / 60) + ':' + start % 60;
+      var endTime = Math.floor(end / 60) + ':' + end % 60;
       var newMeeting = {
         student: {
           id: student._id,
@@ -236,7 +236,7 @@
       // Add startTime as currentTime to all companies.
       function addStartTime(company){ company.currentTime = startTime; }
       // Only first time
-      if(startTime >= 0 ){
+      if(startTime >= 0){
         companies.forEach(addStartTime);
       }
 
@@ -249,7 +249,7 @@
         // Get latest application data from applicationList
         function mapIdToApplication(id){
           function idMatch (a) { return a._id === id; }
-          var appl =  applications.filter(idMatch)[0];
+          var appl = applications.filter(idMatch)[0];
           // Set timeleft available today.
           appl.timeLeft = timeLeftAvailableToday(appl, company.currentTime);
         }
@@ -288,9 +288,9 @@
 
       if(counter > 0){
       // Recursive call. Continue until no companies are left.
-      generateSchedule(companies, applications, -1, timeLeftAvailableToday, day, counter--);
+        generateSchedule(companies, applications, -1, timeLeftAvailableToday, day, counter--);
       } else {
-        var err = "ERROR, not able to generate schedule.";
+        var err = 'ERROR, not able to generate schedule.';
         vm.schedulingSuccess = false;
         $scope.error = err;
         console.log(err);
