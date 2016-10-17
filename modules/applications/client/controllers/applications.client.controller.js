@@ -92,6 +92,7 @@
     ];
     //programs
     var allPrograms = ['Byggteknik med arkitektur / Civil Engineering - Architecture',
+                  'Civilingenjör i Riskhantering / Master of Science in Engineering, Risk Management and Safety Engineering',
                   'Arkitekt / Architect',
                   'Arkitekt / Architect',
                   'Medicin och teknik / Biomedical Engineering',
