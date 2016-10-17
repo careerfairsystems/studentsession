@@ -93,10 +93,10 @@
                 </div>
               </td>
               <td>
-                <div ng-show="!c.edit">
+                <div ng-show="!c.edit || c.requireEnglish">
                   <span>{{ c.resumeLanguage}}</span>
                 </div>
-                <div ng-show="c.edit">
+                <div ng-show="c.edit && !c.requireEnglish">
                   <select class="form-control" ng-model="c.resumeLanguage">
                     <option value="Svenska">Svenska</option>
                     <option value="English">English</option>

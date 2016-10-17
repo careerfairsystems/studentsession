@@ -39,10 +39,12 @@
     //fetches the company names from the database
     $scope.companyNames = [];
     $scope.chosenCompanies = [];
+    vm.activeCompanies = [];
     CompaniesService.query().$promise.then(function(result) {
       angular.forEach(result, function(company) {
         if(company.active){
           $scope.companyNames.push(company.name);
+          vm.activeCompanies.push(company);
         }
       });
       $scope.companyNames.sort();
@@ -54,7 +56,10 @@
         return;
       var index = $('#selectcompanies').val();
       $scope.companyNames.splice(index, 1);
-      $scope.chosenCompanies.push({ name: selection, motivation: '', edit: true });
+      
+      function onName(c){ return c.name === selection; }
+      var company = vm.activeCompanies.filter(onName)[0];
+      $scope.chosenCompanies.push({ name: selection, motivation: '', edit: true , resumeLanguage: company.language, requireEnglish: (company.language && company.language.indexOf('Swe') < 0) });
     };
     $scope.deleteCompany = function (index){
       $scope.companyNames.push($scope.chosenCompanies[index].name);
