@@ -41,7 +41,7 @@
         }
         function isActive(d){ return d.active; }
         vm.popular = vm.companies.filter(isActive).map(calcPopularity);
-        function leastFirst(c1, c2){ return c1.nbr > c2.nbr; }
+        function leastFirst(c1, c2){ return c1.nbr > c2.nbr ? 1 : -1; }
         vm.popular = vm.popular.sort(leastFirst);
       });
     }
