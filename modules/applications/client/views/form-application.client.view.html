@@ -7,6 +7,13 @@
     <h1>{{vm.application._id ? 'Edit Application' : 'Ansök / Apply'}}</h1>
   </div>
   <div class="col-md-12">
+    <div class="alert alert-warning text-center">
+      <p>
+        Om du har problem med formuläret, se till att du har senaste versionen av din browser eller testa en annan browser
+        <br /> 
+        If you encounter problem with the form, make sure you have the latest version of the browser, or try with another browser
+      </p>
+    </div>
     <form name="vm.form.applicationForm" class="form-horizontal" ng-submit="vm.save(vm.form.applicationForm.$valid)" novalidate>
       <fieldset>
 
