@@ -260,6 +260,17 @@
 
       console.log('email', vm.application.email);
 
+      var companies = vm.activeCompanies.filter(isChosen);
+      function isChosen(activeCompany) {
+        function onName(c){ return c.name === activeCompany.name; }
+        return $scope.chosenCompanies.filter(onName).length > 0;
+      }
+      var reqEngCompanies = companies.filter(requireEng);
+      function requireEng(c) {
+        return c.language && c.language.indexOf('Swe') < 0;
+      }
+      var requireEnglish = reqEngCompanies.length > 0;
+
       if (vm.form.applicationForm.email.$error.email === true && vm.form.applicationForm.email.$viewValue !== undefined) {
         vm.error = 'Du har angett email på fel format / Email is not on the correct form';
         return false;
@@ -273,6 +284,9 @@
         (vm.application.resume.englishLink === undefined && vm.application.resume.swedishLink === '') ||
         (vm.application.resume.englishLink === '' && vm.application.resume.swedishLink === '')) {
         vm.error = 'Du måste bifoga minst ett cv / You must attach at least one resume';
+        return false;
+      } else if(requireEnglish && (!vm.application.resume.englishLink)){
+        vm.error = 'Du måste bifoga ett cv på engelska då ett företag du vill träffa kräver det / You must attach one resume on english because a company of your choice requires it';
         return false;
       } else if ($scope.chosenCompanies === undefined || $scope.chosenCompanies.length === 0) {
         vm.error = 'Du måste välja minst ett företag / You must choose at least one company';
