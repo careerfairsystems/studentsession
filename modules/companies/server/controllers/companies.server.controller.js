@@ -291,13 +291,17 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
         application.name = prettify(application.name);
         var cname = prettify(application.company.name);
         var pdfName = application.name + '_' + cname;
-        str += 'curl -L -o "' + pdfName + '_resume_english.pdf" "http://localhost:3000/api/applications/resume/' + application.resume.englishLink + '"\n';
-        str += 'curl -L -o "' + pdfName + '_resume_swedish.pdf" "http://localhost:3000/api/applications/resume/' + application.resume.swedishLink + '"\n';
+        if(application.company.language.indexOf('Eng') >= 0 ){
+          str += 'curl -L -o "' + pdfName + '_resume_english.pdf" "http://localhost:3000/api/applications/resume/' + application.resume.englishLink + '"\n';
+        }
+        if(application.company.language.indexOf('Sve') >= 0){
+          str += 'curl -L -o "' + pdfName + '_resume_swedish.pdf" "http://localhost:3000/api/applications/resume/' + application.resume.swedishLink + '"\n';
+        }
         str += 'curl -L -o "' + pdfName + '_application.pdf" "http://localhost:3000/api/applications/htmlpdf/' + application.company.htmlPdfLink + '"\n';
         
         applicationcounter++;
         if(applicationcounter >= applications.length){
-          zip.file('generate_' + companyName + '.sh', str);
+          zip.file(companyName + '/download_all_pdfs.sh', str);
           zipDone();
         }
       }
