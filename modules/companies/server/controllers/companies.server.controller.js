@@ -259,7 +259,6 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
     
     var applicationcounter = 0;
     applications.forEach(function(application) {
-      console.log('Application: ' + JSON.stringify(application));
       application.companies = application.companies.filter(function(c){ return c.name === companyName; });
       getApplicationZip(application, function(zipFiles){
         zipFiles.forEach(addZipFile);
@@ -274,7 +273,6 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
     });
     function zipDone(){
       var data = zip.generate({ base64:false,compression:'DEFLATE' });
-      console.log("Data: " + data.length);
       res.set('Content-Type', 'application/zip');
       res.set('Content-Disposition', 'attachment; filename=' + companyName + '.zip');
       res.set('Content-Length', data.length);
@@ -339,7 +337,7 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
 
       htmlpdf.create(pdfHTML, options).toFile(path + pdfName, function(err, res) {
         console.log('pdf created: ' + pdfName); 
-        if (err) {
+        if (err || !res) {
           console.log('Error: ' + err);
         }
         fs.readFile(res.filename, function read(err, result) {
