@@ -343,6 +343,8 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
         console.log('pdf created: ' + pdfName); 
         if (err || !res) {
           console.log('Error: ' + err);
+          done(null);
+          return;
         }
         fs.readFile(res.filename, function read(err, result) {
           pdfList.push({ name: application.name + '_' + cname + '.pdf', file: result });
