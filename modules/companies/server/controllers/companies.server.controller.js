@@ -253,18 +253,19 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
         message: 'No Application with that identifier has been found'
       });
     }
-    console.log('hej: ' + applications.length);
     if(applications.length === 0){
       res.send('No applications were found.');
     }
     
     var applicationcounter = 0;
     applications.forEach(function(application) {
+      console.log('Application: ' + JSON.stringify(application));
+      application.companies = application.companies.filter(function(c){ return c.name === companyName; });
       getApplicationZip(application, function(zipFiles){
-        function addZipFile (zipfile){
-          zip.file(zipfile.name, zipfile.file);
-        }
         zipFiles.forEach(addZipFile);
+        function addZipFile (zipfile){
+          zip.file(applicationcounter + "_" + zipfile.name, zipfile.file);
+        }
         applicationcounter++;
         if(applicationcounter === applications.length){
           zipDone();
@@ -288,10 +289,11 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
       var zipList = [];
       getApplicationPdfs(application, company.name, function(pdfList){
         console.log('Zip PDFs');
+        pdfList.forEach(addToZipFolder);
         function addToZipFolder(pdf){
+          console.log('Zip ' + pdf.name);
           zipList.push({ name: pdf.name, file: pdf.file });
         }
-        pdfList.forEach(addToZipFolder);
         counter++;
         if(counter === application.companies.length){
           zipDone(zipList);
@@ -411,8 +413,8 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
     async.waterfall([
       renderPdfHtml,
       generatePdfFromHtml,
-      getSwePdf,
-      getEngPdf,
+      /*getSwePdf,
+      getEngPdf,*/
     ], function (err) {
       if (err) {
         console.log('Error... ' + err);
