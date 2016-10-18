@@ -274,6 +274,7 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
     });
     function zipDone(){
       var data = zip.generate({ base64:false,compression:'DEFLATE' });
+      console.log("Data: " + data.length);
       res.set('Content-Type', 'application/zip');
       res.set('Content-Disposition', 'attachment; filename=' + companyName + '.zip');
       res.set('Content-Length', data.length);
