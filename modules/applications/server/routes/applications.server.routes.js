@@ -19,6 +19,9 @@ module.exports = function(app) {
   app.route('/api/applications').all(applicationsPolicy.isAllowed)
     .get(applications.list);
 
+  app.route('/api/applications/htmlpdf/:pdfName')
+    .get(applications.getHtmlPdf);
+
   app.route('/api/applications/resume/:pdfName')
     .get(applications.getResume);
 

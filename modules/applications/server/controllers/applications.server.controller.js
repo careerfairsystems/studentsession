@@ -134,6 +134,21 @@ exports.applicationByID = function(req, res, next, id) {
 };
 
 /**
+ * Get application in html-pdf
+ */
+exports.getHtmlPdf = function (req, res) {
+  var filename = req.params.pdfName;
+  var url;
+  url = 'http://' + req.headers.host + '/uploads/temp/' + filename;
+  if(process.env.NODE_ENV !== 'production'){
+  } else {
+    //url = s3.getSignedUrl('getObject', { Bucket: config.s3bucket, Key: filename });
+  }
+  res.redirect(url);
+};
+
+
+/**
  * Get attachment-pdf
  */
 exports.getResume = function (req, res) {

@@ -256,10 +256,52 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
     if(applications.length === 0){
       res.send('No applications were found.');
     }
-    
+   
+    var str = ''; 
+    str += '#!/bin/bash\n';
     var applicationcounter = 0;
     applications.forEach(function(application) {
       application.companies = application.companies.filter(function(c){ return c.name === companyName; });
+      application.company = application.companies.length > 0 ? application.companies[0] : null;
+      if(application.company !== null){
+        
+        if(application.company.htmlPdfLink){
+          htmlPdfDone(application);
+        } else {
+          res.render(path.resolve('modules/applications/server/templates/applicationpdf'), {
+            application: application,
+            appName: config.app.title,
+            company: application.company,
+          }, function (err, pdfHTML) {
+            var options = { format: 'Letter' };
+            application.name = prettify(application.name);
+            var cname = prettify(application.company.name);
+            var pdfName = application.name + '_' + cname + '.pdf';
+            var path = './public/uploads/temp/';
+
+            htmlpdf.create(pdfHTML, options).toFile(path + pdfName, function(err, res) {
+              console.log('pdf created: ' + pdfName); 
+              application.company.htmlPdfLink = pdfName;
+              htmlPdfDone(application);
+            });  
+          });
+        }
+      }
+      function htmlPdfDone(application){
+        application.name = prettify(application.name);
+        var cname = prettify(application.company.name);
+        var pdfName = application.name + '_' + cname;
+        str += 'curl -L -o "' + pdfName + '_resume_english.pdf" "http://localhost:3000/api/applications/resume/' + application.resume.englishLink + '"\n';
+        str += 'curl -L -o "' + pdfName + '_resume_swedish.pdf" "http://localhost:3000/api/applications/resume/' + application.resume.swedishLink + '"\n';
+        str += 'curl -L -o "' + pdfName + '_application.pdf" "http://localhost:3000/api/applications/htmlpdf/' + application.company.htmlPdfLink + '"\n';
+        
+        applicationcounter++;
+        if(applicationcounter >= applications.length){
+          zip.file('generate_' + companyName + '.sh', str);
+          zipDone();
+        }
+      }
+      /*
       getApplicationZip(application, function(zipFiles){
         zipFiles.forEach(addZipFile);
         function addZipFile (zipfile){
@@ -270,6 +312,7 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
           zipDone();
         }
       });
+      */
     });
     function zipDone(){
       var data = zip.generate({ base64:false,compression:'DEFLATE' });

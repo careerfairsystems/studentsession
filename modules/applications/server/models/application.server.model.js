@@ -29,7 +29,8 @@ var ApplicationSchema = new Schema({
   companies: [{
     name: String,
     motivation: String,
-    resumeLanguage: String
+    resumeLanguage: String,
+    htmlPdfLink: String
   }],
   resume: {
     swedishLink: String,
