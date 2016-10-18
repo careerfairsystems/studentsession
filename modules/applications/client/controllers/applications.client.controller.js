@@ -20,6 +20,7 @@
     vm.form = {};
     vm.remove = remove;
     vm.save = save;
+    vm.waitingForCompanies = true;
 
     vm.application = application;
 
@@ -47,6 +48,7 @@
           vm.activeCompanies.push(company);
         }
       });
+      vm.waitingForCompanies = false;
       $scope.companyNames.sort();
     });
 

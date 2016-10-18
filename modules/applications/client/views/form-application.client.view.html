@@ -6,7 +6,14 @@
   <div class="page-header">
     <h1>{{vm.application._id ? 'Edit Application' : 'Ansök / Apply'}}</h1>
   </div>
-  <div class="col-md-12">
+  <div class="col-md-12" ng-show="!vm.waitingForCompanies && vm.activeCompanies.length === 0">
+    <div class="jumbotron">
+      <h3>
+        Ansökningsperioden är över. / The application period is over.
+      </h3>
+    </div>
+  </div>
+  <div class="col-md-12" ng-show="vm.activeCompanies && vm.activeCompanies.length > 0">
     <div class="alert alert-warning text-center">
       <p>
         Om du har problem med formuläret, se till att du har senaste versionen av din browser eller testa en annan browser
