@@ -335,6 +335,10 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
       var pdfName = application.name + '_' + cname + '.pdf';
       var path = './public/uploads/temp/';
 
+      if(!pdfHTML){
+        done(err);
+        return;
+      }
       htmlpdf.create(pdfHTML, options).toFile(path + pdfName, function(err, res) {
         console.log('pdf created: ' + pdfName); 
         if (err || !res) {
