@@ -240,8 +240,18 @@
 
       // For each company, book a student from applications.
       function bookStudent(company){
-        // Set start and end
         var start = company.currentTime;
+
+        // If collide with lunch, move start to lunchEnd
+        var start_hm = company.lunchStart.split(':');
+        var end_hm = company.lunchEnd.split(':');
+        var lunchStart = (+start_hm[0]) * 60 + (+start_hm[1]);
+        var lunchEnd = (+end_hm[0]) * 60 + (+end_hm[1]);
+
+        if(start >= lunchStart && start < lunchEnd){
+          start = lunchEnd;
+        }
+
         var end = start + company.meetingLength;
 
         // Get latest application data from applicationList
