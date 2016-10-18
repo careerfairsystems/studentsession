@@ -56,6 +56,14 @@ var CompanySchema = new Schema({
     type: Boolean,
     default: false
   },
+  lunchStart: {
+    type: String,
+    default: '12:00'
+  },
+  lunchEnd: {
+    type: String,
+    default: '13:00'
+  },
   meetingLength: {
     type: Number,
     default: 0

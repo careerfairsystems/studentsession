@@ -24,8 +24,6 @@
       startHours: 0,
       endHours: 0
     }];
-    vm.lunchStart = {}; // ??
-    vm.lunchEnd = {}; // ??
 
     // Init lists.
     vm.rawApplications = applications;
