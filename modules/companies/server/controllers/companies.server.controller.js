@@ -245,7 +245,8 @@ function prettify(str){
 exports.getAllApplicationsPdfs = function (req, res, next) {
   var companyName = req.params.companyName;
   var zip = new Zip();
-  Application.find({ 'companies': { $elemMatch: { name: companyName } } }).exec(function (err, applications) {
+  console.log('Get applications pdfs');
+  Application.find().exec(function (err, applications) {
     if (err) {
       return next(err);
     } else if (!applications) {
@@ -253,6 +254,18 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
         message: 'No Application with that identifier has been found'
       });
     }
+    console.log('applications: ' + applications.length);
+    console.log('Search');
+    applications = applications.filter(hasSelectedCompany);
+    function hasSelectedCompany(a){
+      return a.companies.filter(function(c){ 
+        console.log('cname' + c.name.replace(/\/$/, ''));
+        console.log('companyname' + companyName);
+        return c.name.replace(/\/$/, '') === companyName; 
+      }).length > 0;
+    }
+    console.log('applications: ' + applications.length);
+    console.log('done');
     if(applications.length === 0){
       res.send('No applications were found.');
     }
@@ -261,7 +274,7 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
     str += '#!/bin/bash\n';
     var applicationcounter = 0;
     applications.forEach(function(application) {
-      application.companies = application.companies.filter(function(c){ return c.name === companyName; });
+      application.companies = application.companies.filter(function(c){ return c.name.replace(/\//, '') === companyName; });
       application.company = application.companies.length > 0 ? application.companies[0] : null;
       if(application.company !== null){
         
@@ -291,17 +304,20 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
         application.name = prettify(application.name);
         var cname = prettify(application.company.name);
         var pdfName = application.name + '_' + cname;
-        if(application.company.language.indexOf('Eng') >= 0 ){
+        console.log('Language: ' + application.company.resumeLanguage);
+        if((!application.company.resumeLanguage) || application.company.resumeLanguage.indexOf('Eng') >= 0){
+          console.log('English: ' + application.resume.englishLink);
           str += 'curl -L -o "' + pdfName + '_resume_english.pdf" "http://localhost:3000/api/applications/resume/' + application.resume.englishLink + '"\n';
         }
-        if(application.company.language.indexOf('Sve') >= 0){
+        if((application.company.resumeLanguage) && application.company.resumeLanguage.indexOf('Sve') >= 0){
+          console.log('Svenska: ' + application.resume.swedishLink);
           str += 'curl -L -o "' + pdfName + '_resume_swedish.pdf" "http://localhost:3000/api/applications/resume/' + application.resume.swedishLink + '"\n';
         }
         str += 'curl -L -o "' + pdfName + '_application.pdf" "http://localhost:3000/api/applications/htmlpdf/' + application.company.htmlPdfLink + '"\n';
         
         applicationcounter++;
         if(applicationcounter >= applications.length){
-          zip.file(companyName + '/download_all_pdfs.sh', str);
+          zip.file(companyName + '/_download_all_pdfs.sh', str);
           zipDone();
         }
       }

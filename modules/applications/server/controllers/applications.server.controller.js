@@ -154,6 +154,10 @@ exports.getHtmlPdf = function (req, res) {
 exports.getResume = function (req, res) {
   var filename = req.params.pdfName;
   var url;
+  // If you want to get the production-pdf on you local computer,
+  // then add '&& false' to this if.
+  // This is good to do when extracting company-pdfs because its to much
+  // computation for the server.
   if(process.env.NODE_ENV !== 'production'){
     url = 'http://' + req.headers.host + '/uploads/' + filename;
   } else {
