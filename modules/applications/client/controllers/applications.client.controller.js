@@ -94,7 +94,8 @@
     ];
     //programs
     var programsSet = new Set(ProgramsService);
-    $scope.programs = Array.from(programsSet);
+    vm.programs = [];
+    programsSet.forEach(v => vm.programs.push(v));
 
     $scope.years = [1, 2, 3, 4, 5];
 
