@@ -236,7 +236,7 @@ exports.companyByID = function(req, res, next, id) {
 };
 
 function prettify(str){
-  return str.replace(/[ÅÄÖåäö ]/g, '');
+  return str.replace(/[ÅÄÖåäöøé\/ÉüÜ ]/g, '');
 }
 
 /**
@@ -259,9 +259,9 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
     applications = applications.filter(hasSelectedCompany);
     function hasSelectedCompany(a){
       return a.companies.filter(function(c){ 
-        console.log('cname' + c.name.replace(/\/$/, ''));
-        console.log('companyname' + companyName);
-        return c.name.replace(/\/$/, '') === companyName; 
+        console.log('cname' + prettify(c.name));
+        console.log('companyname' + prettify(companyName));
+        return prettify(c.name) === prettify(companyName); 
       }).length > 0;
     }
     console.log('applications: ' + applications.length);
