@@ -14,9 +14,8 @@
     $scope.chosenStudents = [];
 
     vm.companies = CompaniesService.query(function(data) {
-      function activeCompanies(c){ return c.active; }
       function sortName(c1, c2){ return c1.name > c2.name ? 1 : -1; }
-      vm.companies = data.filter(activeCompanies).sort(sortName);
+      vm.companies = data.sort(sortName);
       angular.forEach(vm.companies, function(company, key) {
         company.weOffer = company.weOffer || '';
         company.language = company.language || '';
