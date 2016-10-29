@@ -43,6 +43,39 @@
             </td>
           </tr>
         </table>
+        <h4>Thursday</h4>
+        <table class="table table-condensed">
+          <tr>
+            <td><strong>Have meetings</strong></td>
+            <td>
+              <input type="checkbox" value="true" ng-model="company.thursday.hasMeetings"/> Has studentsession Thursday
+            </td>
+            <td><strong>MeetingLength (in minutes)</strong></td>
+            <td>
+              <input type="number" class="form-control" ng-model="company.thursday.meetingLength"/>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Start time (HH:MM)</strong></td>
+            <td>
+              <input type="text" class="form-control" ng-model="company.thursday.starttime"/>
+            </td>
+            <td><strong>End time (HH:MM)</strong></td>
+            <td>
+              <input type="text" class="form-control" ng-model="company.thursday.endtime"/>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Lunch start (HH:MM)</strong></td>
+            <td>
+              <input type="text" class="form-control" ng-model="company.thursday.lunchstart"/>
+            </td>
+            <td><strong>Lunch end (HH:MM)</strong></td>
+            <td>
+              <input type="text" class="form-control" ng-model="company.thursday.lunchend"/>
+            </td>
+          </tr>
+        </table>
         <div class="row">
           <div class="col-sm-3">
               <label><strong>Select students</strong></label>
