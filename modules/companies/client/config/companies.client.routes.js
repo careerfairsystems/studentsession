@@ -14,6 +14,12 @@
         url: '/companies',
         template: '<ui-view/>'
       })
+      .state('companies.scheduling', {
+        url: '',
+        templateUrl: 'modules/companies/client/views/list-scheduling.client.view.html',
+        controller: 'CompaniesSchedulingController',
+        controllerAs: 'vm'
+      })
       .state('companies.list', {
         url: '',
         templateUrl: 'modules/companies/client/views/list-companies.client.view.html',

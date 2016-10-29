@@ -1,0 +1,101 @@
+<section>
+  <div class="page-header">
+    <h1>Schedule Information for Companies</h1>
+  </div>
+  <!-- Companies -->
+  
+  <div class="row">
+    <!-- Company -->
+    <div class="col-md-9 col-md-push-3">
+      <div class="row" ng-if="company">
+        <h3>{{ company.name }}</h3>
+        <hr> 
+        <h4>Wednesday</h4>
+        <table class="table table-condensed">
+          <tr>
+            <td><strong>Have meetings</strong></td>
+            <td>
+              <input type="checkbox" value="true" ng-model="company.wednesday.hasMeetings"/> Has studentsession Wednesday
+            </td>
+            <td><strong>MeetingLength (in minutes)</strong></td>
+            <td>
+              <input type="number" class="form-control" ng-model="company.wednesday.meetingLength"/>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Start time (HH:MM)</strong></td>
+            <td>
+              <input type="text" class="form-control" ng-model="company.wednesday.starttime"/>
+            </td>
+            <td><strong>End time (HH:MM)</strong></td>
+            <td>
+              <input type="text" class="form-control" ng-model="company.wednesday.endtime"/>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Lunch start (HH:MM)</strong></td>
+            <td>
+              <input type="text" class="form-control" ng-model="company.wednesday.lunchstart"/>
+            </td>
+            <td><strong>Lunch end (HH:MM)</strong></td>
+            <td>
+              <input type="text" class="form-control" ng-model="company.wednesday.lunchend"/>
+            </td>
+          </tr>
+        </table>
+        <div class="row">
+          <div class="col-sm-3">
+              <label><strong>Select students</strong></label>
+          </div>
+          <div class="col-sm-9">
+            <button ng-click="addStudent()" class="btn btn-primary">Add student</button>
+            <select ng-model="vm.studentToAdd" class="form-control" ng-options="s.name for s in appliedStudents">
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3">
+          </div>
+          <div class="col-sm-9">
+            <h5>Chosen Students</h5>
+            <table class="table table-condensed">
+              <tr ng-repeat="s in chosenStudents">
+                <td> {{ s.name }}
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+    
+        <div class="row">
+          <hr>
+          <div class="col-sm-3">
+          </div>
+          <div class="col-sm-9">
+            <button ng-click="vm.updateCompany()" class="btn btn-primary">Update</button>
+            <button ng-click="hideCompany()" class="btn btn-default">Close</button>
+            <br />
+            <br />
+          </div>
+          <div class="col-sm-12">
+            <div class="alert alert-info" role="alert" ng-if="message" ng-bind="message"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3">
+          </div>
+          <div class="col-sm-9">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- List -->
+    <div class="col-md-3 col-md-pull-9">
+      <div class="list-group">
+        <button type="button" class="list-group-item" ng-repeat="c in vm.companies" style="padding: 4px 15px; outline: none;" ng-click="viewCompany(c)">
+          {{ c.name }}
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

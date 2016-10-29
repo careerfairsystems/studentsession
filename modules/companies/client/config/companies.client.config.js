@@ -38,8 +38,8 @@
   
     // Add the dropdown create item
     Menus.addSubMenuItem('topbar', 'companies', {
-      title: 'Companies Student Selection',
-      state: 'companies.selectedstudents',
+      title: 'Scheduling Information',
+      state: 'companies.scheduling',
       roles: ['admin']
     });
   }

@@ -49,24 +49,20 @@ var CompanySchema = new Schema({
     type: String,
   },
   wednesday: {
-    type: Boolean,
-    default: false
+    hasMeetings: Boolean,
+    meetingLength: Number,
+    starttime: String,
+    endtime: String,
+    lunchstart: String,
+    lunchend: String
   },
   thursday: {
-    type: Boolean,
-    default: false
-  },
-  lunchStart: {
-    type: String,
-    default: '12:00'
-  },
-  lunchEnd: {
-    type: String,
-    default: '13:00'
-  },
-  meetingLength: {
-    type: Number,
-    default: 0
+    hasMeetings: Boolean,
+    meetingLength: Number,
+    starttime: String,
+    endtime: String,
+    lunchstart: String,
+    lunchend: String
   },
   chosenStudents: [{
     type: Schema.ObjectId,
