@@ -75,6 +75,10 @@ var CompanySchema = new Schema({
     startTime: String,
     endTime: String,
     day: String,
+    forced: {
+      type: Boolean,
+      default: false
+    },
     fixed: {
       type: Boolean,
       default: false

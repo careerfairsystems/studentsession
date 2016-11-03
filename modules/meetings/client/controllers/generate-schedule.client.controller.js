@@ -1,5 +1,5 @@
 /* global $:false */
-(function () {======
+(function () {
   'use strict';
 
   angular
@@ -177,7 +177,7 @@
     }
 
     // Book meeting
-    function bookMeeting(student, company, start, end, day){
+    function bookMeeting(student, company, start, end, day, forced){
       // Create meeting-object.
       var startTime = Math.floor(start / 60) + ':' + start % 60;
       var endTime = Math.floor(end / 60) + ':' + end % 60;
@@ -189,6 +189,7 @@
         startTime: startTime,
         endTime: endTime,
         day: day,
+        forced: forced,
         fixed: false
       };
       company.meetings.push(newMeeting);
@@ -218,41 +219,57 @@
 
     // Generate Schedule - This is where the magic happens
     // ===================================================
-    function generateSchedule(companies, applications, startTime, timeLeftAvailableToday, day, counter){
-      if(companies.length === 0){
+    function generateSchedule(companies, applications, timeLeftAvailableToday, day, counter){
+      // Filter only companies with students left.
+      function hasStudentsLeft(company){ return company.chosenStudents.length > 0; }
+      var companiesLeft = companies.filter(hasStudentsLeft);
+      if(companiesLeft.length === 0){
         vm.schedulingSuccess = true;
-        return; // Do nothing
-      }
-
-      // Add startTime as currentTime to all companies.
-      function addStartTime(company){ company.currentTime = startTime; }
-      // Only first time
-      if(startTime >= 0){
-        companies.forEach(addStartTime);
+        return companies;
       }
 
       // For each company, book a student from applications.
       function bookStudent(company){
+        if(company.chosenStudents.length === 0 || company.isDone){
+          return; // Do nothing
+        }
+
+        // Assign company.day to correct day (if wed/thur).
+        company.day = day === 'wed' ? company.wednesday : company.thursday;
+
+        // If first iteration, set currentTime.
+        if(!company.currentTime){
+          company.currentTime = company.day.starttime;
+        }
+
         var start = company.currentTime;
+        var end = start + company.meetingLength;
 
         // If collide with lunch, move start to lunchEnd
-        var start_hm = company.lunchStart.split(':');
-        var end_hm = company.lunchEnd.split(':');
+        var start_hm = company.day.lunchstart.split(':');
+        var end_hm = company.day.lunchend.split(':');
         var lunchStart = (+start_hm[0]) * 60 + (+start_hm[1]);
         var lunchEnd = (+end_hm[0]) * 60 + (+end_hm[1]);
 
-        if(start >= lunchStart && start < lunchEnd){
+        if(start >= lunchStart && start < lunchEnd && end >= lunchStart && end < lunchEnd){
           start = lunchEnd;
+          end = start + company.day.meetingLength;
         }
-
-        var end = start + company.meetingLength;
+  
+        // Check that start isnt after this days endtime
+        var day_endtime_arr = company.day.endtime.split(':');
+        var day_endtime = (+day_endtime_arr[0]) * 60 + (+day_endtime_arr[1]);
+        if(start >= day_endtime){
+          company.isDone = true;
+          return;
+        }
 
         // Get latest application data from applicationList
         function mapIdToApplication(id){
           function idMatch (a) { return a._id === id; }
           var appl = applications.filter(idMatch)[0];
           // Set timeleft available today.
-          appl.timeLeft = timeLeftAvailableToday(appl, company.currentTime);
+          appl.timeLeft = timeLeftAvailableToday(appl, start);
         }
         company.students = company.chosenStudents.map(mapIdToApplication);
 
@@ -268,30 +285,30 @@
           }
           var isFree = isAvailable(students[0].periodList, start, end);
           if(isFree){
-            bookMeeting(students[0], company, start, end, day);
+            bookMeeting(students[0], company, start, end, day, false);
             return students[0];
           } else {
             return bookIfAvailable(students.slice(1), start, end);
           }
         }
         var bookedStudent = bookIfAvailable(company.students, start, end);
+       
+        // Check if no student booked, then book student with least time available. 
+        if(bookedStudent === null){
+          bookMeeting(company.students[0], company, start, end, day, true);
+        }
       }
       companies.forEach(bookStudent);
 
       // Booking done, prepare next iteration      
 
-
-      // Filter only companies with students left.
-      function hasStudentsLeft(company){ return company.chosenStudents.length > 0; }
-      companies.filter(hasStudentsLeft);
-
       // Filter only applications with companies left.
-      function hasCompaniesLeft(student){ return student.companies.length > 0; }
-      companies.filter(hasCompaniesLeft);
+      function hasCompaniesLeft(a){ return a.companies.length > 0; }
+      applications.filter(hasCompaniesLeft);
 
       if(counter > 0){
         // Recursive call. Continue until no companies are left.
-        generateSchedule(companies, applications, -1, timeLeftAvailableToday, day, counter--);
+        generateSchedule(companies, applications, timeLeftAvailableToday, day, counter--);
       } else {
         var err = 'ERROR, not able to generate schedule.';
         vm.schedulingSuccess = false;
@@ -342,25 +359,33 @@ listan av företag är tom.
         application.periodList = application.wedPeriodList;
       }
       var wedApplications = vm.applications.forEach(setPeriodListForWed);
-      generateSchedule(vm.wedCompanies, vm.applications, 9 * 60, timeLeftAvailableWednesday, 'wed', vm.applications.length * 2); // Get time from setting?
+      return generateSchedule(vm.wedCompanies, vm.applications, 9 * 60, timeLeftAvailableWednesday, 'wed', vm.applications.length * 2); // Get time from setting?
     }
-    function generateThursdaySchedule(){
+    function generateThursdaySchedule(wedCompanies){
       function setPeriodListForThur(application){
         application.periodList = application.thurPeriodList;
       }
       var thurApplications = vm.applications.forEach(setPeriodListForThur);
-      generateSchedule(vm.thurCompanies, vm.applications, 10 * 60, timeLeftAvailableThursday, 'thur', vm.applications.length * 2); // Get time from setting?
+
+      // Update list with information from wednesdaylist
+      vm.thurCompanies.forEach(updateToWedList);
+      function updateToWedList(c){
+        var wedC = wedCompanies.filter(isSame);
+        function isSame(comp){ return c.id === comp.id }
+        if(wedC){
+          c.chosenStudents = wedC.chosenStudents;
+          c.meetings = wedC.meetings;
+        }
+      }
+
+
+      return generateSchedule(vm.thurCompanies, vm.applications, 10 * 60, timeLeftAvailableThursday, 'thur', vm.applications.length * 2); // Get time from setting?
     }
 
     function generateBothSchedule(){
       fixLists();
-      generateWednesdaySchedule();
-      generateThursdaySchedule();
-      if(!vm.schedulingSuccess){
-        fixLists();
-        generateThursdaySchedule();
-        generateWednesdaySchedule();
-      }
+      var wedCompanies = generateWednesdaySchedule();
+      var thurCompanies = generateThursdaySchedule(wedCompanies);
     }
     $scope.generateSchedule = generateBothSchedule;
 
