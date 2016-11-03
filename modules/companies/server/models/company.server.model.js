@@ -64,6 +64,22 @@ var CompanySchema = new Schema({
     lunchstart: String,
     lunchend: String
   },
+  meetings: [{
+    student: {
+      id: {
+        type: Schema.ObjectId,
+        ref: 'Application'
+      },
+      name: String
+    },
+    startTime: String,
+    endTime: String,
+    day: String,
+    fixed: {
+      type: Boolean,
+      default: false
+    }
+  }],
   chosenStudents: [{
     type: Schema.ObjectId,
     ref: 'Application'
