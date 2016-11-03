@@ -12,19 +12,6 @@
     var vm = this;
 
 
-    // Examples of variables that are useful;
-    vm.day = [{
-      name: 'wed',
-      date: '',
-      startHours: 0,
-      endHours: 0
-    }, {
-      name: 'thur',
-      date: '',
-      startHours: 0,
-      endHours: 0
-    }];
-
     // Init lists.
     vm.rawApplications = applications;
     vm.rawCompanies = companies;
@@ -73,8 +60,8 @@
       vm.applications.forEach(removeNonMutualChoice);
 
       function splitTimesToDayPeriodLists(application){
-        application.wedPeriodList = application.times.filter(isTimesWed).map(timesToPeriodList);
-        application.thurPeriodList = application.times.filter(isTimesThur).map(timesToPeriodList);
+        application.wedPeriodList = application.times.filter(isTimesWed).map(timesToPeriodList)[0];
+        application.thurPeriodList = application.times.filter(isTimesThur).map(timesToPeriodList)[0];
 
         // Merge periods that collide. (ex: 540-600 & 600-660 minutes);
         application.wedPeriodList = mergePeriodList(application.wedPeriodList);
@@ -122,7 +109,11 @@
     // Create a period (in minutes) from a time-object.
     function timesToPeriodList(times) {
       var start = times.hour * 60;
-      return { start: start, end: start + 60 };
+      function toInt(h){ 
+        var obj = { start: h * 60, end: h * 60 + 60 }; 
+        return obj;
+      }
+      return times.hour.map(toInt);
     }
     function isTimesWed(t) { return t.day === 'wed'; }
     function isTimesThur(t) { return t.day === 'thur'; }
