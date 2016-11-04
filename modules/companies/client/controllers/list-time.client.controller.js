@@ -127,6 +127,10 @@
       function unselect(s){ s.selected = false; }
       student.selected = true;
 
+      $scope.company.meetings.forEach(isSameStudent);
+      function isSameStudent(m){ m.isSelectedStudent = (m.student.id === student._id); }
+
+
       student.wedPeriodList = student.times.filter(isTimesWed).map(timesToPeriodList)[0];
       student.thurPeriodList = student.times.filter(isTimesThur).map(timesToPeriodList)[0];
       // Merge periods that collide. (ex: 540-600 & 600-660 minutes);

@@ -29,6 +29,16 @@
         controller: 'CompaniesSchedulingController',
         controllerAs: 'vm'
       })
+      .state('companies.preliminary', {
+        url: '/preliminary',
+        templateUrl: 'modules/companies/client/views/generate-preliminary.client.view.html',
+        controller: 'GeneratePreliminaryController',
+        controllerAs: 'vm',
+        resolve: {
+          listApplicationsResolve: getApplications,
+          listCompaniesResolve: getCompanies
+        }
+      })
       .state('companies.time', {
         url: '/time',
         templateUrl: 'modules/companies/client/views/list-time.client.view.html',
@@ -93,6 +103,14 @@
       });
   }
 
+  getCompanies.$inject = ['$stateParams', 'CompaniesService'];
+  function getCompanies($stateParams, CompaniesService) {
+    return CompaniesService.query().$promise;
+  }
+  getApplications.$inject = ['$stateParams', 'ApplicationsService'];
+  function getApplications($stateParams, ApplicationsService) {
+    return ApplicationsService.query().$promise;
+  }
   getCompany.$inject = ['$stateParams', 'CompaniesService'];
 
   function getCompany($stateParams, CompaniesService) {

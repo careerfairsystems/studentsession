@@ -25,9 +25,9 @@
       <div class="row" ng-show="company.wednesday.hasMeetings">
         <h3>Wednesday</h3>
         <div class="list-group">
-          <button type="button" class="list-group-item" ng-class="{'list-group-item-success': m.available}" ng-repeat="m in company.wedMeetings" style="padding: 4px 15px; outline: none;" ng-click="selectMeeting(c)">
-            <strong>Tid:</strong> {{ m.startTime }} - {{ m.endTime }}
-            , {{ m.student.name }}
+          <button type="button" class="list-group-item" ng-class="{'list-group-item-success': m.available, 'list-group-item-info': m.isSelectedStudent}" ng-repeat="m in company.wedMeetings" style="padding: 4px 15px; outline: none;" ng-click="selectMeeting(c)">
+            {{ m.student.name }}
+            <span class="pull-right"><strong>Tid:</strong> {{ m.startTime }} - {{ m.endTime }}</span>
             <br />
           </button>
         </div>
@@ -35,8 +35,9 @@
       <div class="row" ng-show="company.thursday.hasMeetings">
         <h3>Thursday</h3>
         <div class="list-group">
-          <button type="button" class="list-group-item" ng-class="{'list-group-item-success': m.available}" ng-repeat="m in company.thurMeetings" style="padding: 4px 15px; outline: none;" ng-click="selectMeeting(c)">
-            <strong>Tid:</strong> {{ m.startTime }} - {{ m.endTime }}
+          <button type="button" class="list-group-item" ng-class="{'list-group-item-success': m.available, 'list-group-item-info': m.isSelectedStudent}" ng-repeat="m in company.thurMeetings" style="padding: 4px 15px; outline: none;" ng-click="selectMeeting(c)">
+            {{ m.student.name }}
+            <span class="pull-right"><strong>Tid:</strong> {{ m.startTime }} - {{ m.endTime }}</span>
             <br />
           </button>
         </div>

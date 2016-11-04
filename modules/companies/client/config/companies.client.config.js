@@ -45,7 +45,13 @@
   
     // Add the dropdown create item
     Menus.addSubMenuItem('topbar', 'companies', {
-      title: 'Time',
+      title: 'GeneratePreliminary',
+      state: 'companies.preliminary',
+      roles: ['admin']
+    });
+    // Add the dropdown create item
+    Menus.addSubMenuItem('topbar', 'companies', {
+      title: 'TimeViewer',
       state: 'companies.time',
       roles: ['admin']
     });
