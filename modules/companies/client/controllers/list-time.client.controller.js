@@ -63,14 +63,14 @@
     function addWedMeetings(company, wed){
       var start = timeStrToInt(wed.starttime);
       company.wedMeetings = [];
-      addMeetingIterator(start, wed, company, company.wedMeetings);
+      addMeetingIterator(start, wed, company, company.wedMeetings, 'wed');
     }
     function addThurMeetings(company, thur){
       var start = timeStrToInt(thur.starttime);
       company.thurMeetings = [];
-      addMeetingIterator(start, thur, company, company.thurMeetings);
+      addMeetingIterator(start, thur, company, company.thurMeetings, 'thur');
     }
-    function addMeetingIterator(start, day, company, list){
+    function addMeetingIterator(start, day, company, list, dayStr){
       var dayEnd = timeStrToInt(day.endtime);
       var lunchstart = timeStrToInt(day.lunchstart);
       var lunchend = timeStrToInt(day.lunchend);
@@ -83,15 +83,15 @@
         end = start + day.meetingLength;
       }
 
-      var m = company.meetings.filter(sameStart);
+      var m = company.meetings.filter(sameStartnDay);
+      function sameStartnDay(m){ return m.startTime === timeIntToStr(start) && m.day === dayStr; }
       var hasMeeting = m.length > 0;
-      function sameStart(m){ return m.startTime === timeIntToStr(start); }
       if(!hasMeeting){
-        list.push({ startTime: timeIntToStr(start), endTime: timeIntToStr(end), day: 'wed' });
+        list.push({ startTime: timeIntToStr(start), endTime: timeIntToStr(end), day: dayStr});
       } else {
         list.push(m[0]);
       }
-      addMeetingIterator(end, day, company, list);
+      addMeetingIterator(end, day, company, list, dayStr);
     }
 
     // View Company
@@ -121,6 +121,7 @@
       saveCompany($scope.company);
     };
 
+    // Select Student
     $scope.selectStudent = function(student){
       // Select only this company
       $scope.chosenStudents.forEach(unselect);
@@ -149,10 +150,19 @@
       function isStudentAvailableThur(m){
         m.available = isAvailable(student.thurPeriodList, timeStrToInt(m.startTime), timeStrToInt(m.endTime));
       }
-
     };
 
 
+    // Select Meeting
+    $scope.selectMeeting = function(company, meeting){
+      // Select only this company
+      company.wedMeetings.forEach(unselect);
+      company.thurMeetings.forEach(unselect);
+      function unselect(s){ s.selected = false; }
+      meeting.selected = true;
+
+      $scope.meeting = meeting;
+    };
 
 
 

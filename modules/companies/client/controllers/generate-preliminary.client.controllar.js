@@ -391,13 +391,22 @@
     }
     $scope.generateSchedule = generateBothSchedule;
 
+    // Save all companies to the server.
     $scope.saveSchedule = function(){
+      var size = $scope.completeComp.length;
+      var count = size;
       $scope.completeComp.forEach(saveCompany);
       function saveCompany(c){
         console.log('Saving Company');
         var company = CompaniesService.get({ companyId: c._id }, function (){
           company.meetings = c.meetings;
           company.$save();
+          count--;
+          if(count <= 0){
+            vm.message = 'Done saving ' + size + ' companies';
+          } else {
+            vm.message = count + ' companies left to save';
+          }
         });
       }
     };

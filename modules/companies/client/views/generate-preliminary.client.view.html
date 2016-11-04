@@ -10,7 +10,7 @@
           <div class="row">
             <button type="button" class="btn btn-primary" ng-click="generateSchedule();">Generate Schedule</button>
             <button type="button" class="btn btn-danger" ng-click="saveSchedule();">Save Schedule</button>
-            <p ng-data-bind="error"></p>
+            <p>{{ vm.message }}</p>
           </div>
           <!-- Companies Schedule -->
           <div class="row" ng-repeat="company in completeComp">
