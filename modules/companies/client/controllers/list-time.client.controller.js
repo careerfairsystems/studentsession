@@ -177,7 +177,11 @@
 
     // Update Meeting
     $scope.updateMeeting = function(){
+      alert('not yet implemented');
       var meeting = $scope.meeting;
+      var student = $scope.student;
+
+      /*
       var student = vm.studentToAdd;
 
       var companies = vm.companies.filter(hasMeeting);
@@ -200,9 +204,8 @@
         c.fixed = meeting.fixed;
         c.$save();
       });
-        
-        
-      
+      */
+
 
 
     };
