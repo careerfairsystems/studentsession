@@ -27,6 +27,7 @@
         <div class="list-group">
           <button type="button" class="list-group-item" ng-class="{'list-group-item-success': m.available}" ng-repeat="m in company.wedMeetings" style="padding: 4px 15px; outline: none;" ng-click="selectMeeting(c)">
             <strong>Tid:</strong> {{ m.startTime }} - {{ m.endTime }}
+            , {{ m.student.name }}
             <br />
           </button>
         </div>

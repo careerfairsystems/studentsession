@@ -15,6 +15,7 @@
           <!-- Buttons -->
           <div class="row">
             <button type="button" class="btn btn-primary" ng-click="generateSchedule();">Generate Schedule</button>
+            <button type="button" class="btn btn-danger" ng-click="saveSchedule();">Save Schedule</button>
             <button type="button" class="btn btn-primary" ng-show="vm.scheduleGenerated" ng-click="saveToDatabase();">Save schedule</button>
             <p ng-data-bind="error"></p>
           </div>
@@ -27,9 +28,9 @@
               <tr>
                 <th><strong> Student </strong> </th>
                 <td><strong> Start </strong> </td>
-                <td><strong> Slut </strong> </td>
-                <td><strong> Dag </strong> </td>
-                <td><strong> Tvingad möte </strong> </td>
+                <td><strong> End </strong> </td>
+                <td><strong> Day </strong> </td>
+                <td><strong> Forced Meeting (student not available) </strong> </td>
               </tr>
               <tr ng-repeat="meeting in company.meetings">
                 <td> {{ meeting.student.name }} </td>

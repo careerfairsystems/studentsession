@@ -6,9 +6,9 @@
     .module('meetings')
     .controller('GenerateScheduleController', GenerateScheduleController);
 
-  GenerateScheduleController.$inject = ['$scope', 'MeetingsService', 'meetingResolve', 'listFacilitiesResolve', 'listApplicationsResolve', 'listCompaniesResolve', 'Authentication', '$timeout'];
+  GenerateScheduleController.$inject = ['$scope', 'MeetingsService', 'meetingResolve', 'listFacilitiesResolve', 'listApplicationsResolve', 'listCompaniesResolve', 'Authentication', '$timeout', 'CompaniesService'];
 
-  function GenerateScheduleController($scope, MeetingsService, meeting, facilities, applications, companies, Authentication, $timeout) {
+  function GenerateScheduleController($scope, MeetingsService, meeting, facilities, applications, companies, Authentication, $timeout, CompaniesService) {
     var vm = this;
 
 
@@ -26,6 +26,14 @@
       vm.companies = vm.rawCompanies;
 
       // Fix company lists.
+
+      // Remove old meetings that arent fixed
+      vm.companies.forEach(rmNotFixedMeetings);
+      function rmNotFixedMeetings(c){
+        c.meetings = c.meetings.filter(fixed);
+        function fixed(m){ return m.fixed; }
+      }
+
       // Get Companies that have student session on wednesdays, sorted by first 
       // those with only wednesday, then by longest meetingLength
       function isWed(c) { return c.wednesday && c.wednesday.hasMeetings; }
@@ -384,6 +392,16 @@
     }
     $scope.generateSchedule = generateBothSchedule;
 
+    $scope.saveSchedule = function(){
+      $scope.completeComp.forEach(saveCompany);
+      function saveCompany(c){
+        console.log('Saving Company');
+        var company = CompaniesService.get({ companyId: c._id }, function (){
+          company.meetings = c.meetings;
+          company.$save();
+        });
+      }
+    };
   }
 })();
 
