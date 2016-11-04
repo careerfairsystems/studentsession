@@ -323,7 +323,7 @@
         var lunchStart = timeStrToInt(company.day.lunchstart);
         var lunchEnd = timeStrToInt(company.day.lunchend);
 
-        if(startInt >= lunchStart && startInt < lunchEnd && endInt >= lunchStart && endInt < lunchEnd){
+        if(startInt >= lunchStart && startInt < lunchEnd && endInt >= lunchStart && endInt <= lunchEnd){
           startInt = lunchEnd;
           endInt = startInt + company.day.meetingLength;
         }
