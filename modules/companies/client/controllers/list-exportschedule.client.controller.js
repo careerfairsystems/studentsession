@@ -113,11 +113,17 @@
             a.chosen = 'CompanyError';
           }
           var company = companies[0];
-          var length = company.chosenStudents.filter(sameStudent).length;
-          function sameStudent(s){ 
-            return s === a._id; 
+          var meetings = company.meetings.filter(sameStudent);
+          function sameStudent(m){ 
+            return m.student.id === a._id; 
           }
-          a.chosen = (length === 0) ? 'Reserv' : 'Chosen';
+          if(meetings.length > 0){
+            a.chosen = meetings[0].day + ' ' + meetings[0].startTime + '-' + meetings[0].endTime;
+            a.forced = meetings[0].forced;
+          } else {
+            a.chosen = 'Reserve';
+            a.forced = false;
+          }
         }
 
 
@@ -149,6 +155,7 @@
           { data: 'company' },
           { data: 'student' },
           { data: 'chosen' },
+          { data: 'forced' },
           { data: 'phone' },
           { data: 'email' },
           { data: 'wed' },
