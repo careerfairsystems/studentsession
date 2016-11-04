@@ -29,6 +29,12 @@
         controller: 'CompaniesSchedulingController',
         controllerAs: 'vm'
       })
+      .state('companies.exportschedule', {
+        url: '/exportschedule',
+        templateUrl: 'modules/companies/client/views/list-exportschedule.client.view.html',
+        controller: 'ExportScheduleController',
+        controllerAs: 'vm'
+      })
       .state('companies.preliminary', {
         url: '/preliminary',
         templateUrl: 'modules/companies/client/views/generate-preliminary.client.view.html',

@@ -4,10 +4,33 @@
   </div>
   <!-- Companies -->
   
-  <div class="row jumbotron">
-    <button class="btn btn-primary">
-      Click me
-    </button>
+  <div class="row jumbotron" style="min-height: 300px;">
+    <div ng-show="meeting">
+      <table class="table table-condensed table-bordered">
+        <tr>
+          <td> <strong> Company </strong> </td>
+          <td> {{ company.name }} </td>
+          <td> <strong> Student </strong> </td>
+          <td> 
+            <select ng-model="vm.studentToAdd" class="form-control" ng-options="s.name for s in chosenStudents">
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td> <strong> Start </strong> </td>
+          <td> {{ meeting.startTime }} </td>
+          <td> <strong> End </strong> </td>
+          <td> {{ meeting.endTime }} </td>
+        </tr>
+        <tr>
+          <td> <strong> Day </strong> </td>
+          <td> {{ meeting.day }} </td>
+          <td> <strong> Forced </strong> </td>
+          <td> {{ meeting.forced ? 'Yes' : 'No' }} </td>
+        </tr>
+      </table>
+      <button class="btn btn-primary" ng-click="updateMeeting()">Update Meeting</button>
+    </div>
   </div>
   
   <div class="row">

@@ -55,5 +55,11 @@
       state: 'companies.time',
       roles: ['admin']
     });
+    // Add the dropdown create item
+    Menus.addSubMenuItem('topbar', 'companies', {
+      title: 'Export Schedule',
+      state: 'companies.exportschedule',
+      roles: ['admin']
+    });
   }
 })();

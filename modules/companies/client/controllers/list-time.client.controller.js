@@ -98,6 +98,8 @@
     $scope.viewCompany = function(company) {
       // Select only this company
       $scope.chosenStudents.forEach(unselect);
+      unSelectAllMeetings(company);
+      $scope.meeting = undefined;
       vm.companies.forEach(unselect);
       function unselect(c){ c.selected = false; }
       company.selected = true;
@@ -121,11 +123,11 @@
       saveCompany($scope.company);
     };
 
+    function unselect(s){ s.selected = false; }
     // Select Student
     $scope.selectStudent = function(student){
       // Select only this company
       $scope.chosenStudents.forEach(unselect);
-      function unselect(s){ s.selected = false; }
       student.selected = true;
 
       $scope.company.meetings.forEach(isSameStudent);
@@ -152,18 +154,35 @@
       }
     };
 
+    function unSelectAllMeetings(company){
+      if(company.wednesday.hasMeetings && company.wedMeetings){
+        company.wedMeetings.forEach(unselect);
+      }
+      if(company.thursday.hasMeetings && company.thurMeetings){
+        company.thurMeetings.forEach(unselect);
+      }
+    }
 
     // Select Meeting
     $scope.selectMeeting = function(company, meeting){
       // Select only this company
-      company.wedMeetings.forEach(unselect);
-      company.thurMeetings.forEach(unselect);
+      unSelectAllMeetings(company);
       function unselect(s){ s.selected = false; }
       meeting.selected = true;
 
+      if(meeting.student){
+        var stuList = $scope.chosenStudents.filter(function(s){ return s._id === meeting.student.id; });
+        if(stuList.length > 0){
+          vm.studentToAdd = stuList[0];
+        }
+      }
       $scope.meeting = meeting;
     };
 
+    // Update Meeting
+    $scope.updateMeeting = function(){
+      alert('not yet implemented');
+    };
 
 
 
