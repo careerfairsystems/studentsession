@@ -87,7 +87,7 @@
       function sameStartnDay(m){ return m.startTime === timeIntToStr(start) && m.day === dayStr; }
       var hasMeeting = m.length > 0;
       if(!hasMeeting){
-        list.push({ startTime: timeIntToStr(start), endTime: timeIntToStr(end), day: dayStr});
+        list.push({ startTime: timeIntToStr(start), endTime: timeIntToStr(end), day: dayStr });
       } else {
         list.push(m[0]);
       }
