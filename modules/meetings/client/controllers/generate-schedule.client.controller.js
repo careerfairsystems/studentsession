@@ -118,6 +118,24 @@
     function isTimesWed(t) { return t.day === 'wed'; }
     function isTimesThur(t) { return t.day === 'thur'; }
 
+    // Time Str / int conversion
+    function timeIntToStr(time){
+      var hour = Math.floor(time / 60);
+      if(hour < 10){
+        hour = '0' + hour;
+      }
+      var minute = time % 60;
+      if(minute < 10){
+        minute = '0' + minute;
+      }
+      var t = hour + ':' + minute;
+      return t;
+    }
+    function timeStrToInt(time){
+      var time_hm = time.split(':');
+      var timeStr = (+time_hm[0]) * 60 + (+time_hm[1]);
+      return timeStr;
+    }
     
     // Calculate time left the student is available 
     // from currentTime and forward.
@@ -143,7 +161,7 @@
     // Check if periodList contains given period.
     function isAvailable(periodList, start, end){
       function isStartEndWithinPeriod(period){
-        return period.start <= start && period.end >= end ? 1 : -1;
+        return period.start <= start && period.end >= end;
       } 
       return periodList.filter(isStartEndWithinPeriod).length > 0;
     }
@@ -172,8 +190,8 @@
     // Book meeting
     function bookMeeting(student, company, start, end, day, forced){
       // Create meeting-object.
-      var startString = Math.floor(start / 60) + ':' + start % 60;
-      var endString = Math.floor(end / 60) + ':' + end % 60;
+      var startString = timeIntToStr(start);
+      var endString = timeIntToStr(end);
 
       var newMeeting = {
         student: {
@@ -216,8 +234,6 @@
     // Generate Schedule - This is where the magic happens
     // ===================================================
     function generateSchedule(companies, applications, timeLeftAvailableToday, day, counter){
-      console.log('Generate schedule: One iteration, countdown: ' + counter);
-
       // Filter only companies with students left.
       function hasStudentsLeft(company){ return company.chosenStudents.length > 0 && !company.isDone; }
       var companiesLeft = companies.filter(hasStudentsLeft);
@@ -246,28 +262,24 @@
         }
 
         var startString = company.currentTime;
-        var starttime_hm = startString.split(':');
-        var startInt = (+starttime_hm[0]) * 60 + (+starttime_hm[1]);
+        var startInt = timeStrToInt(startString);
         var endInt = startInt + company.day.meetingLength;
       
 
         // If collide with lunch, move start to lunchEnd
         var start_hm = company.day.lunchstart.split(':');
         var end_hm = company.day.lunchend.split(':');
-        var lunchStart = (+start_hm[0]) * 60 + (+start_hm[1]);
-        var lunchEnd = (+end_hm[0]) * 60 + (+end_hm[1]);
+        var lunchStart = timeStrToInt(company.day.lunchstart);
+        var lunchEnd = timeStrToInt(company.day.lunchend);
 
         if(startInt >= lunchStart && startInt < lunchEnd && endInt >= lunchStart && endInt < lunchEnd){
           startInt = lunchEnd;
           endInt = startInt + company.day.meetingLength;
         }
-        var endString = Math.floor(endInt / 60) + ':' + endInt % 60;
-        company.currentTime = endString;
-
+        company.currentTime = timeIntToStr(endInt);
  
         // Check that start isnt after this days endtime
-        var day_endtime_arr = company.day.endtime.split(':');
-        var day_endtime = (+day_endtime_arr[0]) * 60 + (+day_endtime_arr[1]);
+        var day_endtime = timeStrToInt(company.day.endtime);
         if(startInt >= day_endtime){
           company.isDone = true;
           return;
@@ -285,7 +297,7 @@
 
         // Sort company.students by timeLeft
         function sortByTimeLeft(a1, a2){
-          return a1.timeLeft < a2.timeLeft;
+          return a1.timeLeft > a2.timeLeft;
         }
         company.students.sort(sortByTimeLeft);
 
