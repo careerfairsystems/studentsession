@@ -13,7 +13,7 @@
       </h3>
     </div>
   </div>
-  <div class="col-md-12" ng-show="vm.activeCompanies && vm.activeCompanies.length > 0">
+  <div class="col-md-12" ng-show="vm.isAdmin || (vm.activeCompanies && vm.activeCompanies.length > 0)">
     <div class="alert alert-warning text-center">
       <p>
         Om du har problem med formuläret, se till att du har senaste versionen av din browser eller testa en annan browser

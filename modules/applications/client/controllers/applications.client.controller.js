@@ -16,6 +16,7 @@
     var vm = this;
 
     vm.authentication = Authentication;
+    vm.user = Authentication.user;
     vm.error = null;
     vm.form = {};
     vm.remove = remove;
@@ -28,6 +29,8 @@
     vm.application.times = vm.application.times || [];
     vm.application.companies = vm.application.companies || [];
     vm.application.resume = vm.application.resume || {};
+
+    vm.isAdmin = vm.user && vm.user.roles && vm.user.roles.indexOf("admin") >= 0;
 
     vm.createMode = !vm.application._id;
 
@@ -43,7 +46,7 @@
     vm.activeCompanies = [];
     CompaniesService.query().$promise.then(function(result) {
       angular.forEach(result, function(company) {
-        if(company.active){
+        if(company.active || vm.isAdmin){
           $scope.companyNames.push(company.name);
           vm.activeCompanies.push(company);
         }
