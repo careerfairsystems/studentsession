@@ -29,6 +29,12 @@
         controller: 'CompaniesSchedulingController',
         controllerAs: 'vm'
       })
+      .state('companies.time', {
+        url: '/time',
+        templateUrl: 'modules/companies/client/views/list-time.client.view.html',
+        controller: 'CompaniesTimeController',
+        controllerAs: 'vm'
+      })
       .state('companies.selectedstudents', {
         url: '/selectedstudents',
         templateUrl: 'modules/companies/client/views/selectedstudents-companies.client.view.html',

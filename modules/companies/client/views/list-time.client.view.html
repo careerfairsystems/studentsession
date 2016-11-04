@@ -1,0 +1,53 @@
+<section>
+  <div class="page-header">
+    <h1>Time information</h1>
+  </div>
+  <!-- Companies -->
+  
+  <div class="row jumbotron">
+    <button class="btn btn-primary">
+      Click me
+    </button>
+  </div>
+  
+  <div class="row">
+    <!-- Company list -->
+    <div class="col-md-4">
+      <div class="list-group">
+        <button type="button" class="list-group-item" ng-repeat="c in vm.companies" ng-class="{'list-group-item-info': c.selected }" style="padding: 4px 15px; outline: none;" ng-click="viewCompany(c)">
+          <span class="badge">{{ c.chosenStudents.length }}</span>
+          {{ c.name }}
+        </button>
+      </div>
+    </div>
+    <!-- Meeting list -->
+    <div class="col-md-4">
+      <div class="row" ng-show="company.wednesday.hasMeetings">
+        <h3>Wednesday</h3>
+        <div class="list-group">
+          <button type="button" class="list-group-item" ng-class="{'list-group-item-success': m.available}" ng-repeat="m in company.wedMeetings" style="padding: 4px 15px; outline: none;" ng-click="selectMeeting(c)">
+            <strong>Tid:</strong> {{ m.startTime }} - {{ m.endTime }}
+            <br />
+          </button>
+        </div>
+      </div>
+      <div class="row" ng-show="company.thursday.hasMeetings">
+        <h3>Thursday</h3>
+        <div class="list-group">
+          <button type="button" class="list-group-item" ng-class="{'list-group-item-success': m.available}" ng-repeat="m in company.thurMeetings" style="padding: 4px 15px; outline: none;" ng-click="selectMeeting(c)">
+            <strong>Tid:</strong> {{ m.startTime }} - {{ m.endTime }}
+            <br />
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Student list -->
+    <div class="col-md-4">
+      <div class="list-group">
+        <button type="button" class="list-group-item" ng-repeat="s in chosenStudents" style="padding: 4px 15px; outline: none;" ng-class="{ 'list-group-item-success': s.isChosen, 'list-group-item-info': s.selected }" ng-click="selectStudent(s)">
+          {{ s.name }}
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

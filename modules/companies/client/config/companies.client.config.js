@@ -42,5 +42,12 @@
       state: 'companies.scheduling',
       roles: ['admin']
     });
+  
+    // Add the dropdown create item
+    Menus.addSubMenuItem('topbar', 'companies', {
+      title: 'Time',
+      state: 'companies.time',
+      roles: ['admin']
+    });
   }
 })();
