@@ -34,6 +34,23 @@
 
     vm.createMode = !vm.application._id;
 
+    $scope.updateHours = function(){
+      var w = vm.application.times[0].hour;
+      if(typeof w === 'string'){
+        var wArr = w.split(',');
+        w = wArr.map(function(w){ return (+w); });
+      }
+      vm.application.times[0].hour = w;
+      var t = vm.application.times[1].hour;
+      if(typeof t === 'string'){
+        var tArr = t.split(',');
+        t = tArr.map(function(t){ return (+t); });
+      }
+      vm.application.times[1].hour = t;
+      vm.application.$update(function success(c){ alert('Saved'); });
+    };
+
+
     //filuppladdning
     //$scope.user = Authentication.user;
     $scope.imgUrlBase = 'public/uploads/';

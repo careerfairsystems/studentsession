@@ -36,13 +36,14 @@
       Available
     </h5>
     <ul>
-      <li ng-repeat="time in vm.application.times">
-       <strong>{{ time.day }}</strong>
-       <br>
-       <div ng-repeat="hour in time.hour">
-         <span>{{hour}}<span>
-       </div>
-      </li>
+      <label> Wednesday </label>
+      <input type="text" ng-model="vm.application.times[0].hour" />
+      <label> Thursday </label>
+      <input type="text" ng-model="vm.application.times[1].hour" />
+      <button class="btn btn-primary" ng-click="updateHours()">Update Times
+      </button>
+      <p>Only write number seperated by a comma, numbers must be in increasing order</p>
+
     </ul>
   </div>
   <div class="pull-right">
