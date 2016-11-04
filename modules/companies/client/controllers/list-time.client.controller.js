@@ -177,11 +177,8 @@
 
     // Update Meeting
     $scope.updateMeeting = function(){
-      alert('not yet implemented');
+      //alert('not yet implemented');
       var meeting = $scope.meeting;
-      var student = $scope.student;
-
-      /*
       var student = vm.studentToAdd;
 
       var companies = vm.companies.filter(hasMeeting);
@@ -192,22 +189,27 @@
         return;
       }
       company = companies[0];
-      
-      // Remove old meeting from company.meetings.j
-      company.meetings = company.meetings.filter(notSameMeeting);
-      function notSameMeeting(m){ return m._id !== meeting._id; }
-      
-      var c = CompaniesService.get({companyId: company._id}, function(){
-        meeting.student.id = student._id;
-        meeting.student.name = student.name;
-        c.meetings.push(meeting);
-        c.fixed = meeting.fixed;
-        c.$save();
+      var c = CompaniesService.get({ companyId: company._id }, function(){
+        // Update meeting info
+        c.meetings.forEach(updateM);
+        function updateM(m){
+          if(m._id === meeting._id){
+            m.student.name = student.name;
+            m.student.id = student._id;
+            m.fixed = meeting.fixed;
+          }
+        }
+        c.$save(function(newCompany){
+          // Update companylist and show new company.
+          vm.companies.forEach(updateCompany);
+          function updateCompany(c){
+            if(c._id === newCompany._id){
+              c = newCompany;
+              $scope.viewCompany(c);
+            }
+          }
+        });
       });
-      */
-
-
-
     };
 
 
