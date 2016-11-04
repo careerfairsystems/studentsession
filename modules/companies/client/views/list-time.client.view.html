@@ -23,8 +23,8 @@
           <td> {{ meeting.endTime }} </td>
         </tr>
         <tr>
-          <td> <strong> Day </strong> </td>
-          <td> {{ meeting.day }} </td>
+          <td> <strong> Fixed </strong> </td>
+          <td> <input type="checkbox" ng-model="meeting.fixed" /> Yes </td>
           <td> <strong> Forced </strong> </td>
           <td> {{ meeting.forced ? 'Yes' : 'No' }} </td>
         </tr>

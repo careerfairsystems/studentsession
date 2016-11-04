@@ -33,6 +33,40 @@
         function fixed(m){ return m.fixed; }
       }
 
+      // Foreach fixed meeting, book 'em
+      vm.companies.forEach(fixedMeetings);
+      function fixedMeetings(c){
+        c.meetings.forEach(bookFixed);
+        function bookFixed(m){
+          var start = timeStrToInt(m.startTime);
+          var end = timeStrToInt(m.endTime);
+
+          // Remove period from Student.
+          function bookPeriod(a){
+            if(a._id === m.student.id){
+              addPause(a.periodList, start, end);
+            }
+          }
+          vm.applications.forEach(bookPeriod);
+          // Remove company from the students list.
+
+          function removeCompany(a){
+            function filterIsNotCompany(c){ return c._id !== c._id; }
+            if(a._id === m.student.id){
+              a.companies = a.companies.filter(filterIsNotCompany);
+            }
+          }
+          vm.applications.forEach(removeCompany);
+
+          // Remove student from the companies list.
+          function notBooked(s){ 
+            return s !== m.student.id; 
+          }
+          c.chosenStudents = c.chosenStudents.filter(notBooked);
+        }
+      }
+
+
       // Get Companies that have student session on wednesdays, sorted by first 
       // those with only wednesday, then by longest meetingLength
       function isWed(c) { return c.wednesday && c.wednesday.hasMeetings; }

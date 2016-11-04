@@ -17,10 +17,6 @@
     vm.companies = CompaniesService.query(function(data) {
       function sortName(c1, c2){ return c1.name > c2.name ? 1 : -1; }
       vm.companies = data.sort(sortName);
-      angular.forEach(vm.companies, function(company, key) {
-        company.weOffer = company.weOffer || '';
-        company.language = company.language || '';
-      });
     });
     // Get Applications
     vm.applications = ApplicationsService.query(function(data){
@@ -181,7 +177,34 @@
 
     // Update Meeting
     $scope.updateMeeting = function(){
-      alert('not yet implemented');
+      var meeting = $scope.meeting;
+      var student = vm.studentToAdd;
+
+      var companies = vm.companies.filter(hasMeeting);
+      function hasMeeting(c){ return c.meetings.filter(sameMeeting).length > 0; }
+      function sameMeeting(m){ return m._id === meeting._id; }
+      var company = null;
+      if(companies.length === 0){
+        return;
+      }
+      company = companies[0];
+      
+      // Remove old meeting from company.meetings.j
+      company.meetings = company.meetings.filter(notSameMeeting);
+      function notSameMeeting(m){ return m._id !== meeting._id; }
+      
+      var c = CompaniesService.get({companyId: company._id}, function(){
+        meeting.student.id = student._id;
+        meeting.student.name = student.name;
+        c.meetings.push(meeting);
+        c.fixed = meeting.fixed;
+        c.$save();
+      });
+        
+        
+      
+
+
     };
 
 

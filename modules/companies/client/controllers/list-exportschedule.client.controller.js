@@ -77,26 +77,47 @@
       vm.applications = ApplicationsService.query(function(data) {
         vm.applications = data;
 
-        // Get all reserves
-        vm.reserves = vm.applications.filter(isReserve);
-        function isReserve(a){
-          var length = vm.companies.filter(chooseStudent).length;
-          return length === 0;
-          function chooseStudent(company){
-            var length = company.meetings.filter(sameStudent).length;
-            return length > 0;
-            function sameStudent(m){ 
-              return m.student.id === a._id; 
-            }
+        vm.applications = vm.applications.reduce(convertToCompanyApplications, []);
+        function convertToCompanyApplications(pre, curr){
+          return pre.concat(getCompanyApplications(curr));
+        }
+        function getCompanyApplications(application){
+          // Get application times
+          application.wed = application.times[0].hour;
+          application.thur = application.times[1].hour;
+          application.wed = application.wed ? application.wed : [];
+          application.thur = application.thur ? application.thur : [];
+          
+          var arr = [];
+          application.companies.forEach(companiesIterator);
+          function companiesIterator(c){
+            arr.push({ 
+              _id: application._id, 
+              company: c.name, 
+              student: application.name, 
+              email: application.email,
+              phone: application.phone,
+              wed: application.wed,
+              thur: application.thur,
+            });
           }
+          return arr;
         }
 
-        vm.reserves.forEach(getTimes);
-        function getTimes(r){
-          r.wed = r.times[0].hour;
-          r.thur = r.times[1].hour;
-          r.wed = r.wed ? r.wed : [];
-          r.thur = r.thur ? r.thur : [];
+        // Get all application
+        vm.applications.forEach(isReserve);
+        function isReserve(a){
+          var companies = vm.companies.filter(sameCompany);
+          function sameCompany(c){ return c.name === a.company; }
+          if(companies.length === 0){
+            a.chosen = 'CompanyError';
+          }
+          var company = companies[0];
+          var length = company.chosenStudents.filter(sameStudent).length;
+          function sameStudent(s){ 
+            return s === a._id; 
+          }
+          a.chosen = (length === 0) ? 'Reserv' : 'Chosen';
         }
 
 
@@ -107,11 +128,11 @@
           var pos = index ;
           $(this).html('<input class"form-control" id="col-search-'+pos+'" type="text" placeholder="Search '+title+'" />');
         });  
-        vm.createReservesTable(vm.reserves);
+        vm.createApplicationsTable(vm.applications);
       });
     }
     // Create Datatable
-    vm.createReservesTable = function(data){
+    vm.createApplicationsTable = function(data){
       vm.table = $('#reservesTable').DataTable({
         dom: 'Bfrtip',
         scrollX: true,
@@ -125,7 +146,9 @@
         data: data,
         'order': [[ 1, 'asc' ]],
         columns: [
-          { data: 'name' },
+          { data: 'company' },
+          { data: 'student' },
+          { data: 'chosen' },
           { data: 'phone' },
           { data: 'email' },
           { data: 'wed' },
