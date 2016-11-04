@@ -41,10 +41,15 @@
           var start = timeStrToInt(m.startTime);
           var end = timeStrToInt(m.endTime);
 
+          vm.applications.forEach(splitTimesToDayPeriodLists);
           // Remove period from Student.
           function bookPeriod(a){
             if(a._id === m.student.id){
-              addPause(a.periodList, start, end);
+              if(m.day === 'wed'){
+                addPause(a.wedPeriodList, start, end);
+              } else {
+                addPause(a.thurPeriodList, start, end);
+              }
             }
           }
           vm.applications.forEach(bookPeriod);
@@ -296,6 +301,11 @@
 
         // Assign company.day to correct day (if wed/thur).
         company.day = day === 'wed' ? company.wednesday : company.thursday;
+      
+        // If wrong day, just return
+        if(!company.day){
+          return;
+        }
 
         // If first iteration, set currentTime.
         if(!company.currentTime){
@@ -323,6 +333,15 @@
         var day_endtime = timeStrToInt(company.day.endtime);
         if(startInt >= day_endtime){
           company.isDone = true;
+          return;
+        }
+
+        // Check if meeting with same time already exists, if so return;
+        var sameTimeMeetings = company.meetings.filter(checkIfExists);
+        function checkIfExists(m){
+          return m.startTime === timeIntToStr(startInt) && m.endTime === timeIntToStr(endInt) && m.day === day;
+        }
+        if(sameTimeMeetings.length > 0){
           return;
         }
 
