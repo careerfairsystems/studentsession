@@ -78,11 +78,11 @@
               <label class="control-label" for="logo">Logo</label>
               <br>
               <img name="logo" ng-src="{{imageURL}}" alt="{{current.name}}" class="img-thumbnail user-profile-picture">
-              <div ng-hide="uploader.queue.length">
+              <!--<div ng-hide="uploader.queue.length">
                 <span class="btn btn-default btn-file">
                     Select Image <input type="file" nv-file-select uploader="uploader">
                 </span>
-              </div>
+							</div> -->
               <div ng-show="uploader.queue.length">
                 <button type="button" class="btn btn-primary" ng-click="uploadProfilePicture();">Upload</button>
                 <button type="button" class="btn btn-default" ng-click="cancelUpload();">Cancel</button>
