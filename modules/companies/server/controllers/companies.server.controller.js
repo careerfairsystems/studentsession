@@ -132,6 +132,7 @@ exports.getActive = function(req, res) {
  * Create a Company
  */
 exports.create = function(req, res) {
+  console.log("body: " + req.body.profileImageURL);
   var company = new Company(req.body);
   company.user = req.user;
 

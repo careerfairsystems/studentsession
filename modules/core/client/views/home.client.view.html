@@ -25,7 +25,7 @@
       <div ng-show="company" class="row">
         <div class="col-sm-6">
           <img data-ng-show="company.profileImageURL"
-          class="" ng-src="/api/companies/logo/{{company.profileImageURL}}" />
+           class="" ng-src="{{company.profileImageURL}}" />
           <hr />
           <h5 class><strong>We offer:</strong></h5>
           <span ng-repeat="offer in company.weOffer" class="tag">{{ offer }}</span>
@@ -62,7 +62,7 @@
           data-ng-repeat="company in vm.companies" >
           <span class="helper"></span>
           <img data-ng-show="company.profileImageURL"
-            class="grayscale" ng-src="/api/companies/logo/{{company.profileImageURL}}" />
+            class="grayscale" ng-src="{{company.profileImageURL}}" />
           <h4 data-ng-show="!company.profileImageURL"
             class="grayscale" data-ng-bind="company.name" ></h4>
         </div>

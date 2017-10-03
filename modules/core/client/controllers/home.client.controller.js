@@ -46,6 +46,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
       }
       vm.companies = response.data;
       vm.companies.sort(sortByName);
+      console.log("number of companies: " + vm.companies.length);
     }, function errorCallback(response) {
       console.log('ERROR: ' + response);
     });

@@ -80,7 +80,7 @@
     // Cancel the upload process
     $scope.cancelUpload = function () {
       $scope.uploader.clearQueue();
-      $scope.imageURL = '/api/companies/logo/' + vm.company.profileImageURL;
+      $scope.imageURL = vm.company.profileImageURL;
     };
 
     // Remove existing Company

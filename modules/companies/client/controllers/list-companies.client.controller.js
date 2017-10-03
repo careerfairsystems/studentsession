@@ -114,7 +114,7 @@
     vm.openCompany = function(index) {
       vm.currentIndex = index;
       $scope.current = vm.companies[index];
-      $scope.imageURL = 'api/companies/logo/' + $scope.current.profileImageURL;
+      $scope.imageURL = $scope.current.profileImageURL;
       modal.style.display = 'block';
     };
     closeBtn.onclick = function() {
@@ -197,7 +197,7 @@
     // Cancel the upload process
     $scope.cancelUpload = function () {
       $scope.uploader.clearQueue();
-      $scope.imageURL = '/api/companies/logo/' + $scope.current.profileImageURL;
+      $scope.imageURL = $scope.current.profileImageURL;
     };
 
 

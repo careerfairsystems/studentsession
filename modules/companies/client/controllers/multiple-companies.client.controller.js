@@ -90,7 +90,7 @@
         // Check that company doesnt already exist. Assumes unique name.
         var pos = cName.indexOf(fc.name);
         if(pos < 0){
-          CompaniesService.post({ name: fc.name, description: fc.profile.aboutUs, website: fc.profile.urlWebsite, weOffer: fc.profile.weOffer, desiredProgramme: fc.profile.desiredProgramme }, successCallback);
+          CompaniesService.post({ name: fc.name, description: fc.profile.aboutUs, website: fc.profile.urlWebsite, weOffer: fc.profile.weOffer, desiredProgramme: fc.profile.desiredProgramme, profileImageURL: fc.profile.logotype.thumbnails.small.url }, successCallback);
         } else {
           var compToUpdate = vm.companies[pos];
           compToUpdate.description = fc.profile.aboutUs;
