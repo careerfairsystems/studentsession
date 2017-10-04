@@ -84,7 +84,8 @@ section.container {
   background-color: rgba(230, 230, 230, 0.8);
   border-radius: 2px;
   padding: 25px;
-  min-height: 400px; }
+  min-height: 400px;
+  max-width: 875px; }
 
 .navbar-nav > li.open > a.dropdown-toggle {
   color: #333; }
@@ -150,3 +151,28 @@ a {
   cursor: pointer; }
 
 /*# sourceMappingURL=core.css.map */
+
+.times-button {
+  width: 100%;
+  text-align: center;
+  background-color: #cde;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.times-button:hover {
+  background-color: #a5c7e5;
+}
+
+.times-button:active {
+  background-color: #619dd1;
+}
+
+.active-time {
+  background-color: #619dd1;
+}
+
+.table-bordered > tbody > tr > td {
+  padding: 5px;
+  border: none;
+}

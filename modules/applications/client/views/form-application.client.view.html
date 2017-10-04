@@ -135,33 +135,23 @@
           Välj fler tider för större chans att få träffa ditt företag. Vissa företag har bara kontaktsamtal en dag. / Choose multiple times for increased chance to meet with your company. Some companies only have student sessions one day.
           <table class="table table-bordered table-condensed">
             <tr class="active">
-              <td></td>
-              <td> <strong> 09-10 </strong> </td>
-              <td> <strong> 10-11 </strong> </td>
-              <td> <strong> 11-12 </strong> </td>
-              <td> <strong> 12-13 </strong> </td>
-              <td> <strong> 13-14 </strong> </td>
-              <td> <strong> 14-15 </strong> </td>
-              <td> <strong> 15-16 </strong> </td>
-            </tr>
-            <tr class="active">
               <td><strong>Onsdag / Wednesday 16/11</strong></td>
               <td>  </td>
-              <td> <input type="checkbox" ng-model="wed[0].available"> </td>
-              <td> <input type="checkbox" ng-model="wed[1].available"> </td>
-              <td> <input type="checkbox" ng-model="wed[2].available"> </td>
-              <td> <input type="checkbox" ng-model="wed[3].available"> </td>
-              <td> <input type="checkbox" ng-model="wed[4].available"> </td>
-              <td> <input type="checkbox" ng-model="wed[5].available"> </td>
+              <td> <div class="times-button" ng-model="dayone[0].available" ng-click="dayone[0].available = !dayone[0].available" ng-class="{ 'active-time' : dayone[0].available}">10-11</div></td>
+              <td> <div class="times-button" ng-model="dayone[1].available" ng-click="dayone[1].available = !dayone[1].available" ng-class="{ 'active-time' : dayone[1].available}">11-12</div></td>
+              <td> <div class="times-button" ng-model="dayone[2].available" ng-click="dayone[2].available = !dayone[2].available" ng-class="{ 'active-time' : dayone[2].available}">12-13</div></td>
+              <td> <div class="times-button" ng-model="dayone[3].available" ng-click="dayone[3].available = !dayone[3].available" ng-class="{ 'active-time' : dayone[3].available}">13-14</div></td>
+              <td> <div class="times-button" ng-model="dayone[4].available" ng-click="dayone[4].available = !dayone[4].available" ng-class="{ 'active-time' : dayone[4].available}">14-15</div></td>
+              <td> <div class="times-button" ng-model="dayone[5].available" ng-click="dayone[5].available = !dayone[5].available" ng-class="{ 'active-time' : dayone[5].available}">15-16</div></td>
             </tr>
             <tr class="active">
               <td><strong>Torsdag / Thursday 17/11</strong></td>
-              <td> <input type="checkbox" ng-model="thur[0].available"> </td>
-              <td> <input type="checkbox" ng-model="thur[1].available"> </td>
-              <td> <input type="checkbox" ng-model="thur[2].available"> </td>
-              <td> <input type="checkbox" ng-model="thur[3].available"> </td>
-              <td> <input type="checkbox" ng-model="thur[4].available"> </td>
-              <td> <input type="checkbox" ng-model="thur[5].available"> </td>
+              <td> <div class="times-button" ng-model="daytwo[0].available" ng-click="daytwo[0].available = !daytwo[0].available" ng-class="{ 'active-time' : daytwo[0].available}">10-11</div></td>
+              <td> <div class="times-button" ng-model="daytwo[1].available" ng-click="daytwo[1].available = !daytwo[1].available" ng-class="{ 'active-time' : daytwo[1].available}">11-12</div></td>
+              <td> <div class="times-button" ng-model="daytwo[2].available" ng-click="daytwo[2].available = !daytwo[2].available" ng-class="{ 'active-time' : daytwo[2].available}">12-13</div></td>
+              <td> <div class="times-button" ng-model="daytwo[3].available" ng-click="daytwo[3].available = !daytwo[3].available" ng-class="{ 'active-time' : daytwo[3].available}">13-14</div></td>
+              <td> <div class="times-button" ng-model="daytwo[4].available" ng-click="daytwo[4].available = !daytwo[4].available" ng-class="{ 'active-time' : daytwo[4].available}">14-15</div></td>
+              <td> <div class="times-button" ng-model="daytwo[5].available" ng-click="daytwo[5].available = !daytwo[5].available" ng-class="{ 'active-time' : daytwo[5].available}">15-16</div></td>
               <td> </td>
             </tr>
           </table>
