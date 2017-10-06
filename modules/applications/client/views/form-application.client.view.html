@@ -75,59 +75,46 @@
           Välj och lägg till de företag du skulle vilja träffa för att kunna skriva en motivering per företag. / Choose and add the companies you would like to meet so you can write a motivation to each of them.
           </p>
           <select class="form-control" name="selectcompanies" id="selectcompanies" ng-model="vm.application.companies" ng-options='string for string in companyNames'>
+            <option selected disabled value>Select a Company</option>
           </select>
           <button type="button" class="btn btn-primary btn-sm" ng-click="selectCompany()" ng-class="{ disabled: !choiceOn}">Lägg till Företag / Add Company</button>
           <br />
           <br />
           <label ng-show="chosenCompanies.length > 0"> Mina valda företag / My chosen companies</label>
-          <table class="table table-bordered table-condensed" ng-show="chosenCompanies.length > 0">
-            <tr class="active">
-              <th style="width: 25%;">
-                Företag / Company
-              </th>
-              <th>
-                Motivation
-              </th>
-              <th style="width: 150px">
-                Språk på CV / Resume Language
-              </th>
-              <th style="width: 5%;">
-              </th>
-            </tr>
-            <tr class="active" ng-repeat="c in chosenCompanies track by $index">
-              <td>
-                {{ c.name}}
-              </td>
-              <td>
-                <div ng-show="!c.edit">
-                  <pre>{{ c.motivation}}</pre>
-                </div>
-                <div ng-show="c.edit">
-                  <textarea class="form-control" ng-model="c.motivation"></textarea>
-                </div>
-              </td>
-              <td>
+          <div class="selectcompanies-container" ng-repeat="c in chosenCompanies track by $index">
+            <div class="header">
+              <p class="companyname">{{ c.name }}</p>
+              <div class="header-right">
                 <div ng-show="!c.edit || c.requireEnglish">
                   <span>{{ c.resumeLanguage}}</span>
                 </div>
                 <div ng-show="c.edit && !c.requireEnglish">
                   <select class="form-control" ng-model="c.resumeLanguage">
+                    <option selected disabled value>Resume Language</option>
                     <option value="Svenska">Svenska</option>
                     <option value="English">English</option>
                   </select>
                 </div>
-              </td>
-              <td style="white-space: nowrap">
-                <div class="buttons" ng-show="c.edit">
-                  <button type="button" class="btn btn-sm btn-primary" ng-click="c.edit = false"><i class="glyphicon glyphicon-ok"></i></button>
-                  <button type="button" class="btn btn-sm btn-danger" ng-click="deleteCompany($index)"><i class="glyphicon glyphicon-trash"></i></button>
+                <div>
+                  <div class="buttons buttons-right" ng-show="c.edit">
+                    <button type="button" class="btn btn-sm btn-primary" ng-click="c.edit = false"><i class="glyphicon glyphicon-ok"></i></button>
+                    <button type="button" class="btn btn-sm btn-danger" ng-click="deleteCompany($index)"><i class="glyphicon glyphicon-trash"></i></button>
+                  </div>
+                  <div class="buttons buttons-right" ng-show="!c.edit">
+                    <button type="button" class="btn btn-primary" ng-click="c.edit = true;"><i class="glyphicon glyphicon-edit"></i></a>
+                  </div>
                 </div>
-                <div class="buttons" ng-show="!c.edit">
-                  <button type="button" class="btn btn-primary" ng-click="c.edit = true;"><i class="glyphicon glyphicon-edit"></i></a>
-                </div>
-              </td>
-            </tr>
-          </table>
+              </div>
+            </div>
+            <div class="motivation-container">
+              <div ng-show="!c.edit" class="motivation">
+                <pre class="preview">{{ c.motivation}}</pre>
+              </div>
+              <div ng-show="c.edit" class="motivation">
+                <textarea class="text-area" ng-model="c.motivation"></textarea>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- Times -->
         <div class="form-group">
