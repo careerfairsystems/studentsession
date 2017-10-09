@@ -85,7 +85,8 @@ section.container {
   background-color: rgba(230, 230, 230, 0.8);
   border-radius: 2px;
   padding: 25px;
-  min-height: 400px; }
+  min-height: 400px;
+  max-width: 875px; }
 
 .navbar-nav > li.open > a.dropdown-toggle {
   color: #333; }
@@ -149,5 +150,53 @@ a:hover .header-profile-image {
 
 a {
   cursor: pointer; }
+
+.times-button {
+  width: 100%;
+  text-align: center;
+  background-color: #cde;
+  cursor: pointer;
+  border-radius: 2px; }
+
+.times-button:hover {
+  background-color: #a5c7e5; }
+
+.times-button:active {
+  background-color: #619dd1; }
+
+.active-time {
+  background-color: #619dd1; }
+
+.table-bordered > tbody > tr > td {
+  padding: 5px;
+  border: none; }
+
+.selectcompanies-container {
+  width: 100%;
+  background-color: #F5F5F5;
+  border-bottom: 1px solid #ddd; }
+  .selectcompanies-container .companyname {
+    font-size: 20px; }
+  .selectcompanies-container .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px; }
+  .selectcompanies-container .header-right {
+    display: flex; }
+  .selectcompanies-container .buttons-right {
+    margin-left: 25px; }
+  .selectcompanies-container .motivation {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px; }
+  .selectcompanies-container .text-area {
+    resize: none;
+    width: calc(100% - 50px);
+    height: 100px;
+    max-height: 200px; }
+  .selectcompanies-container .preview {
+    white-space: pre-wrap;
+    margin: 0 20px; }
 
 /*# sourceMappingURL=core.css.map */

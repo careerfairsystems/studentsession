@@ -96,7 +96,7 @@
 
 
     //meeting times
-    $scope.wed = [
+    $scope.dayone = [
       { time: 10, available: false },
       { time: 11, available: false },
       { time: 12, available: false },
@@ -104,7 +104,7 @@
       { time: 14, available: false },
       { time: 15, available: false },
     ];
-    $scope.thur = [
+    $scope.daytwo = [
       { time: 9, available: false },
       { time: 10, available: false },
       { time: 11, available: false },
@@ -271,7 +271,7 @@
       } else if ($scope.chosenCompanies === undefined || $scope.chosenCompanies.length === 0) {
         vm.error = 'Du måste välja minst ett företag / You must choose at least one company';
         return false;
-      } else if ($scope.wed === undefined || $scope.wed.length === 0 || $scope.thur === undefined || $scope.thur.length === 0) {
+      } else if ($scope.dayone === undefined || $scope.dayone.length === 0 || $scope.daytwo === undefined || $scope.daytwo.length === 0) {
         vm.error = 'Du måste välja minst en tid / You must tell when you are available';
         return false;
       }
@@ -289,14 +289,14 @@
       function isAvailable (t){
         return t.available;
       }
-      var availableWed = $scope.wed.filter(isAvailable);
-      var availableThur = $scope.thur.filter(isAvailable);
+      var availableDayOne = $scope.dayone.filter(isAvailable);
+      var availableDayTwo = $scope.daytwo.filter(isAvailable);
       function toTime (t){
         return t.time;
       }
-      var wedTime = availableWed.map(toTime);
-      var thurTime = availableThur.map(toTime);
-      vm.application.times = [ { day: 'wed', hour: wedTime }, { day: 'thur', hour: thurTime } ];
+      var dayoneTime = availableDayOne.map(toTime);
+      var daytwoTime = availableDayTwo.map(toTime);
+      vm.application.times = [ { day: 'dayone', hour: dayoneTime }, { day: 'daytwo', hour: daytwoTime } ];
 
       // TODO: move create/update logic to service
       if (vm.application._id) {
@@ -326,6 +326,11 @@
         .replace(/Ä/g, 'A')
         .replace(/ö/g, 'o')
         .replace(/Ö/g, 'O');
+    }
+
+    $scope.changeTimes = function(day, id) {
+      console.log(day, id);
+      // bookedTimes.day.id = bookedTimes.day.id;
     }
   }
 })();

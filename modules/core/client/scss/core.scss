@@ -110,6 +110,7 @@ section.container {
   border-radius: 2px;
   padding: 25px;
   min-height: 400px;
+  max-width: 875px;
 }
 .navbar-nav > li.open > a.dropdown-toggle {
   color: $black;
@@ -182,4 +183,72 @@ a:hover .header-profile-image {
 }
 a {
   cursor: pointer;
+}
+
+.times-button {
+  width: 100%;
+  text-align: center;
+  background-color: #cde;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.times-button:hover {
+  background-color: #a5c7e5;
+}
+
+.times-button:active {
+  background-color: #619dd1;
+}
+
+.active-time {
+  background-color: #619dd1;
+}
+
+.table-bordered > tbody > tr > td {
+  padding: 5px;
+  border: none;
+} 
+
+.selectcompanies-container {
+  width: 100%;
+  background-color: #F5F5F5;
+  border-bottom: 1px solid #ddd;
+  
+  .companyname {
+    font-size: 20px;
+  }
+  
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+  .header-right {
+    display: flex;
+  }
+  
+  .buttons-right {
+    margin-left: 25px;
+  }
+
+  .motivation {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+  
+  .text-area {
+    resize: none;
+    width: calc(100% - 50px);
+    height: 100px;
+    max-height: 200px;
+  }
+  
+  .preview {
+    white-space: pre-wrap;
+    margin: 0 20px;
+  }
 }
