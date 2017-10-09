@@ -63,7 +63,7 @@
     vm.activeCompanies = [];
     CompaniesService.query().$promise.then(function(result) {
       angular.forEach(result, function(company) {
-        if(company.active || vm.isAdmin){
+        if(company.active){
           $scope.companyNames.push(company.name);
           vm.activeCompanies.push(company);
         }
