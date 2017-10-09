@@ -78,28 +78,30 @@
 }
 
 /* ARKAD design */
-$white: #FFFFFF;
+$white: #000000;
 $gray: gray;
 $black: #333;
 $break-mobile: 768px;
 $menu-black: rgba(30,30,30,0.95);
+$mobile: #FFFFFF;;
 
 body {
   //background: #002B64;
-  background: url("/modules/core/client/img/bakground-image.png");
+  background: url("/modules/core/client/img/blurkarhuset.jpg");
   background-attachment: fixed;
+	background-size: cover;
 }
 
 .navbar nav {
   @media screen and (max-width: $break-mobile) {
-    background-color: $menu-black;
+    background-color: $mobile;
 
     .navbar-nav .open .dropdown-menu > .active > a {
       background: none;
       color: #4a87ff;
     }
     .dropdown-menu > li > a {
-      color: $white;
+      color: $mobile;
     }
   }
 }

@@ -68,12 +68,13 @@
 
 /* ARKAD design */
 body {
-  background: url("/modules/core/client/img/bakground-image.png");
-  background-attachment: fixed; }
+  background: url("/modules/core/client/img/blurkarhuset.jpg");
+  background-attachment: fixed;
+  background-size: cover; }
 
 @media screen and (max-width: 768px) {
   .navbar nav {
-    background-color: rgba(30, 30, 30, 0.95); }
+    background-color: #FFFFFF; }
     .navbar nav .navbar-nav .open .dropdown-menu > .active > a {
       background: none;
       color: #4a87ff; }
@@ -91,13 +92,13 @@ section.container {
   color: #333; }
 
 .navbar-nav > li > a {
-  color: #FFFFFF;
+  color: #000000;
   text-shadow: none; }
   .navbar-nav > li > a:focus, .navbar-nav > li > a:hover, .navbar-nav > li > a:link, .navbar-nav > li > a:active {
     color: #333; }
 
 .navbar-brand {
-  color: #FFFFFF;
+  color: #000000;
   text-shadow: none; }
   .navbar-brand:focus {
     text-shadow: none;
@@ -107,7 +108,7 @@ section.container {
     color: gray; }
 
 .icon-bar {
-  background-color: #FFFFFF; }
+  background-color: #000000; }
 
 /* Old CSS */
 .content {
