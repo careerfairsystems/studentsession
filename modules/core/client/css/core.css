@@ -150,72 +150,52 @@ a:hover .header-profile-image {
 a {
   cursor: pointer; }
 
-/*# sourceMappingURL=core.css.map */
-
 .times-button {
   width: 100%;
   text-align: center;
   background-color: #cde;
   cursor: pointer;
-  border-radius: 2px;
-}
+  border-radius: 2px; }
 
 .times-button:hover {
-  background-color: #a5c7e5;
-}
+  background-color: #a5c7e5; }
 
 .times-button:active {
-  background-color: #619dd1;
-}
+  background-color: #619dd1; }
 
 .active-time {
-  background-color: #619dd1;
-}
+  background-color: #619dd1; }
 
 .table-bordered > tbody > tr > td {
   padding: 5px;
-  border: none;
-}
+  border: none; }
 
 .selectcompanies-container {
   width: 100%;
   background-color: #F5F5F5;
-  border-bottom: 1px solid #ddd;
-}
+  border-bottom: 1px solid #ddd; }
+  .selectcompanies-container .companyname {
+    font-size: 20px; }
+  .selectcompanies-container .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px; }
+  .selectcompanies-container .header-right {
+    display: flex; }
+  .selectcompanies-container .buttons-right {
+    margin-left: 25px; }
+  .selectcompanies-container .motivation {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px; }
+  .selectcompanies-container .text-area {
+    resize: none;
+    width: calc(100% - 50px);
+    height: 100px;
+    max-height: 200px; }
+  .selectcompanies-container .preview {
+    white-space: pre-wrap;
+    margin: 0 20px; }
 
-.selectcompanies-container .companyname {
-  font-size: 20px;
-}
-
-.selectcompanies-container .header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 10px;
-}
-
-.selectcompanies-container .header-right {
-  display: flex;
-}
-
-.selectcompanies-container .buttons-right {
-  margin-left: 25px;
-}
-
-.selectcompanies-container .motivation {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 15px;
-}
-
-.selectcompanies-container .text-area {
-  resize: none;
-  width: calc(100% - 50px);
-  height: 100px;
-  max-height: 200px;
-}
-
-.selectcompanies-container .preview {
-  white-space: pre-wrap;
-  margin: 0 20px;
-}
+/*# sourceMappingURL=core.css.map */
