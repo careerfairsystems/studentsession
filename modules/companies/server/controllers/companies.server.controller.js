@@ -420,7 +420,7 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
       console.log('Get:' + newfilename);
       if(path) {
         var url, filename = path;
-        if(process.env.NODE_ENV !== 'production'){
+        if(process.env.NODE_ENV !== 'production' && false){
           url = 'http://' + req.headers.host + '/uploads/' + filename;
           http.get(url, function(response) {
             var chunks = [];
@@ -482,8 +482,8 @@ exports.getAllApplicationsPdfs = function (req, res, next) {
     async.waterfall([
       renderPdfHtml,
       generatePdfFromHtml,
-      /*getSwePdf,
-      getEngPdf,*/
+      getSwePdf,
+      getEngPdf,
     ], function (err) {
       if (err) {
         console.log('Error... ' + err);

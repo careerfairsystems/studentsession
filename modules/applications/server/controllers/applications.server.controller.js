@@ -158,7 +158,7 @@ exports.getResume = function (req, res) {
   // then add '&& false' to this if.
   // This is good to do when extracting company-pdfs because its to much
   // computation for the server.
-  if(process.env.NODE_ENV !== 'production'){
+  if(process.env.NODE_ENV !== 'production' && false){
     url = 'http://' + req.headers.host + '/uploads/' + filename;
   } else {
     url = s3.getSignedUrl('getObject', { Bucket: config.s3bucket, Key: filename });
