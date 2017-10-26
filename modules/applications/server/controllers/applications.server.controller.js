@@ -158,11 +158,14 @@ exports.getResume = function (req, res) {
   // then add '&& false' to this if.
   // This is good to do when extracting company-pdfs because its to much
   // computation for the server.
+	console.log("DOWNLOADING " + filename);
+	console.log("BUCKET " + config.s3bucket);
   if(process.env.NODE_ENV !== 'production' && false){
     url = 'http://' + req.headers.host + '/uploads/' + filename;
   } else {
     url = s3.getSignedUrl('getObject', { Bucket: config.s3bucket, Key: filename });
   }
+	console.log(url);
   res.redirect(url);
 };
 
@@ -388,7 +391,7 @@ exports.createApplicationPdf = function (req, res, next) {
       console.log('Get:' + newfilename);
       if(path) {
         var url, filename = path;
-        if(process.env.NODE_ENV !== 'production'){
+        if(process.env.NODE_ENV !== 'production' && false){
           url = 'http://' + req.headers.host + '/uploads/' + filename;
           http.get(url, function(response) {
             var chunks = [];
@@ -432,14 +435,16 @@ exports.createApplicationPdf = function (req, res, next) {
     var engpath = application.resume.englishLink;
     var swepath = application.resume.swedishLink;
     function getSwePdf(done) {
-      if(!selectedCompany.lang || selectedCompany.lang === 'Svenska' || !engpath){
+			console.log("Swedish path is " + swepath);
+      if((!selectedCompany.lang || selectedCompany.lang === 'Svenska' || !engpath)){
         getPdf(application.name + '_resume_swe.pdf', swepath, done);
       } else {
         done(null);
       }
     }
     function getEngPdf(done) {
-      if(!selectedCompany.lang || selectedCompany.lang === 'English' || !swepath){
+			console.log("English path is " + engpath);
+      if((!selectedCompany.lang || selectedCompany.lang === 'English' || !swepath)){
         getPdf(application.name + '_resume_eng.pdf', engpath, done);
       } else {
         done(null);
@@ -450,8 +455,8 @@ exports.createApplicationPdf = function (req, res, next) {
     async.waterfall([
       renderPdfHtml,
       generatePdfFromHtml,
-      getSwePdf,
-      getEngPdf,
+      /* getSwePdf,
+      getEngPdf, */
     ], function (err) {
       if (err) {
         console.log('Error... ' + err);
