@@ -44,6 +44,9 @@
       function areNotChosen(a){
         return company.chosenStudents.filter(function (c){ return c === a._id; }).length === 0;
       }
+			if($scope.appliedStudents.length == 0) {
+					$scope.appliedStudents = vm.applications;
+			}
     }
     $scope.addStudent = function(){
       if(!vm.studentToAdd){

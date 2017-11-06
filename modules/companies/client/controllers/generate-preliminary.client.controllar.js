@@ -22,6 +22,7 @@
     function fixLists(){
       vm.deleteAllMeetings();
       vm.applications = vm.rawApplications;
+			console.log(applications);
       vm.companies = vm.rawCompanies;
 
       // Fix company lists.
@@ -64,29 +65,36 @@
           vm.applications.forEach(removeCompany);
 
           // Remove student from the companies list.
-          function notBooked(s){ 
-            return s !== m.student.id; 
+          function notBooked(s){
+            return s !== m.student.id;
           }
           c.chosenStudents = c.chosenStudents.filter(notBooked);
         }
       }
 
 
-      // Get Companies that have student session on wednesdays, sorted by first 
+      // Get Companies that have student session on wednesdays, sorted by first
       // those with only wednesday, then by longest meetingLength
       function isWed(c) { return c.wednesday && c.wednesday.hasMeetings; }
       vm.wedCompanies = vm.companies.filter(isWed);
-      function onlyWedFirstThenMeetingLength(c1, c2) { 
-        return (c2.wednesday.hasMeetings + c2.thursday.hasMeetings) - (c1.wednesday.hasMeetings + c1.thursday.hasMeetings) || c1.wednesday.meetingLength - c2.wednesday.meetingLength; 
-      }
+      function onlyWedFirstThenMeetingLength(c1, c2) {
+
+				var c1ThursdayMeetings = c1.thursday ? c1.thursday.hasMeetings : 0;
+				var c2ThursdayMeetings = c2.thursday ? c2.thursday.hasMeetings : 0;
+
+        //return (c2.wednesday.hasMeetings + c2.thursday.hasMeetings) - (c1.wednesday.hasMeetings + c1.thursday.hasMeetings) || c1.wednesday.meetingLength - c2.wednesday.meetingLength;
+        return (c2.wednesday.hasMeetings + c2ThursdayMeetings) - (c1.wednesday.hasMeetings + c1ThursdayMeetings) || c1.wednesday.meetingLength - c2.wednesday.meetingLength;
+			}
       vm.wedCompanies = vm.wedCompanies.sort(onlyWedFirstThenMeetingLength);
 
-      // Get Companies that have student session on thursday, sorted by first 
+      // Get Companies that have student session on thursday, sorted by first
       // those with only thursday
       function isThur(c) { return c.thursday && c.thursday.hasMeetings; }
       vm.thurCompanies = vm.companies.filter(isThur);
-      function onlyThurFirstThenMeetingLength(c1, c2) { 
-        return (c2.wednesday.hasMeetings + c2.thursday.hasMeetings) - (c1.wednesday.hasMeetings + c1.thursday.hasMeetings) || c1.thursday.meetingLength - c2.thursday.meetingLength; 
+      function onlyThurFirstThenMeetingLength(c1, c2) {
+				var c1WednesdayMeetings = c1.wednesday ? c1.thursday.hasMeetings : 0;
+				var c2WednesdayMeetings = c2.wednesday ? c2.thursday.hasMeetings : 0;
+        return (c2WednesdayMeetings + c2.thursday.hasMeetings) - (c1WednesdayMeetings + c1.thursday.hasMeetings) || c1.thursday.meetingLength - c2.thursday.meetingLength;
       }
       vm.thurCompanies = vm.thurCompanies.sort(onlyThurFirstThenMeetingLength);
 
@@ -95,9 +103,9 @@
       function removeNonMutualChoice(application){
         function companiesWhomLikeMe(company){
           // Get company by Name
-          function filterOnCompanyName(c){ return c.name === company.name; } 
+          function filterOnCompanyName(c){ return c.name === company.name; }
           var comp1 = vm.companies.filter(filterOnCompanyName)[0];
-          // Has company selected this application? 
+          // Has company selected this application?
           function likesMe(student){ return student === application._id; }
           return comp1.chosenStudents.filter(likesMe).length > 0;
         }
@@ -125,7 +133,7 @@
         function notFixed(m){ return m.fixed; }
       }
     };
-    
+
 
     // Create periodList on each Application.
     // Sort PeriodList timewise
@@ -155,17 +163,21 @@
     // Create a period (in minutes) from a time-object.
     function timesToPeriodList(times) {
       var start = times.hour * 60;
-      function toInt(h){ 
-        var obj = { start: h * 60, end: h * 60 + 60 }; 
+      function toInt(h){
+        var obj = { start: h * 60, end: h * 60 + 60 };
         return obj;
       }
       return times.hour.map(toInt);
     }
-    function isTimesWed(t) { return t.day === 'wed'; }
-    function isTimesThur(t) { return t.day === 'thur'; }
+    function isTimesWed(t) { return t.day === 'dayone'; }
+    function isTimesThur(t) { return t.day === 'daytwo'; }
 
     // Time Str / int conversion
     function timeIntToStr(time){
+			if(Number.isNaN(time)) {
+							console.trace();
+							console.log(time);
+			}
       var hour = Math.floor(time / 60);
       if(hour < 10){
         hour = '0' + hour;
@@ -178,12 +190,16 @@
       return t;
     }
     function timeStrToInt(time){
+			if(Number.isNaN(time)) {
+							console.trace();
+							console.log(time);
+			}
       var time_hm = time.split(':');
       var timeStr = (+time_hm[0]) * 60 + (+time_hm[1]);
       return timeStr;
     }
-    
-    // Calculate time left the student is available 
+
+    // Calculate time left the student is available
     // from currentTime and forward.
     function timeLeftToday(application, currentTime, day){
       // Reduce function, checks against currentTime.
@@ -208,7 +224,7 @@
     function isAvailable(periodList, start, end){
       function isStartEndWithinPeriod(period){
         return period.start <= start && period.end >= end;
-      } 
+      }
       return periodList.filter(isStartEndWithinPeriod).length > 0;
     }
 
@@ -229,7 +245,7 @@
             period.start = end;
           }
         }
-      } 
+      }
       periodList.forEach(addPauseToPeriod);
     }
 
@@ -270,8 +286,8 @@
       vm.applications.forEach(removeCompany);
 
       // Remove student from the companies list.
-      function notBooked(s){ 
-        return s !== student._id; 
+      function notBooked(s){
+        return s !== student._id;
       }
       company.chosenStudents = company.chosenStudents.filter(notBooked);
     }
@@ -283,9 +299,9 @@
       // Filter only companies with students left.
       function hasStudentsLeft(company){ return company.chosenStudents.length > 0 && !company.isDone; }
       var companiesLeft = companies.filter(hasStudentsLeft);
-      function resetCompany(c){ 
-        c.currentTime = null; 
-        c.isDone = false; 
+      function resetCompany(c){
+        c.currentTime = null;
+        c.isDone = false;
       }
       if(companiesLeft.length === 0){
         vm.schedulingSuccess = true;
@@ -298,10 +314,10 @@
         if(company.chosenStudents.length === 0 || company.isDone){
           return; // Do nothing
         }
-
+				console.log("Now Working on: " + company.name)
         // Assign company.day to correct day (if wed/thur).
         company.day = day === 'wed' ? company.wednesday : company.thursday;
-      
+
         // If wrong day, just return
         if(!company.day){
           return;
@@ -315,7 +331,7 @@
         var startString = company.currentTime;
         var startInt = timeStrToInt(startString);
         var endInt = startInt + company.day.meetingLength;
-      
+
 
         // If collide with lunch, move start to lunchEnd
         var start_hm = company.day.lunchstart.split(':');
@@ -324,11 +340,12 @@
         var lunchEnd = timeStrToInt(company.day.lunchend);
 
         if(startInt >= lunchStart && startInt < lunchEnd && endInt >= lunchStart && endInt <= lunchEnd){
+					console.log("Company " + company.name + "Has to be moved till after their lunch");
           startInt = lunchEnd;
           endInt = startInt + company.day.meetingLength;
         }
         company.currentTime = timeIntToStr(endInt);
- 
+
         // Check that start isnt after this days endtime
         var day_endtime = timeStrToInt(company.day.endtime);
         if(startInt >= day_endtime){
@@ -374,15 +391,15 @@
           }
         }
         var bookedStudent = bookIfAvailable(company.students, startInt, endInt);
-       
-        // Check if no student booked, then book student with least time available. 
+
+        // Check if no student booked, then book student with least time available.
         if(bookedStudent === null){
           bookMeeting(company.students[0], company, startInt, endInt, day, true);
         }
       }
       companies.forEach(bookStudent);
 
-      // Booking done, prepare next iteration      
+      // Booking done, prepare next iteration
 
       // Filter only applications with companies left.
       function hasCompaniesLeft(a){ return a.companies.length > 0; }
@@ -425,7 +442,7 @@
       function addToThur(wedC){
         var newCompany = vm.thurCompanies.filter(isSame).length === 0;
         function isSame(comp){ return wedC._id === comp._id; }
-        
+
         if(newCompany){
           vm.thurCompanies.push(wedC);
         }
@@ -473,7 +490,7 @@
    företag att träffa, ta bort studenten från applicationsList.
 
 
-// Gör om alla tider till antal minuter sen kl 00:00... 
+// Gör om alla tider till antal minuter sen kl 00:00...
 Gör om studentens tillgängliga tider till perioder. Ex: 9-12 istället för 9,10,
 11,12. Och helst då i minuter (ex: 540 - 720)
 
@@ -487,7 +504,7 @@ från tid i minut till dagens slut.)
 
 Börja med företagen för dag ett. Iterera igenom dem, där företag som enbart
 har kontaktsamtal dag ett är först i listan, annars random, eller kanske
-först de företag som har längst möten? Så att de små sedan kan fylla i hålen?. 
+först de företag som har längst möten? Så att de små sedan kan fylla i hålen?.
 
 ForEach företag:
 Bland studenterFöretagetVillTräffa sortera efter studenter med minst antal minuter
@@ -496,7 +513,7 @@ ses på currentTime. Boka in den studenten på ett möte från currentTime till
 currentTime + företagets meetingLength. Efter det addera meetingLength på
 currentTime.
 Efter varje iteration,
-ta bort företag som inte har studenter kvar de vill träffa, iterera tills 
+ta bort företag som inte har studenter kvar de vill träffa, iterera tills
 listan av företag är tom.
 
 
