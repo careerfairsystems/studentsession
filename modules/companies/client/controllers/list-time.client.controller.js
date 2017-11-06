@@ -41,6 +41,9 @@
       function byChosenAndName(s1, s2){ return (s2.isChosen - s1.isChosen) || (s1.name > s2.name ? 1 : -1); }
       applications.sort(byChosenAndName);
       applications.forEach(splitTimesToDayPeriodLists);
+			if(applications.length == 0) {
+					applications = vm.applications;
+			}
       return applications;
     }
 
@@ -48,11 +51,13 @@
     function generateMeetings(company){
       var wed = company.wednesday;
       var thur = company.thursday;
-
-      if(wed.hasMeetings){
+			var wednesdayMeetings = company.wednesday ? company.wednesday.hasMeetings : 0;
+			var thursdayMeetings = company.thursday ? company.thursday.hasMeetings : 0;
+      
+			if(wednesdayMeetings){
         addWedMeetings(company, wed);   
       }
-      if(thur.hasMeetings){
+      if(thursdayMeetings){
         addThurMeetings(company, thur);   
       }
     }
@@ -99,7 +104,6 @@
       vm.companies.forEach(unselect);
       function unselect(c){ c.selected = false; }
       company.selected = true;
-      
       $scope.company = company; // Company is the selected one.
       $scope.chosenStudents = getChosenStudents(company);
       generateMeetings(company);
@@ -136,13 +140,13 @@
       student.wedPeriodList = mergePeriodList(student.wedPeriodList);
       student.thurPeriodList = mergePeriodList(student.thurPeriodList);
 
-      if($scope.company.wednesday.hasMeetings){
+      if($scope.company.thursday && $scope.company.wednesday.hasMeetings){
         $scope.company.wedMeetings.forEach(isStudentAvailableWed);
       }
       function isStudentAvailableWed(m){
         m.available = isAvailable(student.wedPeriodList, timeStrToInt(m.startTime), timeStrToInt(m.endTime));
       }
-      if($scope.company.thursday.hasMeetings){
+      if($scope.company.thursday && $scope.company.thursday.hasMeetings){
         $scope.company.thurMeetings.forEach(isStudentAvailableThur);
       }
       function isStudentAvailableThur(m){
@@ -151,10 +155,12 @@
     };
 
     function unSelectAllMeetings(company){
-      if(company.wednesday.hasMeetings && company.wedMeetings){
+			var wednesdayMeetings = company.wednesday ? company.wednesday.hasMeetings : 0;
+			var thursdayMeetings = company.thursday ? company.thursday.hasMeetings : 0;
+      if(wednesdayMeetings && company.wedMeetings){
         company.wedMeetings.forEach(unselect);
       }
-      if(company.thursday.hasMeetings && company.thurMeetings){
+      if(thursdayMeetings && company.thurMeetings){
         company.thurMeetings.forEach(unselect);
       }
     }
@@ -298,8 +304,8 @@
       }
       return times.hour.map(toInt);
     }
-    function isTimesWed(t) { return t.day === 'wed'; }
-    function isTimesThur(t) { return t.day === 'thur'; }
+    function isTimesWed(t) { return t.day === 'dayone'; }
+    function isTimesThur(t) { return t.day === 'daytwo'; }
 
     
     // Calculate time left the student is available 
